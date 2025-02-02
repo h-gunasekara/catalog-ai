@@ -74,6 +74,23 @@ export default function Rankings() {
     return labels;
   };
 
+  const getComponentBadgeProps = (label: string): { tone: "success" | "info" | "warning" | "critical" | "attention" } => {
+    switch (label) {
+      case "NEW IN":
+        return { tone: "success" };
+      case "BESTSELLER":
+        return { tone: "attention" };
+      case "LOW STOCK":
+        return { tone: "warning" };
+      case "ON SALE":
+        return { tone: "info" };
+      case "SLOW MOVER":
+        return { tone: "critical" };
+      default:
+        return { tone: "info" };
+    }
+  };
+
   const currentCollection = detailedRankings.collections[selectedCollection];
 
   return (
@@ -116,9 +133,12 @@ export default function Rankings() {
                                   <div style={{ marginTop: "16px" }}>
                                     <LegacyStack vertical spacing="tight">
                                       {componentLabels.map((label, index) => (
-                                        <Button key={index} fullWidth>
+                                        <Badge
+                                          key={index}
+                                          {...getComponentBadgeProps(label)}
+                                        >
                                           {label}
-                                        </Button>
+                                        </Badge>
                                       ))}
                                     </LegacyStack>
                                   </div>
