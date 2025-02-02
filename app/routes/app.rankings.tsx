@@ -14,7 +14,9 @@ import {
   Select,
   LegacyStack,
   Grid,
+  Icon,
 } from "@shopify/polaris";
+import { PinIcon, PinFilledIcon } from "@shopify/polaris-icons";
 import { authenticate } from "../shopify.server";
 import detailedRankingsData from "../../dev/recommendation-engine/detailed_rankings.json";
 
@@ -56,6 +58,15 @@ export default function Rankings() {
   const { detailedRankings } = useLoaderData<typeof loader>();
   const collections = Object.keys(detailedRankings.collections);
   const [selectedCollection, setSelectedCollection] = useState(collections[0]);
+  const [pinnedProducts, setPinnedProducts] = useState<number[]>([]);
+
+  const togglePin = (productId: number) => {
+    setPinnedProducts(prev => 
+      prev.includes(productId) 
+        ? prev.filter(id => id !== productId)
+        : [...prev, productId]
+    );
+  };
 
   const getBadgeStatus = (score: number): { status: string; label: string } => {
     if (score > 5) return { status: "success", label: "High" };
@@ -92,6 +103,15 @@ export default function Rankings() {
   };
 
   const currentCollection = detailedRankings.collections[selectedCollection];
+  
+  // Sort products to show pinned items first
+  const sortedProducts = [...(currentCollection || [])].sort((a, b) => {
+    const aIsPinned = pinnedProducts.includes(a.product_id);
+    const bIsPinned = pinnedProducts.includes(b.product_id);
+    if (aIsPinned && !bIsPinned) return -1;
+    if (!aIsPinned && bIsPinned) return 1;
+    return 0;
+  });
 
   return (
     <Page title="Product Rankings">
@@ -108,9 +128,10 @@ export default function Rankings() {
                 />
                 <div style={{ marginTop: "16px" }}>
                   <Grid>
-                    {(currentCollection || []).map((item: ProductRanking) => {
+                    {sortedProducts.map((item: ProductRanking) => {
                       const { status, label } = getBadgeStatus(item.total_score);
                       const componentLabels = getComponentLabels(item.components);
+                      const isPinned = pinnedProducts.includes(item.product_id);
 
                       return (
                         <Grid.Cell columnSpan={{ xs: 6, md: 4 }} key={item.product_id}>
@@ -118,12 +139,20 @@ export default function Rankings() {
                             <Card>
                               <div style={{ padding: "16px", minHeight: "320px" }}>
                                 <LegacyStack vertical>
-                                  <LegacyStack alignment="center" distribution="equalSpacing">
-                                    <Text variant="headingMd" as="h3">
-                                      {item.title}
-                                    </Text>
-                                    <Badge tone={status as any}>{label}</Badge>
-                                  </LegacyStack>
+                                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <LegacyStack alignment="center" distribution="equalSpacing" spacing="tight">
+                                      <Text variant="headingMd" as="h3">
+                                        {item.title}
+                                      </Text>
+                                      <Badge tone={status as any}>{label}</Badge>
+                                    </LegacyStack>
+                                    <Button
+                                      icon={isPinned ? <Icon source={PinFilledIcon} /> : <Icon source={PinIcon} />}
+                                      onClick={() => togglePin(item.product_id)}
+                                      variant="plain"
+                                      tone={isPinned ? "success" : undefined}
+                                    />
+                                  </div>
                                   <Text variant="bodySm" as="p" tone="subdued">
                                     Vendor: {item.vendor}
                                   </Text>
