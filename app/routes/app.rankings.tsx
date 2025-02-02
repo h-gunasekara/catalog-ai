@@ -15,10 +15,21 @@ import {
   LegacyStack,
   Grid,
   Icon,
+  ChoiceList,
+  RangeSlider,
+  TextField,
+  Popover,
+  ActionList,
 } from "@shopify/polaris";
-import { PinIcon, PinFilledIcon } from "@shopify/polaris-icons";
+import { PinIcon, PinFilledIcon, DragHandleIcon, DeleteIcon } from "@shopify/polaris-icons";
 import { authenticate } from "../shopify.server";
 import detailedRankingsData from "../../dev/recommendation-engine/detailed_rankings.json";
+import type { 
+  DropResult, 
+  DroppableProvided, 
+  DraggableProvided 
+} from "@hello-pangea/dnd";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
 type RankingComponent = {
   new_in: number;
@@ -46,6 +57,14 @@ type DetailedRankings = {
   collections: Collections;
 };
 
+type SortRule = {
+  id: string;
+  name: string;
+  section: "promote" | "demote" | "ignore";
+};
+
+type SortMode = "manual" | "mixed";
+
 // Use the imported data directly
 const detailedRankings = detailedRankingsData as DetailedRankings;
 
@@ -59,6 +78,16 @@ export default function Rankings() {
   const collections = Object.keys(detailedRankings.collections);
   const [selectedCollection, setSelectedCollection] = useState(collections[0]);
   const [pinnedProducts, setPinnedProducts] = useState<number[]>([]);
+  const [sortMode, setSortMode] = useState<SortMode>("mixed");
+  const [sortRules, setSortRules] = useState<SortRule[]>([
+    { id: "new-in", name: "NEW IN", section: "promote" },
+    { id: "bestseller", name: "BESTSELLER", section: "promote" },
+    { id: "trending", name: "TRENDING", section: "promote" },
+    { id: "low-stock", name: "LOW STOCK", section: "demote" },
+    { id: "out-of-stock", name: "OUT OF STOCK", section: "demote" },
+    { id: "sale-item", name: "ON SALE", section: "ignore" },
+    { id: "slow-mover", name: "SLOW MOVER", section: "ignore" },
+  ]);
 
   const togglePin = (productId: number) => {
     setPinnedProducts(prev => 
@@ -113,6 +142,119 @@ export default function Rankings() {
     return 0;
   });
 
+  const handleSortModeChange = (value: SortMode) => {
+    setSortMode(value);
+  };
+
+  const handleRuleOrderChange = (result: DropResult) => {
+    if (!result.destination) return;
+
+    const { source, destination } = result;
+    const updatedRules = Array.from(sortRules);
+    const [movedRule] = updatedRules.splice(source.index, 1);
+    
+    // Update the section of the moved rule
+    movedRule.section = destination.droppableId as "promote" | "demote" | "ignore";
+    
+    // Find the correct position in the destination section
+    const destinationSectionRules = updatedRules.filter(rule => rule.section === destination.droppableId);
+    const otherRules = updatedRules.filter(rule => rule.section !== destination.droppableId);
+    
+    destinationSectionRules.splice(destination.index, 0, movedRule);
+    
+    // Combine all rules back together
+    setSortRules([...destinationSectionRules, ...otherRules]);
+  };
+
+  const SortingPanel = () => {
+    const getRulesForSection = (section: "promote" | "demote" | "ignore") => 
+      sortRules.filter(rule => rule.section === section);
+
+    const getSectionTitle = (section: string): { text: string; tone: "success" | "critical" | "subdued" } => {
+      switch (section) {
+        case "promote":
+          return { text: "Promote", tone: "success" };
+        case "demote":
+          return { text: "Demote", tone: "critical" };
+        case "ignore":
+          return { text: "Ignore", tone: "subdued" };
+        default:
+          return { text: "Unknown", tone: "subdued" };
+      }
+    };
+
+    return (
+      <Card>
+        <div style={{ padding: "12px" }}>
+          <LegacyStack vertical spacing="tight">
+            <Text variant="headingMd" as="h2">Sort</Text>
+            
+            <ChoiceList
+              title="Sorting Mode"
+              choices={[
+                { label: "Manual", value: "manual" },
+                { label: "Mixed: Manual + Automated", value: "mixed" }
+              ]}
+              selected={[sortMode]}
+              onChange={([value]) => handleSortModeChange(value as SortMode)}
+            />
+
+            <DragDropContext onDragEnd={handleRuleOrderChange}>
+              {(["promote", "demote", "ignore"] as const).map((section) => {
+                const { text, tone } = getSectionTitle(section);
+                return (
+                  <div key={section} style={{ marginTop: "16px" }}>
+                    <LegacyStack vertical spacing="tight">
+                      <Text variant="headingMd" as="h3" tone={tone}>{text}</Text>
+                      <Droppable droppableId={section}>
+                        {(provided: DroppableProvided) => (
+                          <div 
+                            {...provided.droppableProps} 
+                            ref={provided.innerRef}
+                            style={{
+                              minHeight: "100px",
+                              padding: "4px",
+                              backgroundColor: "#f6f6f7",
+                              borderRadius: "8px"
+                            }}
+                          >
+                            <LegacyStack vertical spacing="tight">
+                              {getRulesForSection(section).map((rule, index) => (
+                                <Draggable key={rule.id} draggableId={rule.id} index={index}>
+                                  {(provided: DraggableProvided) => (
+                                    <div
+                                      ref={provided.innerRef}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                    >
+                                      <Card>
+                                        <div style={{ padding: "4px" }}>
+                                          <LegacyStack alignment="center">
+                                            <Icon source={DragHandleIcon} />
+                                            <Badge {...getComponentBadgeProps(rule.name)}>{rule.name}</Badge>
+                                          </LegacyStack>
+                                        </div>
+                                      </Card>
+                                    </div>
+                                  )}
+                                </Draggable>
+                              ))}
+                              {provided.placeholder}
+                            </LegacyStack>
+                          </div>
+                        )}
+                      </Droppable>
+                    </LegacyStack>
+                  </div>
+                );
+              })}
+            </DragDropContext>
+          </LegacyStack>
+        </div>
+      </Card>
+    );
+  };
+
   return (
     <Page title="Product Rankings">
       <Layout>
@@ -135,7 +277,7 @@ export default function Rankings() {
 
                       return (
                         <Grid.Cell columnSpan={{ xs: 6, md: 4 }} key={item.product_id}>
-                          <div style={{ padding: "8px" }}>
+                          <div style={{ padding: "4px" }}>
                             <Card>
                               <div style={{ padding: "16px", minHeight: "320px" }}>
                                 <LegacyStack vertical>
@@ -183,6 +325,9 @@ export default function Rankings() {
               </LegacyStack>
             </div>
           </Card>
+        </Layout.Section>
+        <Layout.Section variant="oneThird">
+          <SortingPanel />
         </Layout.Section>
       </Layout>
     </Page>

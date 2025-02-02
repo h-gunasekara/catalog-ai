@@ -23,6 +23,7 @@
     "node": "^18.20 || ^20.10 || >=21.0.0"
   },
   "dependencies": {
+    "@hello-pangea/dnd": "^17.0.0",
     "@prisma/client": "^6.2.1",
     "@remix-run/dev": "^2.15.0",
     "@remix-run/fs-routes": "^2.15.0",
