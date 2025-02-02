@@ -6,8 +6,6 @@ import {
   Page,
   Layout,
   Card,
-  ResourceList,
-  ResourceItem,
   Text,
   Badge,
   ButtonGroup,
@@ -15,6 +13,7 @@ import {
   Box,
   Select,
   LegacyStack,
+  Grid,
 } from "@shopify/polaris";
 import { authenticate } from "../shopify.server";
 import detailedRankingsData from "../../dev/recommendation-engine/detailed_rankings.json";
@@ -83,52 +82,55 @@ export default function Rankings() {
         <Layout.Section>
           <Card>
             <div style={{ padding: "16px" }}>
-              <LegacyStack vertical spacing="loose">
+              <LegacyStack vertical>
                 <Select
                   label="Collection"
                   options={collections.map(c => ({ label: c, value: c }))}
                   onChange={setSelectedCollection}
                   value={selectedCollection}
                 />
-                <ResourceList
-                  resourceName={{ singular: "product", plural: "products" }}
-                  items={currentCollection || []}
-                  renderItem={(item: ProductRanking) => {
-                    const { status, label } = getBadgeStatus(item.total_score);
-                    const componentLabels = getComponentLabels(item.components);
+                <div style={{ marginTop: "16px" }}>
+                  <Grid>
+                    {(currentCollection || []).map((item: ProductRanking) => {
+                      const { status, label } = getBadgeStatus(item.total_score);
+                      const componentLabels = getComponentLabels(item.components);
 
-                    return (
-                      <ResourceItem
-                        id={item.product_id.toString()}
-                        onClick={() => {}}
-                      >
-                        <div style={{ padding: "16px" }}>
-                          <LegacyStack vertical spacing="tight">
-                            <LegacyStack alignment="center" distribution="equalSpacing">
-                              <Text variant="headingMd" as="h3">
-                                {item.title}
-                              </Text>
-                              <Badge tone={status as any}>{label}</Badge>
-                            </LegacyStack>
-                            <Text variant="bodySm" as="p" tone="subdued">
-                              Vendor: {item.vendor}
-                            </Text>
-                            <Text variant="bodySm" as="p" tone="subdued">
-                              Score: {item.total_score}
-                            </Text>
-                            <ButtonGroup>
-                              {componentLabels.map((label, index) => (
-                                <Button key={index} size="slim">
-                                  {label}
-                                </Button>
-                              ))}
-                            </ButtonGroup>
-                          </LegacyStack>
-                        </div>
-                      </ResourceItem>
-                    );
-                  }}
-                />
+                      return (
+                        <Grid.Cell columnSpan={{ xs: 6, md: 4 }} key={item.product_id}>
+                          <div style={{ padding: "8px" }}>
+                            <Card>
+                              <div style={{ padding: "16px", minHeight: "320px" }}>
+                                <LegacyStack vertical>
+                                  <LegacyStack alignment="center" distribution="equalSpacing">
+                                    <Text variant="headingMd" as="h3">
+                                      {item.title}
+                                    </Text>
+                                    <Badge tone={status as any}>{label}</Badge>
+                                  </LegacyStack>
+                                  <Text variant="bodySm" as="p" tone="subdued">
+                                    Vendor: {item.vendor}
+                                  </Text>
+                                  <Text variant="bodySm" as="p" tone="subdued">
+                                    Score: {item.total_score}
+                                  </Text>
+                                  <div style={{ marginTop: "16px" }}>
+                                    <LegacyStack vertical spacing="tight">
+                                      {componentLabels.map((label, index) => (
+                                        <Button key={index} fullWidth>
+                                          {label}
+                                        </Button>
+                                      ))}
+                                    </LegacyStack>
+                                  </div>
+                                </LegacyStack>
+                              </div>
+                            </Card>
+                          </div>
+                        </Grid.Cell>
+                      );
+                    })}
+                  </Grid>
+                </div>
               </LegacyStack>
             </div>
           </Card>
