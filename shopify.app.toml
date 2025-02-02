@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "6f1788c979f4cde2a39a3275c026d838"
-application_url = "https://example.com/"
+application_url = "https://therapist-stated-roughly-thus.trycloudflare.com"
 embedded = true
 name = "catalog-ai"
 handle = "catalog-ai-1"
@@ -22,7 +22,15 @@ api_version = "2025-01"
 scopes = "write_products"
 
 [auth]
-redirect_urls = [ "https://example.com/api/auth" ]
+redirect_urls = [
+  "https://therapist-stated-roughly-thus.trycloudflare.com/auth/callback",
+  "https://therapist-stated-roughly-thus.trycloudflare.com/auth/shopify/callback",
+  "https://therapist-stated-roughly-thus.trycloudflare.com/api/auth/callback"
+]
 
 [pos]
 embedded = false
+
+[build]
+dev_store_url = "smart-lights-san-francisco.myshopify.com"
+automatically_update_urls_on_dev = true

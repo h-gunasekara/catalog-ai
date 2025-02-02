@@ -1,0 +1,1340 @@
+{
+  "ranking_weights": {
+    "new_in": 5,
+    "bestseller": 10,
+    "slow_mover": 3,
+    "low_stock": 8,
+    "trending": 6,
+    "out_of_stock": -50,
+    "sale_item": -10
+  },
+  "configuration": {
+    "new_product_days": 30,
+    "bestseller_percentage": 10,
+    "low_stock_threshold": 50,
+    "trending_view_threshold": 1000,
+    "sale_discount_threshold": 15
+  },
+  "collections": {
+    "Shoes": [
+      {
+        "product_id": 21,
+        "title": "Ava Shoes",
+        "total_score": 8,
+        "vendor": "Dior",
+        "components": {
+          "new_in": 0,
+          "bestseller": 10,
+          "stock_based": 8,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 78,
+        "title": "Isabella Shoes",
+        "total_score": 0,
+        "vendor": "Prada",
+        "components": {
+          "new_in": 0,
+          "bestseller": 10,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 2,
+        "title": "Mia Shoes",
+        "total_score": -2,
+        "vendor": "Burberry",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 8,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 3,
+        "title": "Sophia Shoes",
+        "total_score": -10,
+        "vendor": "Dior",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 12,
+        "title": "Amelia Shoes",
+        "total_score": -10,
+        "vendor": "Prada",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 27,
+        "title": "Charlotte Shoes",
+        "total_score": -10,
+        "vendor": "Balenciaga",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 47,
+        "title": "Mia Shoes",
+        "total_score": -10,
+        "vendor": "Prada",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 50,
+        "title": "Charlotte Shoes",
+        "total_score": -10,
+        "vendor": "Balenciaga",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 51,
+        "title": "Luna Shoes",
+        "total_score": -10,
+        "vendor": "Prada",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 85,
+        "title": "Amelia Shoes",
+        "total_score": -10,
+        "vendor": "Burberry",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      }
+    ],
+    "Trousers": [
+      {
+        "product_id": 16,
+        "title": "Sophia Trousers",
+        "total_score": 0,
+        "vendor": "Prada",
+        "components": {
+          "new_in": 0,
+          "bestseller": 10,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 29,
+        "title": "Sophia Trousers",
+        "total_score": 0,
+        "vendor": "Louis Vuitton",
+        "components": {
+          "new_in": 0,
+          "bestseller": 10,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 38,
+        "title": "Scarlett Trousers",
+        "total_score": 0,
+        "vendor": "Louis Vuitton",
+        "components": {
+          "new_in": 0,
+          "bestseller": 10,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 6,
+        "title": "Scarlett Trousers",
+        "total_score": -2,
+        "vendor": "Burberry",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 8,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 39,
+        "title": "Sophia Trousers",
+        "total_score": -2,
+        "vendor": "Dior",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 8,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 43,
+        "title": "Olivia Trousers",
+        "total_score": -2,
+        "vendor": "Dior",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 8,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 49,
+        "title": "Charlotte Trousers",
+        "total_score": -2,
+        "vendor": "Balenciaga",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 8,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 15,
+        "title": "Scarlett Trousers",
+        "total_score": -10,
+        "vendor": "Prada",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 25,
+        "title": "Luna Trousers",
+        "total_score": -10,
+        "vendor": "Fendi",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 41,
+        "title": "Mia Trousers",
+        "total_score": -10,
+        "vendor": "Balenciaga",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 52,
+        "title": "Luna Trousers",
+        "total_score": -10,
+        "vendor": "Prada",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 54,
+        "title": "Isabella Trousers",
+        "total_score": -10,
+        "vendor": "Chanel",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 62,
+        "title": "Luna Trousers",
+        "total_score": -10,
+        "vendor": "Gucci",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 71,
+        "title": "Luna Trousers",
+        "total_score": -10,
+        "vendor": "Givenchy",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 82,
+        "title": "Charlotte Trousers",
+        "total_score": -10,
+        "vendor": "Chanel",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 97,
+        "title": "Victoria Trousers",
+        "total_score": -10,
+        "vendor": "Gucci",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      }
+    ],
+    "Dress": [
+      {
+        "product_id": 22,
+        "title": "Olivia Dress",
+        "total_score": 0,
+        "vendor": "Balenciaga",
+        "components": {
+          "new_in": 0,
+          "bestseller": 10,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 10,
+        "title": "Mia Dress",
+        "total_score": -10,
+        "vendor": "Dior",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 17,
+        "title": "Charlotte Dress",
+        "total_score": -10,
+        "vendor": "Versace",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 20,
+        "title": "Olivia Dress",
+        "total_score": -10,
+        "vendor": "Chanel",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 31,
+        "title": "Charlotte Dress",
+        "total_score": -10,
+        "vendor": "Fendi",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 45,
+        "title": "Victoria Dress",
+        "total_score": -10,
+        "vendor": "Burberry",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 53,
+        "title": "Ava Dress",
+        "total_score": -10,
+        "vendor": "Dior",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 66,
+        "title": "Ava Dress",
+        "total_score": -10,
+        "vendor": "Versace",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 70,
+        "title": "Charlotte Dress",
+        "total_score": -10,
+        "vendor": "Louis Vuitton",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 72,
+        "title": "Olivia Dress",
+        "total_score": -10,
+        "vendor": "Gucci",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 73,
+        "title": "Luna Dress",
+        "total_score": -10,
+        "vendor": "Dior",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 91,
+        "title": "Amelia Dress",
+        "total_score": -10,
+        "vendor": "Fendi",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 93,
+        "title": "Isabella Dress",
+        "total_score": -10,
+        "vendor": "Versace",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 94,
+        "title": "Charlotte Dress",
+        "total_score": -10,
+        "vendor": "Burberry",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      }
+    ],
+    "Sunglasses": [
+      {
+        "product_id": 58,
+        "title": "Olivia Sunglasses",
+        "total_score": 0,
+        "vendor": "Versace",
+        "components": {
+          "new_in": 0,
+          "bestseller": 10,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 77,
+        "title": "Amelia Sunglasses",
+        "total_score": 0,
+        "vendor": "Burberry",
+        "components": {
+          "new_in": 0,
+          "bestseller": 10,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 19,
+        "title": "Sophia Sunglasses",
+        "total_score": -10,
+        "vendor": "Givenchy",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 34,
+        "title": "Isabella Sunglasses",
+        "total_score": -10,
+        "vendor": "Burberry",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 55,
+        "title": "Charlotte Sunglasses",
+        "total_score": -10,
+        "vendor": "Versace",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 81,
+        "title": "Charlotte Sunglasses",
+        "total_score": -10,
+        "vendor": "Fendi",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 84,
+        "title": "Mia Sunglasses",
+        "total_score": -10,
+        "vendor": "Chanel",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 87,
+        "title": "Isabella Sunglasses",
+        "total_score": -10,
+        "vendor": "Burberry",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      }
+    ],
+    "Skirt": [
+      {
+        "product_id": 83,
+        "title": "Charlotte Skirt",
+        "total_score": 0,
+        "vendor": "Fendi",
+        "components": {
+          "new_in": 0,
+          "bestseller": 10,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 99,
+        "title": "Charlotte Skirt",
+        "total_score": -2,
+        "vendor": "Versace",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 8,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 1,
+        "title": "Olivia Skirt",
+        "total_score": -5,
+        "vendor": "Chanel",
+        "components": {
+          "new_in": 5,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 14,
+        "title": "Sophia Skirt",
+        "total_score": -10,
+        "vendor": "Givenchy",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 18,
+        "title": "Olivia Skirt",
+        "total_score": -10,
+        "vendor": "Givenchy",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 23,
+        "title": "Mia Skirt",
+        "total_score": -10,
+        "vendor": "Louis Vuitton",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 26,
+        "title": "Ava Skirt",
+        "total_score": -10,
+        "vendor": "Dior",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 30,
+        "title": "Amelia Skirt",
+        "total_score": -10,
+        "vendor": "Dior",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 36,
+        "title": "Charlotte Skirt",
+        "total_score": -10,
+        "vendor": "Prada",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 57,
+        "title": "Charlotte Skirt",
+        "total_score": -10,
+        "vendor": "Givenchy",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 60,
+        "title": "Amelia Skirt",
+        "total_score": -10,
+        "vendor": "Versace",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 80,
+        "title": "Mia Skirt",
+        "total_score": -10,
+        "vendor": "Gucci",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      }
+    ],
+    "Scarf": [
+      {
+        "product_id": 92,
+        "title": "Isabella Scarf",
+        "total_score": 0,
+        "vendor": "Givenchy",
+        "components": {
+          "new_in": 0,
+          "bestseller": 10,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 5,
+        "title": "Olivia Scarf",
+        "total_score": -10,
+        "vendor": "Burberry",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 37,
+        "title": "Luna Scarf",
+        "total_score": -10,
+        "vendor": "Gucci",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 74,
+        "title": "Scarlett Scarf",
+        "total_score": -10,
+        "vendor": "Gucci",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 100,
+        "title": "Isabella Scarf",
+        "total_score": -10,
+        "vendor": "Burberry",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      }
+    ],
+    "Handbag": [
+      {
+        "product_id": 7,
+        "title": "Mia Handbag",
+        "total_score": -2,
+        "vendor": "Balenciaga",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 8,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 88,
+        "title": "Charlotte Handbag",
+        "total_score": -2,
+        "vendor": "Gucci",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 8,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 48,
+        "title": "Luna Handbag",
+        "total_score": -10,
+        "vendor": "Balenciaga",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 59,
+        "title": "Victoria Handbag",
+        "total_score": -10,
+        "vendor": "Gucci",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 63,
+        "title": "Ava Handbag",
+        "total_score": -10,
+        "vendor": "Balenciaga",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 65,
+        "title": "Scarlett Handbag",
+        "total_score": -10,
+        "vendor": "Givenchy",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 68,
+        "title": "Amelia Handbag",
+        "total_score": -10,
+        "vendor": "Dior",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 76,
+        "title": "Luna Handbag",
+        "total_score": -10,
+        "vendor": "Chanel",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      }
+    ],
+    "Jumpsuit": [
+      {
+        "product_id": 44,
+        "title": "Scarlett Jumpsuit",
+        "total_score": -2,
+        "vendor": "Fendi",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 8,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 67,
+        "title": "Charlotte Jumpsuit",
+        "total_score": -2,
+        "vendor": "Louis Vuitton",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 8,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 13,
+        "title": "Charlotte Jumpsuit",
+        "total_score": -10,
+        "vendor": "Louis Vuitton",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 40,
+        "title": "Olivia Jumpsuit",
+        "total_score": -10,
+        "vendor": "Versace",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 42,
+        "title": "Luna Jumpsuit",
+        "total_score": -10,
+        "vendor": "Givenchy",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 46,
+        "title": "Luna Jumpsuit",
+        "total_score": -10,
+        "vendor": "Balenciaga",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 61,
+        "title": "Amelia Jumpsuit",
+        "total_score": -10,
+        "vendor": "Dior",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 64,
+        "title": "Mia Jumpsuit",
+        "total_score": -10,
+        "vendor": "Prada",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 79,
+        "title": "Scarlett Jumpsuit",
+        "total_score": -10,
+        "vendor": "Burberry",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 89,
+        "title": "Sophia Jumpsuit",
+        "total_score": -10,
+        "vendor": "Balenciaga",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 90,
+        "title": "Mia Jumpsuit",
+        "total_score": -10,
+        "vendor": "Fendi",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 96,
+        "title": "Isabella Jumpsuit",
+        "total_score": -10,
+        "vendor": "Burberry",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      }
+    ],
+    "Coat": [
+      {
+        "product_id": 69,
+        "title": "Olivia Coat",
+        "total_score": -2,
+        "vendor": "Balenciaga",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 8,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 4,
+        "title": "Mia Coat",
+        "total_score": -10,
+        "vendor": "Dior",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 8,
+        "title": "Amelia Coat",
+        "total_score": -10,
+        "vendor": "Prada",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 9,
+        "title": "Ava Coat",
+        "total_score": -10,
+        "vendor": "Givenchy",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 11,
+        "title": "Charlotte Coat",
+        "total_score": -10,
+        "vendor": "Prada",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 24,
+        "title": "Olivia Coat",
+        "total_score": -10,
+        "vendor": "Prada",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 28,
+        "title": "Olivia Coat",
+        "total_score": -10,
+        "vendor": "Louis Vuitton",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 33,
+        "title": "Scarlett Coat",
+        "total_score": -10,
+        "vendor": "Balenciaga",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 95,
+        "title": "Isabella Coat",
+        "total_score": -10,
+        "vendor": "Balenciaga",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      }
+    ],
+    "Blouse": [
+      {
+        "product_id": 32,
+        "title": "Mia Blouse",
+        "total_score": -10,
+        "vendor": "Dior",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 35,
+        "title": "Olivia Blouse",
+        "total_score": -10,
+        "vendor": "Versace",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 56,
+        "title": "Amelia Blouse",
+        "total_score": -10,
+        "vendor": "Givenchy",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 75,
+        "title": "Amelia Blouse",
+        "total_score": -10,
+        "vendor": "Gucci",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 86,
+        "title": "Olivia Blouse",
+        "total_score": -10,
+        "vendor": "Gucci",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 98,
+        "title": "Scarlett Blouse",
+        "total_score": -10,
+        "vendor": "Versace",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      }
+    ]
+  }
+}
