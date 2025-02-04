@@ -69,7 +69,50 @@ type SortRule = {
 type SortMode = "manual" | "automate" | "optimize";
 
 // Add new types at the top of the file
-type OptimizationMetric = 'Conversion' | 'Sell-Through' | 'AOV';
+type OptimizationMetric = 'Conversion Rate' | 'AOV' | 'Sell-Through Rate' | 'Product Views';
+
+// Add new type for optimization weights
+type OptimizationWeights = {
+  [key in OptimizationMetric]: {
+    formula: string;
+    weights: Record<string, number>;
+  };
+};
+
+const OPTIMIZATION_WEIGHTS: OptimizationWeights = {
+  'Conversion Rate': {
+    formula: '(0.4 × Bestseller_Rank) + (0.3 × Trending_Score) + (0.3 × ATC_Rate)',
+    weights: {
+      bestseller: 0.4,
+      trending: 0.3,
+      atcRate: 0.3
+    }
+  },
+  'AOV': {
+    formula: '(0.5 × Price_Percentile) + (0.3 × Margin) + (0.2 × Historical_Sales)',
+    weights: {
+      pricePercentile: 0.5,
+      margin: 0.3,
+      historicalSales: 0.2
+    }
+  },
+  'Sell-Through Rate': {
+    formula: '(0.4 × Days_In_Stock) + (0.4 × Current_Stock_Level) + (0.2 × Sales_Velocity)',
+    weights: {
+      daysInStock: 0.4,
+      stockLevel: 0.4,
+      salesVelocity: 0.2
+    }
+  },
+  'Product Views': {
+    formula: '(0.6 × View_Count) + (0.25 × Click_Through_Rate) + (0.15 × Time_On_Page)',
+    weights: {
+      viewCount: 0.6,
+      clickThroughRate: 0.25,
+      timeOnPage: 0.15
+    }
+  }
+};
 
 // Use the imported data directly
 const detailedRankings = detailedRankingsData as DetailedRankings;
@@ -146,7 +189,7 @@ export default function Rankings() {
   const [pinnedProducts, setPinnedProducts] = useState<number[]>([]);
   const [sortMode, setSortMode] = useState<SortMode>("manual");
   const [optimizedProducts, setOptimizedProducts] = useState<ProductRanking[]>([]);
-  const [selectedMetric, setSelectedMetric] = useState<OptimizationMetric>('Conversion');
+  const [selectedMetric, setSelectedMetric] = useState<OptimizationMetric>('Conversion Rate');
   const [sortRules, setSortRules] = useState<SortRule[]>([
     { id: "new-in", name: "NEW IN", section: "promote" },
     { id: "bestseller", name: "BESTSELLER", section: "promote" },
@@ -202,28 +245,70 @@ export default function Rankings() {
   // Function to calculate optimized rankings
   const calculateOptimizedRankings = (metric: OptimizationMetric, products: ProductRanking[]) => {
     return [...products].sort((a, b) => {
-      switch (metric) {
-        case 'Conversion':
-          // Conversion Score = (Sales/Product Views) × 100
-          const aConversion = (a.components.bestseller / 100);
-          const bConversion = (b.components.bestseller / 100);
-          return bConversion - aConversion;
+      const calculateScore = (product: ProductRanking): number => {
+        const { components, total_score } = product;
         
-        case 'Sell-Through':
-          // Sell-Through Score = Units Sold / (Beginning Inventory + Received Inventory - Ending Inventory)
-          const aSellThrough = a.components.stock_based;
-          const bSellThrough = b.components.stock_based;
-          return bSellThrough - aSellThrough;
-        
-        case 'AOV':
-          // AOV Score = ∑Revenue from Product / ∑Orders Containing Product
-          const aAOV = a.components.bestseller * (a.total_score || 0);
-          const bAOV = b.components.bestseller * (b.total_score || 0);
-          return bAOV - aAOV;
-        
-        default:
-          return b.total_score - a.total_score;
-      }
+        switch (metric) {
+          case 'Conversion Rate': {
+            const weights = OPTIMIZATION_WEIGHTS[metric].weights;
+            // Map components to our metrics:
+            // - bestseller component represents overall bestseller rank
+            // - new_in can be used as a proxy for trending
+            // - stock_based can indicate ATC rate (higher stock turnover = higher ATC)
+            const bestsellerScore = components.bestseller * weights.bestseller;
+            const trendingScore = components.new_in * weights.trending;
+            const atcScore = components.stock_based * weights.atcRate;
+            
+            return bestsellerScore + trendingScore + atcScore;
+          }
+          
+          case 'AOV': {
+            const weights = OPTIMIZATION_WEIGHTS[metric].weights;
+            // Map components to price-related metrics:
+            // - total_score can be used as price percentile
+            // - bestseller indicates historical sales
+            // - sale_item can be used as inverse margin indicator
+            const priceScore = (total_score || 0) * weights.pricePercentile;
+            const marginScore = (1 - Math.abs(components.sale_item)) * weights.margin;
+            const salesScore = components.bestseller * weights.historicalSales;
+            
+            return priceScore + marginScore + salesScore;
+          }
+          
+          case 'Sell-Through Rate': {
+            const weights = OPTIMIZATION_WEIGHTS[metric].weights;
+            // Map components to inventory metrics:
+            // - stock_based directly relates to current stock
+            // - slow_mover indicates days in stock
+            // - bestseller represents sales velocity
+            const stockScore = components.stock_based * weights.stockLevel;
+            const daysInStockScore = (1 - Math.abs(components.slow_mover)) * weights.daysInStock;
+            const velocityScore = components.bestseller * weights.salesVelocity;
+            
+            return stockScore + daysInStockScore + velocityScore;
+          }
+          
+          case 'Product Views': {
+            const weights = OPTIMIZATION_WEIGHTS[metric].weights;
+            // Map components to traffic metrics:
+            // - bestseller can indicate overall popularity/views
+            // - new_in affects CTR
+            // - total_score can represent engagement/time on page
+            const viewScore = components.bestseller * weights.viewCount;
+            const ctrScore = components.new_in * weights.clickThroughRate;
+            const engagementScore = (total_score || 0) * weights.timeOnPage;
+            
+            return viewScore + ctrScore + engagementScore;
+          }
+          
+          default:
+            return total_score || 0;
+        }
+      };
+
+      const scoreA = calculateScore(a);
+      const scoreB = calculateScore(b);
+      return scoreB - scoreA;
     });
   };
 
@@ -283,7 +368,7 @@ export default function Rankings() {
   const SortingPanel = ({ selectedMetric, setSelectedMetric }: SortingPanelProps) => {
     const [selectedBoostTags, setSelectedBoostTags] = useState(['Best Sellers', 'New In']);
     const [selectedSinkTags, setSelectedSinkTags] = useState(['Out of Stock']);
-    const [applyScope, setApplyScope] = useState('Locally');
+    const [applyScope, setApplyScope] = useState('This collection');
     const [categoryType, setCategoryType] = useState('Traits');
 
     const renderManualMode = () => (
@@ -383,11 +468,11 @@ export default function Rankings() {
           <Text variant="headingMd" as="h2">Apply</Text>
           <ButtonGroup>
             <Button 
-              pressed={applyScope === 'Locally'} 
-              onClick={() => setApplyScope('Locally')}
+              pressed={applyScope === 'This collection'} 
+              onClick={() => setApplyScope('This collection')}
               fullWidth
             >
-              Locally
+              This collection
             </Button>
             <Button 
               pressed={applyScope === 'Globally'} 
@@ -442,8 +527,13 @@ export default function Rankings() {
 
           <Box paddingBlockEnd="400">
             <Text as="p" variant="bodyMd">
-              Select a metric to optimize and let AI auto-sort your collection page!
+              Select a metric to optimize and let AI auto-sort your collection page using advanced weighting formulas!
             </Text>
+            <Box paddingBlockStart="200">
+              <Text as="p" variant="bodySm" tone="subdued">
+                Current Formula: {OPTIMIZATION_WEIGHTS[selectedMetric as OptimizationMetric]?.formula}
+              </Text>
+            </Box>
           </Box>
 
           <Box>
@@ -451,18 +541,11 @@ export default function Rankings() {
             <Box paddingBlockStart="400">
               <ButtonGroup>
                 <Button 
-                  pressed={selectedMetric === 'Conversion'}
-                  onClick={() => setSelectedMetric('Conversion')}
+                  pressed={selectedMetric === 'Conversion Rate'}
+                  onClick={() => setSelectedMetric('Conversion Rate')}
                   fullWidth
                 >
-                  Conversion
-                </Button>
-                <Button 
-                  pressed={selectedMetric === 'Sell-Through'}
-                  onClick={() => setSelectedMetric('Sell-Through')}
-                  fullWidth
-                >
-                  Sell-Through
+                  Conversion Rate
                 </Button>
                 <Button 
                   pressed={selectedMetric === 'AOV'}
@@ -470,6 +553,20 @@ export default function Rankings() {
                   fullWidth
                 >
                   $ AOV
+                </Button>
+                <Button 
+                  pressed={selectedMetric === 'Sell-Through Rate'}
+                  onClick={() => setSelectedMetric('Sell-Through Rate')}
+                  fullWidth
+                >
+                  Sell-Through
+                </Button>
+                <Button 
+                  pressed={selectedMetric === 'Product Views'}
+                  onClick={() => setSelectedMetric('Product Views')}
+                  fullWidth
+                >
+                  Traffic
                 </Button>
               </ButtonGroup>
             </Box>

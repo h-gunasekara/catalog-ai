@@ -2,6 +2,7 @@ import pandas as pd
 from datetime import datetime, timedelta
 import json
 from datetime import timezone
+import numpy as np
 
 class ProductRankingSystem:
     def __init__(self, products_file, orders_file):
@@ -22,24 +23,47 @@ class ProductRankingSystem:
         
         self.ranking_scores = {}
         
-        # Default weights for ranking factors
+        # AI Optimization Weights
+        self.optimization_weights = {
+            'conversion_rate': {
+                'bestseller_rank': 0.4,
+                'trending_score': 0.3,
+                'atc_rate': 0.3
+            },
+            'aov': {
+                'price_percentile': 0.5,
+                'margin': 0.3,
+                'historical_sales': 0.2
+            },
+            'sell_through': {
+                'days_in_stock': 0.4,
+                'current_stock': 0.4,
+                'sales_velocity': 0.2
+            },
+            'traffic': {
+                'view_count': 0.6,
+                'click_through_rate': 0.25,
+                'time_on_page': 0.15
+            }
+        }
+        
+        # Legacy weights for backward compatibility
         self.weights = {
             'new_in': 5,
             'bestseller': 10,
             'slow_mover': 3,
             'low_stock': 8,
-            'trending': 15,  # Increased weight for trending items
+            'trending': 15,
             'out_of_stock': -50,
             'sale_item': -10
         }
         
-        # Configuration parameters
         self.config = {
             'new_product_days': 30,
             'bestseller_percentage': 10,
             'low_stock_threshold': 50,
-            'trending_period_days': 7,  # Period to check for trending status
-            'trending_threshold': 2.0,  # Minimum ratio of recent to previous sales to be considered trending
+            'trending_period_days': 7,
+            'trending_threshold': 2.0,
             'sale_discount_threshold': 15
         }
 
@@ -135,28 +159,139 @@ class ProductRankingSystem:
             
         return 0
 
-    def calculate_ranking_score(self, product):
-        """Calculate the total ranking score for a product."""
-        product_id = product['id']
-        score = 0
+    def calculate_conversion_rate_score(self, product_id):
+        """Calculate conversion rate optimization score."""
+        # Bestseller rank calculation
+        bestseller_rank = self.calculate_bestseller_score(product_id) / self.weights['bestseller']
         
-        # Calculate individual scores
-        score += self.calculate_new_in_score(product)
-        score += self.calculate_bestseller_score(product_id)
-        score += self.calculate_stock_based_score(product)
-        score += self.calculate_sale_item_score(product)
-        score += self.calculate_slow_mover_score(product_id)
-        score += self.calculate_trending_score(product_id)  # Add trending score
+        # Trending score calculation
+        trending_score = self.calculate_trending_score(product_id) / self.weights['trending']
         
-        # Store the score with timestamp
-        self.ranking_scores[product_id] = {
-            'score': score,
-            'updated_at': self.get_current_time_utc().isoformat(),
-            'title': product['title'],
-            'vendor': product['vendor']
-        }
+        # Add to cart rate calculation
+        product_views = self.products_df[self.products_df['id'] == product_id]['viewCount'].iloc[0]
+        product_orders = len(self.orders_df[self.orders_df['product_id'] == product_id])
+        atc_rate = product_orders / max(product_views, 1)
+        
+        # Calculate weighted score
+        weights = self.optimization_weights['conversion_rate']
+        score = (weights['bestseller_rank'] * bestseller_rank +
+                weights['trending_score'] * trending_score +
+                weights['atc_rate'] * atc_rate)
         
         return score
+
+    def calculate_aov_score(self, product_id):
+        """Calculate AOV optimization score."""
+        product = self.products_df[self.products_df['id'] == product_id].iloc[0]
+        
+        # Price percentile calculation
+        all_prices = self.products_df['variants.edges.node.priceV2.amount'].astype(float)
+        price = float(product['variants.edges.node.priceV2.amount'])
+        price_percentile = len(all_prices[all_prices <= price]) / len(all_prices)
+        
+        # Margin calculation (assuming 50% margin if compareAtPrice exists)
+        compare_price = float(product['variants.edges.node.compareAtPriceV2.amount'] or price)
+        margin = (compare_price - price) / compare_price if compare_price > price else 0.5
+        
+        # Historical sales value
+        product_orders = self.orders_df[self.orders_df['product_id'] == product_id]
+        historical_sales = product_orders['quantity'].sum() * price
+        max_historical_sales = self.orders_df['quantity'].sum() * all_prices.max()
+        historical_sales_normalized = historical_sales / max_historical_sales if max_historical_sales > 0 else 0
+        
+        # Calculate weighted score
+        weights = self.optimization_weights['aov']
+        score = (weights['price_percentile'] * price_percentile +
+                weights['margin'] * margin +
+                weights['historical_sales'] * historical_sales_normalized)
+        
+        return score
+
+    def calculate_sell_through_score(self, product_id):
+        """Calculate sell-through optimization score."""
+        product = self.products_df[self.products_df['id'] == product_id].iloc[0]
+        
+        # Days in stock calculation
+        created_date = pd.to_datetime(product['createdAt']).tz_convert('UTC')
+        days_in_stock = (self.get_current_time_utc() - created_date).days
+        days_normalized = min(days_in_stock / 365, 1)  # Normalize to max 1 year
+        
+        # Current stock level
+        current_stock = product['variants.edges.node.inventoryQuantity']
+        max_stock = self.products_df['variants.edges.node.inventoryQuantity'].max()
+        stock_level_normalized = 1 - (current_stock / max_stock if max_stock > 0 else 0)
+        
+        # Sales velocity calculation
+        recent_orders = self.orders_df[
+            (self.orders_df['product_id'] == product_id) &
+            (self.orders_df['created_at'] > (self.get_current_time_utc() - timedelta(days=30)))
+        ]
+        sales_velocity = len(recent_orders) / 30  # Average daily sales
+        max_velocity = self.orders_df.groupby('product_id').size().max() / 30
+        velocity_normalized = sales_velocity / max_velocity if max_velocity > 0 else 0
+        
+        # Calculate weighted score
+        weights = self.optimization_weights['sell_through']
+        score = (weights['days_in_stock'] * days_normalized +
+                weights['current_stock'] * stock_level_normalized +
+                weights['sales_velocity'] * velocity_normalized)
+        
+        return score
+
+    def calculate_traffic_score(self, product_id):
+        """Calculate traffic optimization score."""
+        product = self.products_df[self.products_df['id'] == product_id].iloc[0]
+        
+        # View count calculation
+        view_count = product['viewCount']
+        max_views = self.products_df['viewCount'].max()
+        view_score = view_count / max_views if max_views > 0 else 0
+        
+        # Click-through rate calculation
+        clicks = product.get('clicks', 0)
+        ctr = clicks / max(view_count, 1)
+        
+        # Time on page calculation
+        time_on_page = product.get('averageTimeOnPage', 0)
+        max_time = self.products_df.get('averageTimeOnPage', pd.Series([0])).max()
+        time_score = time_on_page / max_time if max_time > 0 else 0
+        
+        # Calculate weighted score
+        weights = self.optimization_weights['traffic']
+        score = (weights['view_count'] * view_score +
+                weights['click_through_rate'] * ctr +
+                weights['time_on_page'] * time_score)
+        
+        return score
+
+    def calculate_ranking_score(self, product):
+        """Calculate the total ranking score for a product using AI optimization."""
+        product_id = product['id']
+        
+        # Calculate optimization scores
+        conversion_score = self.calculate_conversion_rate_score(product_id)
+        aov_score = self.calculate_aov_score(product_id)
+        sell_through_score = self.calculate_sell_through_score(product_id)
+        traffic_score = self.calculate_traffic_score(product_id)
+        
+        # Combine scores with equal weighting (can be adjusted based on business priorities)
+        total_score = (conversion_score + aov_score + sell_through_score + traffic_score) / 4
+        
+        # Store detailed scoring information
+        self.ranking_scores[product_id] = {
+            'score': total_score,
+            'updated_at': self.get_current_time_utc().isoformat(),
+            'title': product['title'],
+            'vendor': product['vendor'],
+            'optimization_scores': {
+                'conversion_rate': conversion_score,
+                'aov': aov_score,
+                'sell_through': sell_through_score,
+                'traffic': traffic_score
+            }
+        }
+        
+        return total_score
 
     def update_all_rankings(self):
         """Update ranking scores for all products."""
