@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "6f1788c979f4cde2a39a3275c026d838"
-application_url = "https://promotional-finals-movers-trance.trycloudflare.com"
+application_url = "https://cross-kinase-cup-vacation.trycloudflare.com"
 embedded = true
 name = "catalog-ai"
 handle = "catalog-ai-1"
@@ -23,9 +23,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://promotional-finals-movers-trance.trycloudflare.com/auth/callback",
-  "https://promotional-finals-movers-trance.trycloudflare.com/auth/shopify/callback",
-  "https://promotional-finals-movers-trance.trycloudflare.com/api/auth/callback"
+  "https://cross-kinase-cup-vacation.trycloudflare.com/auth/callback",
+  "https://cross-kinase-cup-vacation.trycloudflare.com/auth/shopify/callback",
+  "https://cross-kinase-cup-vacation.trycloudflare.com/api/auth/callback"
 ]
 
 [pos]
