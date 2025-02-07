@@ -112,10 +112,19 @@ export async function syncOrders(request: Request) {
   let hasNextPage = true;
   let cursor: string | null = null;
 
+  // Calculate date 59 days ago
+  const date59DaysAgo = new Date();
+  date59DaysAgo.setDate(date59DaysAgo.getDate() - 29);
+  const formattedDate = date59DaysAgo.toISOString().split('T')[0];
+
   while (hasNextPage) {
     const query = `
       query ($cursor: String) {
-        orders(first: 250, after: $cursor) {
+        orders(
+          first: 250, 
+          after: $cursor,
+          query: "created_at:>=${formattedDate}"
+        ) {
           pageInfo {
             hasNextPage
             endCursor
@@ -123,28 +132,14 @@ export async function syncOrders(request: Request) {
           edges {
             node {
               id
-              name
-              email
-              customer {
-                displayName
-              }
-              totalPriceSet {
-                shopMoney {
-                  amount
-                  currencyCode
-                }
-              }
-              financialStatus
-              fulfillmentStatus
               createdAt
               processedAt
+              displayFinancialStatus
               lineItems(first: 250) {
                 edges {
                   node {
                     id
                     quantity
-                    originalUnitPrice
-                    originalTotalPrice
                     variant {
                       id
                       product {
@@ -172,23 +167,12 @@ export async function syncOrders(request: Request) {
         where: { id: order.id },
         create: {
           id: order.id,
-          orderNumber: parseInt(order.name.replace('#', '')),
-          email: order.email,
-          customerName: order.customer?.displayName,
-          totalPrice: parseFloat(order.totalPriceSet.shopMoney.amount),
-          currency: order.totalPriceSet.shopMoney.currencyCode,
-          financialStatus: order.financialStatus,
-          fulfillmentStatus: order.fulfillmentStatus,
+          financialStatus: order.displayFinancialStatus,
           createdAt: new Date(order.createdAt),
           processedAt: order.processedAt ? new Date(order.processedAt) : null,
         },
         update: {
-          email: order.email,
-          customerName: order.customer?.displayName,
-          totalPrice: parseFloat(order.totalPriceSet.shopMoney.amount),
-          currency: order.totalPriceSet.shopMoney.currencyCode,
-          financialStatus: order.financialStatus,
-          fulfillmentStatus: order.fulfillmentStatus,
+          financialStatus: order.displayFinancialStatus,
           processedAt: order.processedAt ? new Date(order.processedAt) : null,
         },
       });
@@ -204,13 +188,9 @@ export async function syncOrders(request: Request) {
               productId: item.variant.product.id,
               variantId: item.variant.id,
               quantity: item.quantity,
-              price: parseFloat(item.originalUnitPrice),
-              totalPrice: parseFloat(item.originalTotalPrice),
             },
             update: {
               quantity: item.quantity,
-              price: parseFloat(item.originalUnitPrice),
-              totalPrice: parseFloat(item.originalTotalPrice),
             },
           });
         }

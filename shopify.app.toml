@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "6f1788c979f4cde2a39a3275c026d838"
-application_url = "https://cross-kinase-cup-vacation.trycloudflare.com"
+application_url = "https://collected-itunes-cabinet-automobiles.trycloudflare.com"
 embedded = true
 name = "catalog-ai"
 handle = "catalog-ai-1"
@@ -19,13 +19,13 @@ api_version = "2025-01"
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "write_products"
+scopes = "write_products,read_orders,write_orders"
 
 [auth]
 redirect_urls = [
-  "https://cross-kinase-cup-vacation.trycloudflare.com/auth/callback",
-  "https://cross-kinase-cup-vacation.trycloudflare.com/auth/shopify/callback",
-  "https://cross-kinase-cup-vacation.trycloudflare.com/api/auth/callback"
+  "https://collected-itunes-cabinet-automobiles.trycloudflare.com/auth/callback",
+  "https://collected-itunes-cabinet-automobiles.trycloudflare.com/auth/shopify/callback",
+  "https://collected-itunes-cabinet-automobiles.trycloudflare.com/api/auth/callback"
 ]
 
 [pos]
@@ -34,3 +34,4 @@ embedded = false
 [build]
 dev_store_url = "smart-lights-san-francisco.myshopify.com"
 automatically_update_urls_on_dev = true
+include_config_on_deploy = true
