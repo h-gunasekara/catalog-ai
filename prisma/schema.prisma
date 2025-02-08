@@ -76,7 +76,7 @@ model Order {
 }
 
 model OrderItem {
-  id              String         @id @default(cuid())
+  id              String         @id
   orderId         String
   order           Order          @relation(fields: [orderId], references: [id])
   productId       String
@@ -84,6 +84,4 @@ model OrderItem {
   variantId       String
   variant         ProductVariant @relation(fields: [variantId], references: [id])
   quantity        Int
-  price           Float
-  totalPrice      Float
 }

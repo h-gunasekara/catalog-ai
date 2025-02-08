@@ -1,5 +1,5 @@
 import { json, type ActionFunctionArgs, type LoaderFunctionArgs } from "@remix-run/node";
-import { useActionData, useNavigation, useSubmit } from "@remix-run/react";
+import { useActionData, useNavigation, useSubmit, useLoaderData } from "@remix-run/react";
 import {
   Page,
   Layout,
@@ -9,13 +9,37 @@ import {
   BlockStack,
   Box,
   Banner,
+  DataTable,
 } from "@shopify/polaris";
 import { authenticate } from "../shopify.server";
 import { syncProducts, syncOrders } from "../services/shopify.server";
+import { prisma } from "../db.server";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   await authenticate.admin(request);
-  return null;
+  
+  const products = await prisma.product.findMany({
+    take: 5,
+    orderBy: { syncedAt: 'desc' },
+    include: {
+      variants: true,
+    },
+  });
+
+  const orders = await prisma.order.findMany({
+    take: 5,
+    orderBy: { syncedAt: 'desc' },
+    include: {
+      items: {
+        include: {
+          product: true,
+          variant: true,
+        },
+      },
+    },
+  });
+
+  return json({ products, orders });
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -49,12 +73,29 @@ export default function SyncPage() {
   const submit = useSubmit();
   const actionData = useActionData<typeof action>();
   const navigation = useNavigation();
+  const { products, orders } = useLoaderData<typeof loader>();
 
   const isLoading = navigation.state === "submitting";
 
   const handleSync = (syncType: string) => {
     submit({ syncType }, { method: "POST" });
   };
+
+  const productRows = products.map((product) => [
+    product.title,
+    product.vendor || 'N/A',
+    product.productType || 'N/A',
+    product.variants.length.toString(),
+    new Date(product.syncedAt).toLocaleString(),
+  ]);
+
+  const orderRows = orders.map((order) => [
+    order.id,
+    order.financialStatus,
+    order.items.length.toString(),
+    `$${order.totalPrice} ${order.currency}`,
+    new Date(order.syncedAt).toLocaleString(),
+  ]);
 
   return (
     <Page title="Sync Shopify Data">
@@ -109,6 +150,38 @@ export default function SyncPage() {
                 </Box>
               </BlockStack>
             </Card>
+          </Layout.Section>
+
+          <Layout.Section>
+            <BlockStack gap="400">
+              <Card>
+                <BlockStack gap="400">
+                  <Text as="h2" variant="headingMd">
+                    Recently Synced Products
+                  </Text>
+                  <DataTable
+                    columnContentTypes={['text', 'text', 'text', 'numeric', 'text']}
+                    headings={['Title', 'Vendor', 'Type', 'Variants', 'Last Synced']}
+                    rows={productRows}
+                    footerContent={`Showing ${products.length} most recent products`}
+                  />
+                </BlockStack>
+              </Card>
+
+              <Card>
+                <BlockStack gap="400">
+                  <Text as="h2" variant="headingMd">
+                    Recently Synced Orders
+                  </Text>
+                  <DataTable
+                    columnContentTypes={['text', 'text', 'numeric', 'text', 'text']}
+                    headings={['Order ID', 'Status', 'Items', 'Total', 'Last Synced']}
+                    rows={orderRows}
+                    footerContent={`Showing ${orders.length} most recent orders`}
+                  />
+                </BlockStack>
+              </Card>
+            </BlockStack>
           </Layout.Section>
         </Layout>
       </BlockStack>

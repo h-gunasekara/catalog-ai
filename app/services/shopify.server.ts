@@ -79,7 +79,7 @@ export async function syncProducts(request: Request) {
 
       // Sync variants
       for (const { node: variant } of product.variants.edges) {
-        await prisma.productVariant.upsert({
+        await prisma.ProductVariant.upsert({
           where: { id: variant.id },
           create: {
             id: variant.id,
