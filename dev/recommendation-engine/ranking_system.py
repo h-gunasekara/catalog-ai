@@ -168,7 +168,12 @@ class ProductRankingSystem:
         trending_score = self.calculate_trending_score(product_id) / self.weights['trending']
         
         # Add to cart rate calculation
-        product_views = self.products_df[self.products_df['id'] == product_id]['viewCount'].iloc[0]
+        # Default view count to 1 if the column doesn't exist
+        if 'viewCount' in self.products_df.columns:
+            product_views = self.products_df[self.products_df['id'] == product_id]['viewCount'].iloc[0]
+        else:
+            product_views = 1
+            
         product_orders = len(self.orders_df[self.orders_df['product_id'] == product_id])
         atc_rate = product_orders / max(product_views, 1)
         
@@ -243,23 +248,36 @@ class ProductRankingSystem:
         product = self.products_df[self.products_df['id'] == product_id].iloc[0]
         
         # View count calculation
-        view_count = product['viewCount']
-        max_views = self.products_df['viewCount'].max()
-        view_score = view_count / max_views if max_views > 0 else 0
+        if 'viewCount' in self.products_df.columns:
+            view_count = product['viewCount']
+            max_views = self.products_df['viewCount'].max()
+            view_score = view_count / max_views if max_views > 0 else 0
+        else:
+            # Default to a neutral score if view count is not available
+            view_score = 0.5
         
         # Click-through rate calculation
-        clicks = product.get('clicks', 0)
-        ctr = clicks / max(view_count, 1)
+        if 'clickThroughRate' in self.products_df.columns:
+            ctr = product['clickThroughRate']
+            max_ctr = self.products_df['clickThroughRate'].max()
+            ctr_score = ctr / max_ctr if max_ctr > 0 else 0
+        else:
+            # Default to a neutral score if CTR is not available
+            ctr_score = 0.5
         
         # Time on page calculation
-        time_on_page = product.get('averageTimeOnPage', 0)
-        max_time = self.products_df.get('averageTimeOnPage', pd.Series([0])).max()
-        time_score = time_on_page / max_time if max_time > 0 else 0
+        if 'timeOnPage' in self.products_df.columns:
+            time_on_page = product['timeOnPage']
+            max_time = self.products_df['timeOnPage'].max()
+            time_score = time_on_page / max_time if max_time > 0 else 0
+        else:
+            # Default to a neutral score if time on page is not available
+            time_score = 0.5
         
         # Calculate weighted score
         weights = self.optimization_weights['traffic']
         score = (weights['view_count'] * view_score +
-                weights['click_through_rate'] * ctr +
+                weights['click_through_rate'] * ctr_score +
                 weights['time_on_page'] * time_score)
         
         return score

@@ -4,7 +4,7 @@
     "bestseller": 10,
     "slow_mover": 3,
     "low_stock": 8,
-    "trending": 6,
+    "trending": 15,
     "out_of_stock": -50,
     "sale_item": -10
   },
@@ -12,225 +12,42 @@
     "new_product_days": 30,
     "bestseller_percentage": 10,
     "low_stock_threshold": 50,
-    "trending_view_threshold": 1000,
+    "trending_period_days": 7,
+    "trending_threshold": 2.0,
     "sale_discount_threshold": 15
   },
   "collections": {
-    "Shoes": [
-      {
-        "product_id": 21,
-        "title": "Ava Shoes",
-        "total_score": 8,
-        "vendor": "Dior",
-        "components": {
-          "new_in": 0,
-          "bestseller": 10,
-          "stock_based": 8,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 78,
-        "title": "Isabella Shoes",
-        "total_score": 0,
-        "vendor": "Prada",
-        "components": {
-          "new_in": 0,
-          "bestseller": 10,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 2,
-        "title": "Mia Shoes",
-        "total_score": -2,
-        "vendor": "Burberry",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 8,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 3,
-        "title": "Sophia Shoes",
-        "total_score": -10,
-        "vendor": "Dior",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 12,
-        "title": "Amelia Shoes",
-        "total_score": -10,
-        "vendor": "Prada",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 27,
-        "title": "Charlotte Shoes",
-        "total_score": -10,
-        "vendor": "Balenciaga",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 47,
-        "title": "Mia Shoes",
-        "total_score": -10,
-        "vendor": "Prada",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 50,
-        "title": "Charlotte Shoes",
-        "total_score": -10,
-        "vendor": "Balenciaga",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 51,
-        "title": "Luna Shoes",
-        "total_score": -10,
-        "vendor": "Prada",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 85,
-        "title": "Amelia Shoes",
-        "total_score": -10,
-        "vendor": "Burberry",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      }
-    ],
     "Trousers": [
       {
+        "product_id": 29,
+        "title": "Topographic Evolve Long Sleeve Cotton Tee",
+        "total_score": 9.913362739129962,
+        "vendor": "Louis Vuitton",
+        "components": {
+          "new_in": 0,
+          "bestseller": 10,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
         "product_id": 16,
-        "title": "Sophia Trousers",
-        "total_score": 0,
+        "title": "Topographic Evolve Long Sleeve Cotton Tee",
+        "total_score": 9.126592079307597,
         "vendor": "Prada",
         "components": {
           "new_in": 0,
           "bestseller": 10,
           "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 29,
-        "title": "Sophia Trousers",
-        "total_score": 0,
-        "vendor": "Louis Vuitton",
-        "components": {
-          "new_in": 0,
-          "bestseller": 10,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 38,
-        "title": "Scarlett Trousers",
-        "total_score": 0,
-        "vendor": "Louis Vuitton",
-        "components": {
-          "new_in": 0,
-          "bestseller": 10,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 6,
-        "title": "Scarlett Trousers",
-        "total_score": -2,
-        "vendor": "Burberry",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 8,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 39,
-        "title": "Sophia Trousers",
-        "total_score": -2,
-        "vendor": "Dior",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 8,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 43,
-        "title": "Olivia Trousers",
-        "total_score": -2,
-        "vendor": "Dior",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 8,
           "sale_item": -10,
           "slow_mover": 0
         }
       },
       {
         "product_id": 49,
-        "title": "Charlotte Trousers",
-        "total_score": -2,
+        "title": "Cotton Fleece Evolve Running Crewneck",
+        "total_score": 9.100149844520217,
         "vendor": "Balenciaga",
         "components": {
           "new_in": 0,
@@ -241,101 +58,36 @@
         }
       },
       {
-        "product_id": 15,
-        "title": "Scarlett Trousers",
-        "total_score": -10,
-        "vendor": "Prada",
+        "product_id": 38,
+        "title": "Windproof AuraGrid Jacket",
+        "total_score": 8.893537907302344,
+        "vendor": "Louis Vuitton",
+        "components": {
+          "new_in": 0,
+          "bestseller": 10,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 43,
+        "title": "CaldoGrid Men's Cold Weather Quarter Zip",
+        "total_score": 8.461144063341616,
+        "vendor": "Dior",
         "components": {
           "new_in": 0,
           "bestseller": 0,
-          "stock_based": 0,
+          "stock_based": 8,
           "sale_item": -10,
           "slow_mover": 0
         }
       },
       {
         "product_id": 25,
-        "title": "Luna Trousers",
-        "total_score": -10,
+        "title": "The Bandit Run Belt",
+        "total_score": 8.428575757981166,
         "vendor": "Fendi",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 41,
-        "title": "Mia Trousers",
-        "total_score": -10,
-        "vendor": "Balenciaga",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 52,
-        "title": "Luna Trousers",
-        "total_score": -10,
-        "vendor": "Prada",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 54,
-        "title": "Isabella Trousers",
-        "total_score": -10,
-        "vendor": "Chanel",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 62,
-        "title": "Luna Trousers",
-        "total_score": -10,
-        "vendor": "Gucci",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 71,
-        "title": "Luna Trousers",
-        "total_score": -10,
-        "vendor": "Givenchy",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 82,
-        "title": "Charlotte Trousers",
-        "total_score": -10,
-        "vendor": "Chanel",
         "components": {
           "new_in": 0,
           "bestseller": 0,
@@ -346,140 +98,8 @@
       },
       {
         "product_id": 97,
-        "title": "Victoria Trousers",
-        "total_score": -10,
-        "vendor": "Gucci",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      }
-    ],
-    "Dress": [
-      {
-        "product_id": 22,
-        "title": "Olivia Dress",
-        "total_score": 0,
-        "vendor": "Balenciaga",
-        "components": {
-          "new_in": 0,
-          "bestseller": 10,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 10,
-        "title": "Mia Dress",
-        "total_score": -10,
-        "vendor": "Dior",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 17,
-        "title": "Charlotte Dress",
-        "total_score": -10,
-        "vendor": "Versace",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 20,
-        "title": "Olivia Dress",
-        "total_score": -10,
-        "vendor": "Chanel",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 31,
-        "title": "Charlotte Dress",
-        "total_score": -10,
-        "vendor": "Fendi",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 45,
-        "title": "Victoria Dress",
-        "total_score": -10,
-        "vendor": "Burberry",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 53,
-        "title": "Ava Dress",
-        "total_score": -10,
-        "vendor": "Dior",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 66,
-        "title": "Ava Dress",
-        "total_score": -10,
-        "vendor": "Versace",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 70,
-        "title": "Charlotte Dress",
-        "total_score": -10,
-        "vendor": "Louis Vuitton",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 72,
-        "title": "Olivia Dress",
-        "total_score": -10,
+        "title": "The Bandit Run Belt",
+        "total_score": 8.270535098075191,
         "vendor": "Gucci",
         "components": {
           "new_in": 0,
@@ -490,183 +110,23 @@
         }
       },
       {
-        "product_id": 73,
-        "title": "Luna Dress",
-        "total_score": -10,
+        "product_id": 62,
+        "title": "The Bandit Run Belt",
+        "total_score": 7.972474050329148,
+        "vendor": "Gucci",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 39,
+        "title": "Topographic Evolve Long Sleeve Cotton Tee",
+        "total_score": 7.695675680568898,
         "vendor": "Dior",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 91,
-        "title": "Amelia Dress",
-        "total_score": -10,
-        "vendor": "Fendi",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 93,
-        "title": "Isabella Dress",
-        "total_score": -10,
-        "vendor": "Versace",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 94,
-        "title": "Charlotte Dress",
-        "total_score": -10,
-        "vendor": "Burberry",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      }
-    ],
-    "Sunglasses": [
-      {
-        "product_id": 58,
-        "title": "Olivia Sunglasses",
-        "total_score": 0,
-        "vendor": "Versace",
-        "components": {
-          "new_in": 0,
-          "bestseller": 10,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 77,
-        "title": "Amelia Sunglasses",
-        "total_score": 0,
-        "vendor": "Burberry",
-        "components": {
-          "new_in": 0,
-          "bestseller": 10,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 19,
-        "title": "Sophia Sunglasses",
-        "total_score": -10,
-        "vendor": "Givenchy",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 34,
-        "title": "Isabella Sunglasses",
-        "total_score": -10,
-        "vendor": "Burberry",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 55,
-        "title": "Charlotte Sunglasses",
-        "total_score": -10,
-        "vendor": "Versace",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 81,
-        "title": "Charlotte Sunglasses",
-        "total_score": -10,
-        "vendor": "Fendi",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 84,
-        "title": "Mia Sunglasses",
-        "total_score": -10,
-        "vendor": "Chanel",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 87,
-        "title": "Isabella Sunglasses",
-        "total_score": -10,
-        "vendor": "Burberry",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      }
-    ],
-    "Skirt": [
-      {
-        "product_id": 83,
-        "title": "Charlotte Skirt",
-        "total_score": 0,
-        "vendor": "Fendi",
-        "components": {
-          "new_in": 0,
-          "bestseller": 10,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 99,
-        "title": "Charlotte Skirt",
-        "total_score": -2,
-        "vendor": "Versace",
         "components": {
           "new_in": 0,
           "bestseller": 0,
@@ -676,12 +136,25 @@
         }
       },
       {
-        "product_id": 1,
-        "title": "Olivia Skirt",
-        "total_score": -5,
+        "product_id": 6,
+        "title": "Windproof AuraGrid Jacket",
+        "total_score": 7.603484694208063,
+        "vendor": "Burberry",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 8,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 82,
+        "title": "Cotton Fleece Evolve Running Crewneck",
+        "total_score": 7.590350356765463,
         "vendor": "Chanel",
         "components": {
-          "new_in": 5,
+          "new_in": 0,
           "bestseller": 0,
           "stock_based": 0,
           "sale_item": -10,
@@ -689,10 +162,10 @@
         }
       },
       {
-        "product_id": 14,
-        "title": "Sophia Skirt",
-        "total_score": -10,
-        "vendor": "Givenchy",
+        "product_id": 54,
+        "title": "Stamina Race Crop",
+        "total_score": 7.573631582139678,
+        "vendor": "Chanel",
         "components": {
           "new_in": 0,
           "bestseller": 0,
@@ -702,61 +175,9 @@
         }
       },
       {
-        "product_id": 18,
-        "title": "Olivia Skirt",
-        "total_score": -10,
-        "vendor": "Givenchy",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 23,
-        "title": "Mia Skirt",
-        "total_score": -10,
-        "vendor": "Louis Vuitton",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 26,
-        "title": "Ava Skirt",
-        "total_score": -10,
-        "vendor": "Dior",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 30,
-        "title": "Amelia Skirt",
-        "total_score": -10,
-        "vendor": "Dior",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 36,
-        "title": "Charlotte Skirt",
-        "total_score": -10,
+        "product_id": 52,
+        "title": "The Bandit Run Belt",
+        "total_score": 7.568895435156516,
         "vendor": "Prada",
         "components": {
           "new_in": 0,
@@ -767,9 +188,9 @@
         }
       },
       {
-        "product_id": 57,
-        "title": "Charlotte Skirt",
-        "total_score": -10,
+        "product_id": 71,
+        "title": "The Bandit Run Belt",
+        "total_score": 6.965675181556533,
         "vendor": "Givenchy",
         "components": {
           "new_in": 0,
@@ -780,10 +201,10 @@
         }
       },
       {
-        "product_id": 60,
-        "title": "Amelia Skirt",
-        "total_score": -10,
-        "vendor": "Versace",
+        "product_id": 41,
+        "title": "Windproof AuraGrid Jacket",
+        "total_score": 6.672665711531288,
+        "vendor": "Balenciaga",
         "components": {
           "new_in": 0,
           "bestseller": 0,
@@ -793,10 +214,10 @@
         }
       },
       {
-        "product_id": 80,
-        "title": "Mia Skirt",
-        "total_score": -10,
-        "vendor": "Gucci",
+        "product_id": 15,
+        "title": "Windproof AuraGrid Jacket",
+        "total_score": 5.668540134545592,
+        "vendor": "Prada",
         "components": {
           "new_in": 0,
           "bestseller": 0,
@@ -809,8 +230,8 @@
     "Scarf": [
       {
         "product_id": 92,
-        "title": "Isabella Scarf",
-        "total_score": 0,
+        "title": "Cylinder Evolve Cotton Tee",
+        "total_score": 9.47115463226628,
         "vendor": "Givenchy",
         "components": {
           "new_in": 0,
@@ -821,9 +242,35 @@
         }
       },
       {
+        "product_id": 100,
+        "title": "Cylinder Evolve Cotton Tee",
+        "total_score": 7.751430634378526,
+        "vendor": "Burberry",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 74,
+        "title": "Windproof AuraGrid Jacket",
+        "total_score": 7.4185553290367094,
+        "vendor": "Gucci",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
         "product_id": 5,
-        "title": "Olivia Scarf",
-        "total_score": -10,
+        "title": "Brushed Stamina Women's Cold Weather Quarter Zip",
+        "total_score": 7.114328800790791,
         "vendor": "Burberry",
         "components": {
           "new_in": 0,
@@ -835,9 +282,37 @@
       },
       {
         "product_id": 37,
-        "title": "Luna Scarf",
-        "total_score": -10,
+        "title": "Stamina Race Crop",
+        "total_score": 6.94555454715209,
         "vendor": "Gucci",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      }
+    ],
+    "Sunglasses": [
+      {
+        "product_id": 58,
+        "title": "The Community Cotton Tee",
+        "total_score": 9.357623670227191,
+        "vendor": "Versace",
+        "components": {
+          "new_in": 0,
+          "bestseller": 10,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 55,
+        "title": "AuraGrid Hooded Performance Top",
+        "total_score": 9.152896345198492,
+        "vendor": "Versace",
         "components": {
           "new_in": 0,
           "bestseller": 0,
@@ -847,23 +322,207 @@
         }
       },
       {
-        "product_id": 74,
-        "title": "Scarlett Scarf",
-        "total_score": -10,
-        "vendor": "Gucci",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 100,
-        "title": "Isabella Scarf",
-        "total_score": -10,
+        "product_id": 77,
+        "title": "Windproof AuraGrid Jacket",
+        "total_score": 8.770093578012796,
         "vendor": "Burberry",
+        "components": {
+          "new_in": 0,
+          "bestseller": 10,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 34,
+        "title": "Vento Women's 3 Split Short",
+        "total_score": 7.553124210926014,
+        "vendor": "Burberry",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 84,
+        "title": "The Bandit Run Belt",
+        "total_score": 7.534171949126953,
+        "vendor": "Chanel",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 81,
+        "title": "AuraGrid Hooded Performance Top",
+        "total_score": 7.147511531677705,
+        "vendor": "Fendi",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 87,
+        "title": "Vento Women's 3 Split Short",
+        "total_score": 7.098154534025975,
+        "vendor": "Burberry",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 19,
+        "title": "CaldoGrid Men's Cold Weather Quarter Zip",
+        "total_score": 6.9420732908923215,
+        "vendor": "Givenchy",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      }
+    ],
+    "Shoes": [
+      {
+        "product_id": 78,
+        "title": "Micromesh Long Sleeve Tee",
+        "total_score": 9.26839089426963,
+        "vendor": "Prada",
+        "components": {
+          "new_in": 0,
+          "bestseller": 10,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 21,
+        "title": "Brushed Stamina Women's Cold Weather Quarter Zip",
+        "total_score": 8.757352951807936,
+        "vendor": "Dior",
+        "components": {
+          "new_in": 0,
+          "bestseller": 10,
+          "stock_based": 8,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 85,
+        "title": "Stratum Seamless Women's Long Sleeve",
+        "total_score": 8.549142356541804,
+        "vendor": "Burberry",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 47,
+        "title": "Micromesh Long Sleeve Tee",
+        "total_score": 8.334497802089798,
+        "vendor": "Prada",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 2,
+        "title": "Micromesh Long Sleeve Tee",
+        "total_score": 7.791145677969276,
+        "vendor": "Burberry",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 8,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 51,
+        "title": "Stratum Seamless Women's Long Sleeve",
+        "total_score": 7.560209479799117,
+        "vendor": "Prada",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 12,
+        "title": "Stratum Seamless Women's Long Sleeve",
+        "total_score": 7.417606404250335,
+        "vendor": "Prada",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 3,
+        "title": "Windproof AuraGrid Jacket",
+        "total_score": 7.311426864353698,
+        "vendor": "Dior",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 50,
+        "title": "The Community Cotton Tee",
+        "total_score": 7.21107250843883,
+        "vendor": "Balenciaga",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 27,
+        "title": "The Community Cotton Tee",
+        "total_score": 7.193239144366479,
+        "vendor": "Balenciaga",
         "components": {
           "new_in": 0,
           "bestseller": 0,
@@ -875,22 +534,22 @@
     ],
     "Handbag": [
       {
-        "product_id": 7,
-        "title": "Mia Handbag",
-        "total_score": -2,
+        "product_id": 48,
+        "title": "Stratum Seamless Women's Long Sleeve",
+        "total_score": 9.052005642313079,
         "vendor": "Balenciaga",
         "components": {
           "new_in": 0,
           "bestseller": 0,
-          "stock_based": 8,
+          "stock_based": 0,
           "sale_item": -10,
           "slow_mover": 0
         }
       },
       {
         "product_id": 88,
-        "title": "Charlotte Handbag",
-        "total_score": -2,
+        "title": "Micromesh Long Sleeve Tee",
+        "total_score": 8.493709005173294,
         "vendor": "Gucci",
         "components": {
           "new_in": 0,
@@ -901,61 +560,22 @@
         }
       },
       {
-        "product_id": 48,
-        "title": "Luna Handbag",
-        "total_score": -10,
+        "product_id": 7,
+        "title": "Windproof AuraGrid Jacket",
+        "total_score": 7.587151054839681,
         "vendor": "Balenciaga",
         "components": {
           "new_in": 0,
           "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 59,
-        "title": "Victoria Handbag",
-        "total_score": -10,
-        "vendor": "Gucci",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 63,
-        "title": "Ava Handbag",
-        "total_score": -10,
-        "vendor": "Balenciaga",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 65,
-        "title": "Scarlett Handbag",
-        "total_score": -10,
-        "vendor": "Givenchy",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
+          "stock_based": 8,
           "sale_item": -10,
           "slow_mover": 0
         }
       },
       {
         "product_id": 68,
-        "title": "Amelia Handbag",
-        "total_score": -10,
+        "title": "Topographic Evolve Long Sleeve Cotton Tee",
+        "total_score": 7.423029046348701,
         "vendor": "Dior",
         "components": {
           "new_in": 0,
@@ -966,10 +586,391 @@
         }
       },
       {
+        "product_id": 65,
+        "title": "The Bandit Run Belt",
+        "total_score": 7.403936373711686,
+        "vendor": "Givenchy",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 59,
+        "title": "Topographic Evolve Long Sleeve Cotton Tee",
+        "total_score": 7.1705029165951,
+        "vendor": "Gucci",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
         "product_id": 76,
-        "title": "Luna Handbag",
-        "total_score": -10,
+        "title": "Stratum Seamless Women's Long Sleeve",
+        "total_score": 7.117149003396207,
         "vendor": "Chanel",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 63,
+        "title": "Iceland Fleece Jacket",
+        "total_score": 6.2634762411689,
+        "vendor": "Balenciaga",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      }
+    ],
+    "Dress": [
+      {
+        "product_id": 22,
+        "title": "Cadence 5 Women's Compression Shorts",
+        "total_score": 8.95909165471631,
+        "vendor": "Balenciaga",
+        "components": {
+          "new_in": 0,
+          "bestseller": 10,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 91,
+        "title": "Cadence 5 Women's Compression Shorts",
+        "total_score": 8.535680358677308,
+        "vendor": "Fendi",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 53,
+        "title": "CaldoGrid Men's Cold Weather Quarter Zip",
+        "total_score": 8.514377330838556,
+        "vendor": "Dior",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 45,
+        "title": "The Community Cotton Tee",
+        "total_score": 8.429792203982847,
+        "vendor": "Burberry",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 20,
+        "title": "Cadence 5 Women's Compression Shorts",
+        "total_score": 8.333627861992769,
+        "vendor": "Chanel",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 17,
+        "title": "The Bandit Run Belt",
+        "total_score": 8.289499175392944,
+        "vendor": "Versace",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 72,
+        "title": "Cadence 5 Women's Compression Shorts",
+        "total_score": 8.287052965986305,
+        "vendor": "Gucci",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 94,
+        "title": "The Bandit Run Belt",
+        "total_score": 8.111026571380552,
+        "vendor": "Burberry",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 70,
+        "title": "The Bandit Run Belt",
+        "total_score": 7.9157478540060815,
+        "vendor": "Louis Vuitton",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 31,
+        "title": "The Bandit Run Belt",
+        "total_score": 7.668397255837732,
+        "vendor": "Fendi",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 10,
+        "title": "AuraGrid Hooded Performance Top",
+        "total_score": 7.367378174632423,
+        "vendor": "Dior",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 93,
+        "title": "Windproof AuraGrid Jacket",
+        "total_score": 7.267043312912807,
+        "vendor": "Versace",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 73,
+        "title": "The Community Cotton Tee",
+        "total_score": 6.9669241874311805,
+        "vendor": "Dior",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 66,
+        "title": "CaldoGrid Men's Cold Weather Quarter Zip",
+        "total_score": 6.9542124662763545,
+        "vendor": "Versace",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      }
+    ],
+    "Skirt": [
+      {
+        "product_id": 99,
+        "title": "AuraGrid Hooded Performance Top",
+        "total_score": 8.869470498785653,
+        "vendor": "Versace",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 8,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 83,
+        "title": "AuraGrid Hooded Performance Top",
+        "total_score": 8.786043589162052,
+        "vendor": "Fendi",
+        "components": {
+          "new_in": 0,
+          "bestseller": 10,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 23,
+        "title": "AuraGrid Hooded Performance Top",
+        "total_score": 8.761499814578993,
+        "vendor": "Louis Vuitton",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 18,
+        "title": "Brushed Stamina Women's Cold Weather Quarter Zip",
+        "total_score": 8.329735755804526,
+        "vendor": "Givenchy",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 1,
+        "title": "Brushed Stamina Women's Cold Weather Quarter Zip",
+        "total_score": 8.199151064655686,
+        "vendor": "Chanel",
+        "components": {
+          "new_in": 5,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 30,
+        "title": "Windproof AuraGrid Jacket",
+        "total_score": 8.061078383969566,
+        "vendor": "Dior",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 57,
+        "title": "AuraGrid Hooded Performance Top",
+        "total_score": 7.996413714054491,
+        "vendor": "Givenchy",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 60,
+        "title": "Windproof AuraGrid Jacket",
+        "total_score": 7.759403943294836,
+        "vendor": "Versace",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 14,
+        "title": "Micromesh Long Sleeve Tee",
+        "total_score": 7.5467755360990445,
+        "vendor": "Givenchy",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 26,
+        "title": "Windproof AuraGrid Jacket",
+        "total_score": 7.496666929860557,
+        "vendor": "Dior",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 80,
+        "title": "AuraGrid Hooded Performance Top",
+        "total_score": 6.968584124524897,
+        "vendor": "Gucci",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 36,
+        "title": "AuraGrid Hooded Performance Top",
+        "total_score": 6.922708853279754,
+        "vendor": "Prada",
         "components": {
           "new_in": 0,
           "bestseller": 0,
@@ -981,48 +982,9 @@
     ],
     "Jumpsuit": [
       {
-        "product_id": 44,
-        "title": "Scarlett Jumpsuit",
-        "total_score": -2,
-        "vendor": "Fendi",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 8,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 67,
-        "title": "Charlotte Jumpsuit",
-        "total_score": -2,
-        "vendor": "Louis Vuitton",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 8,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 13,
-        "title": "Charlotte Jumpsuit",
-        "total_score": -10,
-        "vendor": "Louis Vuitton",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
         "product_id": 40,
-        "title": "Olivia Jumpsuit",
-        "total_score": -10,
+        "title": "The Community Cotton Tee",
+        "total_score": 8.68416547596205,
         "vendor": "Versace",
         "components": {
           "new_in": 0,
@@ -1033,61 +995,9 @@
         }
       },
       {
-        "product_id": 42,
-        "title": "Luna Jumpsuit",
-        "total_score": -10,
-        "vendor": "Givenchy",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 46,
-        "title": "Luna Jumpsuit",
-        "total_score": -10,
-        "vendor": "Balenciaga",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 61,
-        "title": "Amelia Jumpsuit",
-        "total_score": -10,
-        "vendor": "Dior",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 64,
-        "title": "Mia Jumpsuit",
-        "total_score": -10,
-        "vendor": "Prada",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 79,
-        "title": "Scarlett Jumpsuit",
-        "total_score": -10,
+        "product_id": 96,
+        "title": "Stamina Race Crop",
+        "total_score": 8.671110799091606,
         "vendor": "Burberry",
         "components": {
           "new_in": 0,
@@ -1098,9 +1008,61 @@
         }
       },
       {
+        "product_id": 64,
+        "title": "CaldoGrid Men's Cold Weather Quarter Zip",
+        "total_score": 8.481077488658553,
+        "vendor": "Prada",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 42,
+        "title": "Stamina Race Crop",
+        "total_score": 8.424182363732914,
+        "vendor": "Givenchy",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 44,
+        "title": "Brushed Stamina Women's Cold Weather Quarter Zip",
+        "total_score": 8.249160463675828,
+        "vendor": "Fendi",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 8,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 13,
+        "title": "Cylinder Evolve Cotton Tee",
+        "total_score": 8.029657445129848,
+        "vendor": "Louis Vuitton",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
         "product_id": 89,
-        "title": "Sophia Jumpsuit",
-        "total_score": -10,
+        "title": "The Bandit Run Belt",
+        "total_score": 7.942314663934101,
         "vendor": "Balenciaga",
         "components": {
           "new_in": 0,
@@ -1112,8 +1074,8 @@
       },
       {
         "product_id": 90,
-        "title": "Mia Jumpsuit",
-        "total_score": -10,
+        "title": "CaldoGrid Men's Cold Weather Quarter Zip",
+        "total_score": 7.59567817564444,
         "vendor": "Fendi",
         "components": {
           "new_in": 0,
@@ -1124,10 +1086,49 @@
         }
       },
       {
-        "product_id": 96,
-        "title": "Isabella Jumpsuit",
-        "total_score": -10,
+        "product_id": 67,
+        "title": "Cylinder Evolve Cotton Tee",
+        "total_score": 7.0482365316529005,
+        "vendor": "Louis Vuitton",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 8,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 79,
+        "title": "Brushed Stamina Women's Cold Weather Quarter Zip",
+        "total_score": 7.035680471088097,
         "vendor": "Burberry",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 61,
+        "title": "The Bandit Run Belt",
+        "total_score": 7.035402342405491,
+        "vendor": "Dior",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 46,
+        "title": "Stamina Race Crop",
+        "total_score": 6.0400718122278025,
+        "vendor": "Balenciaga",
         "components": {
           "new_in": 0,
           "bestseller": 0,
@@ -1139,22 +1140,35 @@
     ],
     "Coat": [
       {
-        "product_id": 69,
-        "title": "Olivia Coat",
-        "total_score": -2,
+        "product_id": 28,
+        "title": "Cotton Fleece Evolve Running Crewneck",
+        "total_score": 8.450382342059966,
+        "vendor": "Louis Vuitton",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 95,
+        "title": "Windproof AuraGrid Jacket",
+        "total_score": 8.10294420031804,
         "vendor": "Balenciaga",
         "components": {
           "new_in": 0,
           "bestseller": 0,
-          "stock_based": 8,
+          "stock_based": 0,
           "sale_item": -10,
           "slow_mover": 0
         }
       },
       {
         "product_id": 4,
-        "title": "Mia Coat",
-        "total_score": -10,
+        "title": "Cadence 5 Women's Compression Shorts",
+        "total_score": 7.893313261883975,
         "vendor": "Dior",
         "components": {
           "new_in": 0,
@@ -1165,9 +1179,48 @@
         }
       },
       {
-        "product_id": 8,
-        "title": "Amelia Coat",
-        "total_score": -10,
+        "product_id": 33,
+        "title": "Cadence 5 Women's Compression Shorts",
+        "total_score": 7.831729158480253,
+        "vendor": "Balenciaga",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 69,
+        "title": "Cotton Fleece Evolve Running Crewneck",
+        "total_score": 7.761311425775992,
+        "vendor": "Balenciaga",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 8,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 24,
+        "title": "Cotton Fleece Evolve Running Crewneck",
+        "total_score": 7.600323558304871,
+        "vendor": "Prada",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 11,
+        "title": "Stratum Seamless Women's Long Sleeve",
+        "total_score": 7.463956915015417,
         "vendor": "Prada",
         "components": {
           "new_in": 0,
@@ -1179,8 +1232,8 @@
       },
       {
         "product_id": 9,
-        "title": "Ava Coat",
-        "total_score": -10,
+        "title": "Windproof AuraGrid Jacket",
+        "total_score": 7.095409124453069,
         "vendor": "Givenchy",
         "components": {
           "new_in": 0,
@@ -1191,62 +1244,10 @@
         }
       },
       {
-        "product_id": 11,
-        "title": "Charlotte Coat",
-        "total_score": -10,
+        "product_id": 8,
+        "title": "Brushed Stamina Women's Cold Weather Quarter Zip",
+        "total_score": 6.899490517009885,
         "vendor": "Prada",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 24,
-        "title": "Olivia Coat",
-        "total_score": -10,
-        "vendor": "Prada",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 28,
-        "title": "Olivia Coat",
-        "total_score": -10,
-        "vendor": "Louis Vuitton",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 33,
-        "title": "Scarlett Coat",
-        "total_score": -10,
-        "vendor": "Balenciaga",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
-        "product_id": 95,
-        "title": "Isabella Coat",
-        "total_score": -10,
-        "vendor": "Balenciaga",
         "components": {
           "new_in": 0,
           "bestseller": 0,
@@ -1258,22 +1259,9 @@
     ],
     "Blouse": [
       {
-        "product_id": 32,
-        "title": "Mia Blouse",
-        "total_score": -10,
-        "vendor": "Dior",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
         "product_id": 35,
-        "title": "Olivia Blouse",
-        "total_score": -10,
+        "title": "Cadence 5 Women's Compression Shorts",
+        "total_score": 7.876094418091917,
         "vendor": "Versace",
         "components": {
           "new_in": 0,
@@ -1284,22 +1272,9 @@
         }
       },
       {
-        "product_id": 56,
-        "title": "Amelia Blouse",
-        "total_score": -10,
-        "vendor": "Givenchy",
-        "components": {
-          "new_in": 0,
-          "bestseller": 0,
-          "stock_based": 0,
-          "sale_item": -10,
-          "slow_mover": 0
-        }
-      },
-      {
         "product_id": 75,
-        "title": "Amelia Blouse",
-        "total_score": -10,
+        "title": "AuraGrid Hooded Performance Top",
+        "total_score": 7.575283885830466,
         "vendor": "Gucci",
         "components": {
           "new_in": 0,
@@ -1311,8 +1286,8 @@
       },
       {
         "product_id": 86,
-        "title": "Olivia Blouse",
-        "total_score": -10,
+        "title": "Cadence 5 Women's Compression Shorts",
+        "total_score": 7.463415893131339,
         "vendor": "Gucci",
         "components": {
           "new_in": 0,
@@ -1323,10 +1298,36 @@
         }
       },
       {
+        "product_id": 56,
+        "title": "AuraGrid Hooded Performance Top",
+        "total_score": 7.214331697305167,
+        "vendor": "Givenchy",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
         "product_id": 98,
-        "title": "Scarlett Blouse",
-        "total_score": -10,
+        "title": "Windproof AuraGrid Jacket",
+        "total_score": 7.167317505254387,
         "vendor": "Versace",
+        "components": {
+          "new_in": 0,
+          "bestseller": 0,
+          "stock_based": 0,
+          "sale_item": -10,
+          "slow_mover": 0
+        }
+      },
+      {
+        "product_id": 32,
+        "title": "The Bandit Run Belt",
+        "total_score": 7.002000186273177,
+        "vendor": "Dior",
         "components": {
           "new_in": 0,
           "bestseller": 0,
