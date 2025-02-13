@@ -14,6 +14,21 @@ import {
 import { authenticate } from "../shopify.server";
 import { syncProducts, syncOrders } from "../services/shopify.server";
 import { prisma } from "../db.server";
+import type { Prisma } from "@prisma/client";
+
+type LoaderData = {
+  products: Prisma.ProductGetPayload<{
+    include: { variants: true };
+  }>[];
+  productPurchases: Array<{
+    productId: string;
+    purchaseDate: string;
+    quantity: number;
+    product_title: string;
+    product_vendor: string | null;
+    product_type: string | null;
+  }>;
+};
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   await authenticate.admin(request);
@@ -26,20 +41,22 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     },
   });
 
-  const orders = await prisma.order.findMany({
-    take: 5,
-    orderBy: { syncedAt: 'desc' },
-    include: {
-      items: {
-        include: {
-          product: true,
-          variant: true,
-        },
-      },
-    },
-  });
+  const productPurchases = await prisma.$queryRaw`
+    SELECT 
+      pp.*,
+      p.title as product_title,
+      p.vendor as product_vendor,
+      p.productType as product_type
+    FROM "productPurchase" pp
+    JOIN "Product" p ON pp.productId = p.id
+    ORDER BY pp.purchaseDate DESC
+    LIMIT 10
+  `;
 
-  return json({ products, orders });
+  return json({ 
+    products, 
+    productPurchases: productPurchases as LoaderData['productPurchases']
+  });
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -73,7 +90,7 @@ export default function SyncPage() {
   const submit = useSubmit();
   const actionData = useActionData<typeof action>();
   const navigation = useNavigation();
-  const { products, orders } = useLoaderData<typeof loader>();
+  const { products, productPurchases } = useLoaderData<typeof loader>();
 
   const isLoading = navigation.state === "submitting";
 
@@ -89,12 +106,12 @@ export default function SyncPage() {
     new Date(product.syncedAt).toLocaleString(),
   ]);
 
-  const orderRows = orders.map((order) => [
-    order.id,
-    order.financialStatus,
-    order.items.length.toString(),
-    `$${order.totalPrice} ${order.currency}`,
-    new Date(order.syncedAt).toLocaleString(),
+  const purchaseRows = productPurchases.map((purchase) => [
+    purchase.product_title,
+    new Date(purchase.purchaseDate).toLocaleString(),
+    purchase.quantity.toString(),
+    purchase.product_vendor || 'N/A',
+    purchase.product_type || 'N/A',
   ]);
 
   return (
@@ -171,13 +188,13 @@ export default function SyncPage() {
               <Card>
                 <BlockStack gap="400">
                   <Text as="h2" variant="headingMd">
-                    Recently Synced Orders
+                    Recent Product Purchases
                   </Text>
                   <DataTable
                     columnContentTypes={['text', 'text', 'numeric', 'text', 'text']}
-                    headings={['Order ID', 'Status', 'Items', 'Total', 'Last Synced']}
-                    rows={orderRows}
-                    footerContent={`Showing ${orders.length} most recent orders`}
+                    headings={['Product', 'Purchase Date', 'Quantity', 'Vendor', 'Type']}
+                    rows={purchaseRows}
+                    footerContent={`Showing ${productPurchases.length} most recent purchases`}
                   />
                 </BlockStack>
               </Card>

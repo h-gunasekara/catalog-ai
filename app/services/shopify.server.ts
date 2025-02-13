@@ -1,6 +1,7 @@
 import { authenticate } from "../shopify.server";
 import { prisma } from "../db.server";
 import type { LoaderFunctionArgs } from "@remix-run/node";
+import { PrismaClient } from "@prisma/client";
 
 export async function syncProducts(request: Request) {
   const { admin } = await authenticate.admin(request);
@@ -79,7 +80,7 @@ export async function syncProducts(request: Request) {
 
       // Sync variants
       for (const { node: variant } of product.variants.edges) {
-        await prisma.ProductVariant.upsert({
+        await prisma.productVariant.upsert({
           where: { id: variant.id },
           create: {
             id: variant.id,
@@ -123,7 +124,6 @@ export async function syncOrders(request: Request) {
         orders(
           first: 250, 
           after: $cursor,
-          query: "created_at:>=${formattedDate}"
         ) {
           pageInfo {
             hasNextPage
@@ -131,17 +131,12 @@ export async function syncOrders(request: Request) {
           }
           edges {
             node {
-              id
               createdAt
-              processedAt
-              displayFinancialStatus
               lineItems(first: 250) {
                 edges {
                   node {
-                    id
                     quantity
                     variant {
-                      id
                       product {
                         id
                       }
@@ -163,35 +158,28 @@ export async function syncOrders(request: Request) {
     const orders = json.data.orders.edges;
     
     for (const { node: order } of orders) {
-      await prisma.order.upsert({
-        where: { id: order.id },
-        create: {
-          id: order.id,
-          financialStatus: order.displayFinancialStatus,
-          createdAt: new Date(order.createdAt),
-          processedAt: order.processedAt ? new Date(order.processedAt) : null,
-        },
-        update: {
-          financialStatus: order.displayFinancialStatus,
-          processedAt: order.processedAt ? new Date(order.processedAt) : null,
-        },
-      });
-
-      // Sync order items
+      const orderDate = new Date(order.createdAt);
+      
+      // Process each line item in the order
       for (const { node: item } of order.lineItems.edges) {
-        if (item.variant) {
-          await prisma.orderItem.upsert({
-            where: { id: item.id },
+        if (item.variant?.product) {
+          await prisma.productPurchase.upsert({
+            where: {
+              productId_purchaseDate: {
+                productId: item.variant.product.id,
+                purchaseDate: orderDate
+              }
+            },
             create: {
-              id: item.id,
-              orderId: order.id,
               productId: item.variant.product.id,
-              variantId: item.variant.id,
-              quantity: item.quantity,
+              purchaseDate: orderDate,
+              quantity: item.quantity
             },
             update: {
-              quantity: item.quantity,
-            },
+              quantity: {
+                increment: item.quantity
+              }
+            }
           });
         }
       }
@@ -200,4 +188,4 @@ export async function syncOrders(request: Request) {
     hasNextPage = json.data.orders.pageInfo.hasNextPage;
     cursor = json.data.orders.pageInfo.endCursor;
   }
-} 
+}
