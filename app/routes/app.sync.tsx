@@ -15,6 +15,7 @@ import { authenticate } from "../shopify.server";
 import { syncProducts, syncOrders } from "../services/shopify.server";
 import { prisma } from "../db.server";
 import type { Prisma } from "@prisma/client";
+import { ProductRankingSystem } from "../services/ranking_system.server";
 
 type LoaderData = {
   products: Prisma.ProductGetPayload<{
@@ -27,6 +28,20 @@ type LoaderData = {
     product_title: string;
     product_vendor: string | null;
     product_type: string | null;
+  }>;
+  recentRankings: Array<{
+    productId: string;
+    score: number;
+    conversionScore: number;
+    aovScore: number;
+    sellThroughScore: number;
+    trafficScore: number;
+    updatedAt: string;
+    product: {
+      title: string;
+      vendor: string | null;
+      productType: string | null;
+    };
   }>;
 };
 
@@ -53,9 +68,18 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     LIMIT 10
   `;
 
+  const recentRankings = await prisma.productRanking.findMany({
+    take: 10,
+    orderBy: { updatedAt: 'desc' },
+    include: {
+      product: true,
+    },
+  });
+
   return json({ 
     products, 
-    productPurchases: productPurchases as LoaderData['productPurchases']
+    productPurchases: productPurchases as LoaderData['productPurchases'],
+    recentRankings,
   });
 };
 
@@ -74,6 +98,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       await syncProducts(request);
       await syncOrders(request);
       return json({ status: "success", message: "All data synced successfully" });
+    } else if (syncType === "rankings") {
+      const rankingSystem = new ProductRankingSystem(prisma);
+      await rankingSystem.updateAllRankings();
+      return json({ status: "success", message: "Product rankings updated successfully" });
     }
 
     return json({ status: "error", message: "Invalid sync type" }, { status: 400 });
@@ -90,7 +118,7 @@ export default function SyncPage() {
   const submit = useSubmit();
   const actionData = useActionData<typeof action>();
   const navigation = useNavigation();
-  const { products, productPurchases } = useLoaderData<typeof loader>();
+  const { products, productPurchases, recentRankings } = useLoaderData<typeof loader>();
 
   const isLoading = navigation.state === "submitting";
 
@@ -112,6 +140,16 @@ export default function SyncPage() {
     purchase.quantity.toString(),
     purchase.product_vendor || 'N/A',
     purchase.product_type || 'N/A',
+  ]);
+
+  const rankingRows = recentRankings.map((ranking: LoaderData['recentRankings'][number]) => [
+    ranking.product.title,
+    ranking.score.toFixed(2),
+    ranking.conversionScore.toFixed(2),
+    ranking.aovScore.toFixed(2),
+    ranking.sellThroughScore.toFixed(2),
+    ranking.trafficScore.toFixed(2),
+    new Date(ranking.updatedAt).toLocaleString(),
   ]);
 
   return (
@@ -163,6 +201,14 @@ export default function SyncPage() {
                     >
                       Sync All Data
                     </Button>
+                    <Button
+                      onClick={() => handleSync("rankings")}
+                      loading={isLoading}
+                      disabled={isLoading}
+                      tone="success"
+                    >
+                      Update Rankings
+                    </Button>
                   </BlockStack>
                 </Box>
               </BlockStack>
@@ -195,6 +241,28 @@ export default function SyncPage() {
                     headings={['Product', 'Purchase Date', 'Quantity', 'Vendor', 'Type']}
                     rows={purchaseRows}
                     footerContent={`Showing ${productPurchases.length} most recent purchases`}
+                  />
+                </BlockStack>
+              </Card>
+
+              <Card>
+                <BlockStack gap="400">
+                  <Text as="h2" variant="headingMd">
+                    Recent Product Rankings
+                  </Text>
+                  <DataTable
+                    columnContentTypes={['text', 'numeric', 'numeric', 'numeric', 'numeric', 'numeric', 'text']}
+                    headings={[
+                      'Product',
+                      'Total Score',
+                      'Conversion',
+                      'AOV',
+                      'Sell Through',
+                      'Traffic',
+                      'Updated At'
+                    ]}
+                    rows={rankingRows}
+                    footerContent={`Showing ${recentRankings.length} most recent rankings`}
                   />
                 </BlockStack>
               </Card>

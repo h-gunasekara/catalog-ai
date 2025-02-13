@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "6f1788c979f4cde2a39a3275c026d838"
-application_url = "https://hence-inter-scoring-tribes.trycloudflare.com"
+application_url = "https://mighty-brunei-setting-uncle.trycloudflare.com"
 embedded = true
 name = "catalog-ai"
 handle = "catalog-ai-1"
@@ -23,9 +23,9 @@ scopes = "write_products,read_orders,write_orders"
 
 [auth]
 redirect_urls = [
-  "https://hence-inter-scoring-tribes.trycloudflare.com/auth/callback",
-  "https://hence-inter-scoring-tribes.trycloudflare.com/auth/shopify/callback",
-  "https://hence-inter-scoring-tribes.trycloudflare.com/api/auth/callback"
+  "https://mighty-brunei-setting-uncle.trycloudflare.com/auth/callback",
+  "https://mighty-brunei-setting-uncle.trycloudflare.com/auth/shopify/callback",
+  "https://mighty-brunei-setting-uncle.trycloudflare.com/api/auth/callback"
 ]
 
 [pos]

@@ -45,6 +45,7 @@ model Product {
   syncedAt    DateTime @default(now())
   orderItems  OrderItem[]
   purchases   productPurchase[]
+  rankings    ProductRanking[]
 }
 
 model productVariant {
@@ -94,4 +95,19 @@ model productPurchase {
   product       Product   @relation(fields: [productId], references: [id])
 
   @@id([productId, purchaseDate])
+}
+
+model ProductRanking {
+  id                String   @id @default(cuid())
+  productId         String
+  product           Product  @relation(fields: [productId], references: [id])
+  score             Float
+  conversionScore   Float
+  aovScore         Float
+  sellThroughScore Float
+  trafficScore     Float
+  updatedAt        DateTime @default(now())
+
+  @@unique([productId, updatedAt])
+  @@index([score])
 }
