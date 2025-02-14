@@ -43,7 +43,6 @@ model Product {
   createdAt   DateTime
   updatedAt   DateTime
   syncedAt    DateTime @default(now())
-  orderItems  OrderItem[]
   purchases   productPurchase[]
   rankings    ProductRanking[]
 }
@@ -59,33 +58,6 @@ model productVariant {
   createdAt  DateTime
   updatedAt  DateTime
   syncedAt   DateTime @default(now())
-  orderItems OrderItem[]
-}
-
-model Order {
-  id              String      @id
-  orderNumber     Int
-  email           String?
-  customerName    String?
-  totalPrice      Float
-  currency        String
-  financialStatus String
-  fulfillmentStatus String
-  createdAt       DateTime
-  processedAt     DateTime?
-  syncedAt        DateTime    @default(now())
-  items           OrderItem[]
-}
-
-model OrderItem {
-  id              String         @id
-  orderId         String
-  order           Order          @relation(fields: [orderId], references: [id])
-  productId       String
-  product         Product        @relation(fields: [productId], references: [id])
-  variantId       String
-  variant         productVariant @relation(fields: [variantId], references: [id])
-  quantity        Int
 }
 
 model productPurchase {
