@@ -352,4 +352,29 @@ class ProductRankingSystem:
         """Update the configuration parameters."""
         self.config.update(new_config)
         # Recalculate all rankings with new configuration
-        self.update_all_rankings() 
+        self.update_all_rankings()
+
+if __name__ == "__main__":
+    # Initialize the ranking system
+    import os
+    
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    products_file = os.path.join(current_dir, 'products.csv')
+    orders_file = os.path.join(current_dir, 'orders.csv')
+    
+    # Create an instance of the ranking system
+    ranking_system = ProductRankingSystem(products_file, orders_file)
+    
+    # Update all rankings
+    ranking_system.update_all_rankings()
+    
+    # Export the rankings to JSON
+    ranking_system.export_rankings_to_json('current_rankings.json')
+    
+    # Print some sample results
+    top_products = ranking_system.get_ranked_products(limit=5)
+    print("\nTop 5 Products:")
+    for product_id, data in top_products:
+        print(f"\nProduct: {data['title']}")
+        print(f"Score: {data['score']:.2f}")
+        print(f"Vendor: {data['vendor']}") 

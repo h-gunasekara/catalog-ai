@@ -22,6 +22,7 @@ import {
   ActionList,
   Thumbnail,
 } from "@shopify/polaris";
+import { motion, AnimatePresence } from "framer-motion";
 import { PinIcon, PinFilledIcon, DragHandleIcon, DeleteIcon } from "@shopify/polaris-icons";
 import { authenticate } from "../shopify.server";
 import detailedRankingsData from "../../dev/recommendation-engine/detailed_rankings.json";
@@ -69,7 +70,7 @@ type SortRule = {
 type SortMode = "manual" | "automate" | "optimize";
 
 // Add new types at the top of the file
-type OptimizationMetric = 'Conversion Rate' | 'AOV' | 'Sell-Through Rate' | 'Product Views';
+type OptimizationMetric = 'Conversion' | 'AOV' | 'Sell Through' | 'Product Views';
 
 // Add new type for optimization weights
 type OptimizationWeights = {
@@ -80,7 +81,7 @@ type OptimizationWeights = {
 };
 
 const OPTIMIZATION_WEIGHTS: OptimizationWeights = {
-  'Conversion Rate': {
+  'Conversion': {
     formula: '(0.4 × Bestseller_Rank) + (0.3 × Trending_Score) + (0.3 × ATC_Rate)',
     weights: {
       bestseller: 0.4,
@@ -96,7 +97,7 @@ const OPTIMIZATION_WEIGHTS: OptimizationWeights = {
       historicalSales: 0.2
     }
   },
-  'Sell-Through Rate': {
+  'Sell Through': {
     formula: '(0.4 × Days_In_Stock) + (0.4 × Current_Stock_Level) + (0.2 × Sales_Velocity)',
     weights: {
       daysInStock: 0.4,
@@ -121,6 +122,52 @@ const detailedRankings = detailedRankingsData as DetailedRankings;
 type SortingPanelProps = {
   selectedMetric: OptimizationMetric;
   setSelectedMetric: (metric: OptimizationMetric) => void;
+};
+
+// Add these animation constants at the top of the file after imports
+const springTransition = {
+  type: "spring",
+  stiffness: 250,
+  damping: 30,
+  mass: 0.5
+};
+
+const fadeInVariants = {
+  hidden: { opacity: 0, scale: 0.95 },
+  visible: { 
+    opacity: 1, 
+    scale: 1,
+    transition: {
+      ...springTransition,
+      staggerChildren: 0.1,
+      delayChildren: 0.1
+    }
+  },
+  exit: { 
+    opacity: 0,
+    scale: 0.95,
+    transition: { 
+      duration: 0.2,
+      ease: [0.32, 0, 0.67, 0] 
+    }
+  }
+};
+
+const cardVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: { 
+    y: 0, 
+    opacity: 1,
+    transition: springTransition
+  },
+  exit: { 
+    y: 20, 
+    opacity: 0,
+    transition: { 
+      duration: 0.2,
+      ease: [0.32, 0, 0.67, 0]
+    }
+  }
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
@@ -189,7 +236,7 @@ export default function Rankings() {
   const [pinnedProducts, setPinnedProducts] = useState<number[]>([]);
   const [sortMode, setSortMode] = useState<SortMode>("manual");
   const [optimizedProducts, setOptimizedProducts] = useState<ProductRanking[]>([]);
-  const [selectedMetric, setSelectedMetric] = useState<OptimizationMetric>('Conversion Rate');
+  const [selectedMetric, setSelectedMetric] = useState<OptimizationMetric>('Conversion');
   const [sortRules, setSortRules] = useState<SortRule[]>([
     { id: "new-in", name: "NEW IN", section: "promote" },
     { id: "bestseller", name: "BESTSELLER", section: "promote" },
@@ -249,7 +296,7 @@ export default function Rankings() {
         const { components, total_score } = product;
         
         switch (metric) {
-          case 'Conversion Rate': {
+          case 'Conversion': {
             const weights = OPTIMIZATION_WEIGHTS[metric].weights;
             // Map components to our metrics:
             // - bestseller component represents overall bestseller rank
@@ -275,7 +322,7 @@ export default function Rankings() {
             return priceScore + marginScore + salesScore;
           }
           
-          case 'Sell-Through Rate': {
+          case 'Sell Through': {
             const weights = OPTIMIZATION_WEIGHTS[metric].weights;
             // Map components to inventory metrics:
             // - stock_based directly relates to current stock
@@ -413,47 +460,52 @@ export default function Rankings() {
     };
 
     const DroppableArea = ({ id, title, items }: { id: string; title: string; items: string[] }) => (
-      <Box paddingBlockEnd="400">
-          <Text variant="headingMd" as="h2">{title}</Text>
+      <Box paddingBlockEnd="500">
+        <Box paddingBlockEnd="300">
+          <Text variant="headingMd" as="h3" alignment="start">{title}</Text>
+        </Box>
         <div style={{ 
-            minHeight: '100px', 
-            padding: '8px',
+          minHeight: '100px', 
+          padding: '16px',
           border: '2px dashed #e1e3e5',
-          borderRadius: '8px',
-            marginTop: '8px'
+          borderRadius: '8px'
         }}>
-            <Droppable droppableId={id}>
-              {(provided: DroppableProvided) => (
+          <Droppable droppableId={id}>
+            {(provided: DroppableProvided) => (
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >
                 <LegacyStack spacing="tight" wrap>
-                    {items.map((item, index) => (
-                      <Draggable key={item} draggableId={item} index={index}>
-                        {(provided: DraggableProvided) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            style={{
-                              ...provided.draggableProps.style,
-
-                              display: 'inline-block',
-                              margin: '4px'
-                            }}
-                          >
-                            <Badge {...getComponentBadgeProps(item)}>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <Icon source={DragHandleIcon} />
-                              {item}
-                              </div>
-                            </Badge>
+                  {items.map((item, index) => (
+                    <Draggable key={item} draggableId={item} index={index}>
+                      {(provided: DraggableProvided) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          style={{
+                            ...provided.draggableProps.style,
+                            display: 'inline-block',
+                            margin: '4px'
+                          }}
+                        >
+                          <Badge {...getComponentBadgeProps(item)}>
+                            {item}
+                          </Badge>
+                          <div style={{ 
+                            display: 'inline-flex', 
+                            alignItems: 'center', 
+                            gap: '4px',
+                            marginLeft: '4px'
+                          }}>
+                            <Icon source={DragHandleIcon} />
                           </div>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
                 </LegacyStack>
               </div>
             )}
@@ -517,58 +569,71 @@ export default function Rankings() {
 
     const renderOptimizeMode = () => {
       return (
-        <div style={{ padding: '16px' }}>
-          <Box paddingBlockEnd="400">
-            <Text variant="headingMd" as="h2">Let AI Decide ✨</Text>
-            <Box paddingBlockStart="400">
-              <Button tone="success" fullWidth>{selectedMetric}</Button>
-            </Box>
-          </Box>
-
-          <Box paddingBlockEnd="400">
-            <Text as="p" variant="bodyMd">
-              Select a metric to optimize and let AI auto-sort your collection page using advanced weighting formulas!
+        <div style={{ padding: '24px' }}>
+          <Box paddingBlockEnd="600">
+            <Text variant="headingLg" as="h2" alignment="start">
+              AI is optimizing for
             </Text>
-            <Box paddingBlockStart="200">
-              <Text as="p" variant="bodySm" tone="subdued">
-                Current Formula: {OPTIMIZATION_WEIGHTS[selectedMetric as OptimizationMetric]?.formula}
-              </Text>
-            </Box>
+            <Text variant="headingLg" as="h2" alignment="start">
+         <span style={{color: '#00B259'}}>{selectedMetric}</span> ✨
+            </Text>
           </Box>
 
-          <Box>
-            <Text variant="headingMd" as="h2">Metrics</Text>
+          <Box paddingBlockEnd="600">
+            <Box paddingBlockEnd="400">
+              <Text variant="headingMd" as="h3" alignment="start">Metrics</Text>
+              <Box paddingBlockStart="200">
+                <Text as="p" variant="bodyMd" tone="subdued">
+                  Select a metric below to sort this collection by.
+                </Text>
+              </Box>
+            </Box>
+
             <Box paddingBlockStart="400">
-              <ButtonGroup>
+              <LegacyStack vertical spacing="tight">
                 <Button 
-                  pressed={selectedMetric === 'Conversion Rate'}
-                  onClick={() => setSelectedMetric('Conversion Rate')}
+                  pressed={selectedMetric === 'Conversion'}
+                  onClick={() => setSelectedMetric('Conversion')}
                   fullWidth
+                  textAlign="start"
                 >
-                  Conversion Rate
+                  <Text as="span" variant="bodyMd" tone={selectedMetric === 'Conversion' ? 'success' : undefined}>
+                    Conversion
+                  </Text>
                 </Button>
                 <Button 
                   pressed={selectedMetric === 'AOV'}
                   onClick={() => setSelectedMetric('AOV')}
                   fullWidth
+                  textAlign="start"
                 >
-                  $ AOV
+                  <Text as="span" variant="bodyMd" tone={selectedMetric === 'AOV' ? 'success' : undefined}>
+                    AOV
+                  </Text>
                 </Button>
                 <Button 
-                  pressed={selectedMetric === 'Sell-Through Rate'}
-                  onClick={() => setSelectedMetric('Sell-Through Rate')}
+                  pressed={selectedMetric === 'Sell Through'}
+                  onClick={() => setSelectedMetric('Sell Through')}
                   fullWidth
+                  textAlign="start"
                 >
-                  Sell-Through
+                  <Text as="span" variant="bodyMd" tone={selectedMetric === 'Sell Through' ? 'success' : undefined}>
+                    Sell Through
+                  </Text>
                 </Button>
-                <Button 
-                  pressed={selectedMetric === 'Product Views'}
-                  onClick={() => setSelectedMetric('Product Views')}
-                  fullWidth
-                >
-                  Traffic
-                </Button>
-              </ButtonGroup>
+              </LegacyStack>
+            </Box>
+
+            <Box paddingBlockStart="400">
+              <Text as="p" variant="bodySm" tone="subdued">
+                {selectedMetric === 'Conversion' ? 
+                  "Based on sales data, product trends, and customer engagement" :
+                  selectedMetric === 'AOV' ?
+                  "Optimizing pricing, margins, and revenue performance" :
+                  selectedMetric === 'Sell Through' ?
+                  "Optimizing inventory levels, stock turnover, and sales velocity" :
+                  "Measuring traffic, engagement, and browsing behavior"}
+              </Text>
             </Box>
           </Box>
         </div>
@@ -624,83 +689,160 @@ export default function Rankings() {
                   value={selectedCollection}
                 />
                 <div style={{ marginTop: "16px" }}>
-                  <Grid>
-                    {displayProducts.map((item: ProductRanking) => {
-                      const { status, label } = getBadgeStatus(item.total_score);
-                      const componentLabels = getComponentLabels(item.components);
-                      const isPinned = pinnedProducts.includes(item.product_id);
-                
-                      return (
-                        <Grid.Cell columnSpan={{ xs: 6, md: 4 }} key={item.product_id}>
-                          <Card padding="0">
-                            <div style={{ position: 'relative' }}>
-                              <div style={{ 
-                                position: 'relative',
-                                width: '100%',
-                                paddingBottom: '170%', // Changed from 100% to 133% for taller 4:3 aspect ratio
-                                overflow: 'hidden'
-                              }}>
-                                <img 
-                                  src={item.image_url} 
-                                  alt={item.title}
-                                  style={{ 
-                                    position: 'absolute',
-                                    top: 0,
-                                    left: 0,
-                                    width: '100%',
-                                    height: '100%',
-                                    objectFit: 'cover'
-                                  }}
-                                />
-                              </div>
-                              <div style={{ 
-                                position: 'absolute', 
-                                top: '12px', 
-                                right: '12px',
-                                zIndex: 1 
-                              }}>
-                                <Button
-                                  icon={isPinned ? <Icon source={PinFilledIcon} /> : <Icon source={PinIcon} />}
-                                  onClick={() => togglePin(item.product_id)}
-                                  variant="plain"
-                                  tone={isPinned ? "success" : undefined}
-                                />
-                              </div>
-                              <div style={{
-                                position: 'absolute',
-                                bottom: 0,
-                                left: 0,
-                                right: 0,
-                                zIndex: 1,
-                                padding: '12px',
-                                display: 'flex',
-                                gap: '4px',
-                                flexWrap: 'wrap',
-                                alignItems: 'flex-end'
-                              }}>
-                                {componentLabels.map((label, index) => (
-                                  <Badge
-                                    key={index}
-                                    {...getComponentBadgeProps(label)}
+                  <motion.div
+                    style={{ 
+                      position: 'relative',
+                      minHeight: displayProducts.length > 0 ? '400px' : '0'
+                    }}
+                  >
+                    <AnimatePresence mode="popLayout">
+                      <Grid>
+                        {displayProducts.map((item: ProductRanking) => {
+                          const { status, label } = getBadgeStatus(item.total_score);
+                          const componentLabels = getComponentLabels(item.components);
+                          const isPinned = pinnedProducts.includes(item.product_id);
+                  
+                          return (
+                            <Grid.Cell columnSpan={{ xs: 6, md: 4 }} key={item.product_id}>
+                              <motion.div
+                                layout
+                                layoutId={`card-${item.product_id}`}
+                                variants={cardVariants}
+                                initial="hidden"
+                                animate="visible"
+                                exit="exit"
+                                style={{ 
+                                  height: '100%',
+                                  position: 'relative',
+                                  transformOrigin: 'center center'
+                                }}
+                                transition={{
+                                  layout: { 
+                                    type: "spring",
+                                    stiffness: 200,
+                                    damping: 25
+                                  }
+                                }}
+                              >
+                                <Card padding="0">
+                                  <motion.div 
+                                    style={{ position: 'relative' }}
+                                    layoutId={`card-content-${item.product_id}`}
                                   >
-                                    {label}
-                                  </Badge>
-                                ))}
-                              </div>
-                            </div>
-                            <div style={{ padding: '12px' }}>
-                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Text variant="headingMd" as="h3">
-                                  {item.title}
-                                </Text>
-                                <Badge tone={status as any}>{label}</Badge>
-                              </div>
-                            </div>
-                          </Card>
-                        </Grid.Cell>
-                      );
-                    })}
-                  </Grid>
+                                    <div style={{ 
+                                      position: 'relative',
+                                      width: '100%',
+                                      paddingBottom: '170%',
+                                      overflow: 'hidden',
+                                      borderRadius: '8px 8px 0 0'
+                                    }}>
+                                      <motion.img 
+                                        layoutId={`image-${item.product_id}`}
+                                        src={item.image_url} 
+                                        alt={item.title}
+                                        style={{ 
+                                          position: 'absolute',
+                                          top: 0,
+                                          left: 0,
+                                          width: '100%',
+                                          height: '100%',
+                                          objectFit: 'cover'
+                                        }}
+                                        transition={springTransition}
+                                      />
+                                    </div>
+                                    <motion.div 
+                                      style={{ 
+                                        position: 'absolute', 
+                                        top: '12px', 
+                                        right: '12px',
+                                        zIndex: 1 
+                                      }}
+                                      initial={{ scale: 0.8, opacity: 0 }}
+                                      animate={{ scale: 1, opacity: 1 }}
+                                      transition={{ delay: 0.2, ...springTransition }}
+                                    >
+                                      <Button
+                                        icon={isPinned ? <Icon source={PinFilledIcon} /> : <Icon source={PinIcon} />}
+                                        onClick={() => togglePin(item.product_id)}
+                                        variant="plain"
+                                        tone={isPinned ? "success" : undefined}
+                                      />
+                                    </motion.div>
+                                    <motion.div 
+                                      layout
+                                      style={{
+                                        position: 'absolute',
+                                        bottom: 0,
+                                        left: 0,
+                                        right: 0,
+                                        zIndex: 1,
+                                        padding: '12px',
+                                        display: 'flex',
+                                        gap: '4px',
+                                        flexWrap: 'wrap',
+                                        alignItems: 'flex-end',
+                                        background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%)'
+                                      }}
+                                      initial={{ opacity: 0, y: 20 }}
+                                      animate={{ opacity: 1, y: 0 }}
+                                      transition={{ delay: 0.1, ...springTransition }}
+                                    >
+                                      {componentLabels.map((label, index) => (
+                                        <motion.div
+                                          key={`${item.product_id}-${label}`}
+                                          variants={fadeInVariants}
+                                          custom={index}
+                                          initial={{ opacity: 0, scale: 0.8, y: 10 }}
+                                          animate={{ 
+                                            opacity: 1, 
+                                            scale: 1, 
+                                            y: 0,
+                                            transition: {
+                                              delay: index * 0.05,
+                                              ...springTransition
+                                            }
+                                          }}
+                                        >
+                                          <Badge {...getComponentBadgeProps(label)}>
+                                            {label}
+                                          </Badge>
+                                        </motion.div>
+                                      ))}
+                                    </motion.div>
+                                  </motion.div>
+                                  <motion.div 
+                                    layout
+                                    style={{ padding: '12px' }}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.2, ...springTransition }}
+                                  >
+                                    <div style={{ 
+                                      display: 'flex', 
+                                      justifyContent: 'space-between', 
+                                      alignItems: 'center'
+                                    }}>
+                                      <Text variant="headingMd" as="h3">
+                                        {item.title}
+                                      </Text>
+                                      <motion.div
+                                        initial={{ scale: 0.8, opacity: 0 }}
+                                        animate={{ scale: 1, opacity: 1 }}
+                                        transition={{ delay: 0.3, ...springTransition }}
+                                      >
+                                        <Badge tone={status as any}>{label}</Badge>
+                                      </motion.div>
+                                    </div>
+                                  </motion.div>
+                                </Card>
+                              </motion.div>
+                            </Grid.Cell>
+                          );
+                        })}
+                      </Grid>
+                    </AnimatePresence>
+                  </motion.div>
                 </div>
               </LegacyStack>
             </div>

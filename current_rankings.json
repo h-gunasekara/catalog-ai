@@ -1,0 +1,182 @@
+{
+  "10": {
+    "score": 7.365566350903585,
+    "updated_at": "2025-02-16T06:45:10.310324+00:00",
+    "title": "AuraGrid Hooded Performance Top",
+    "vendor": "Bandit Running",
+    "optimization_scores": {
+      "conversion_rate": 28.5,
+      "aov": 0.11702072206726294,
+      "sell_through": 0.345244681547077,
+      "traffic": 0.5
+    }
+  },
+  "1": {
+    "score": 8.211813123488835,
+    "updated_at": "2025-02-16T06:45:10.312858+00:00",
+    "title": "Brushed Stamina Women's Cold Weather Quarter Zip",
+    "vendor": "Bandit Running",
+    "optimization_scores": {
+      "conversion_rate": 31.799999999999997,
+      "aov": 0.3845460110216037,
+      "sell_through": 0.16270648293373838,
+      "traffic": 0.5
+    }
+  },
+  "4": {
+    "score": 7.897083738361834,
+    "updated_at": "2025-02-16T06:45:10.316495+00:00",
+    "title": "Cadence 5 Women's Compression Shorts",
+    "vendor": "Bandit Running",
+    "optimization_scores": {
+      "conversion_rate": 30.599999999999998,
+      "aov": 0.15042955126779603,
+      "sell_through": 0.33790540217954457,
+      "traffic": 0.5
+    }
+  },
+  "64": {
+    "score": 8.489392950473317,
+    "updated_at": "2025-02-16T06:45:10.318899+00:00",
+    "title": "CaldoGrid Men's Cold Weather Quarter Zip",
+    "vendor": "Bandit Running",
+    "optimization_scores": {
+      "conversion_rate": 32.4,
+      "aov": 0.31772838040090323,
+      "sell_through": 0.7398434214923675,
+      "traffic": 0.5
+    }
+  },
+  "24": {
+    "score": 7.608281390848537,
+    "updated_at": "2025-02-16T06:45:10.321051+00:00",
+    "title": "Cotton Fleece Evolve Running Crewneck",
+    "vendor": "Bandit Running",
+    "optimization_scores": {
+      "conversion_rate": 28.799999999999997,
+      "aov": 0.3511039235547812,
+      "sell_through": 0.7820216398393722,
+      "traffic": 0.5
+    }
+  },
+  "100": {
+    "score": 7.768630599053559,
+    "updated_at": "2025-02-16T06:45:10.323189+00:00",
+    "title": "Cylinder Evolve Cotton Tee",
+    "vendor": "Bandit Running",
+    "optimization_scores": {
+      "conversion_rate": 30.0,
+      "aov": 0.2506290287418949,
+      "sell_through": 0.3238933674723402,
+      "traffic": 0.5
+    }
+  },
+  "63": {
+    "score": 6.272567640133315,
+    "updated_at": "2025-02-16T06:45:10.325260+00:00",
+    "title": "Iceland Fleece Jacket",
+    "vendor": "Bandit Running",
+    "optimization_scores": {
+      "conversion_rate": 24.0,
+      "aov": 0.18371206948679142,
+      "sell_through": 0.4065584910464679,
+      "traffic": 0.5
+    }
+  },
+  "2": {
+    "score": 7.791753376248353,
+    "updated_at": "2025-02-16T06:45:10.327392+00:00",
+    "title": "Micromesh Long Sleeve Tee",
+    "vendor": "Bandit Running",
+    "optimization_scores": {
+      "conversion_rate": 29.4,
+      "aov": 0.45167208250729185,
+      "sell_through": 0.8153414224861237,
+      "traffic": 0.5
+    }
+  },
+  "96": {
+    "score": 8.674499485465201,
+    "updated_at": "2025-02-16T06:45:10.330179+00:00",
+    "title": "Stamina Race Crop",
+    "vendor": "Bandit Running",
+    "optimization_scores": {
+      "conversion_rate": 33.6,
+      "aov": 0.08347735855060395,
+      "sell_through": 0.5145205833101988,
+      "traffic": 0.5
+    }
+  },
+  "11": {
+    "score": 7.464975324792348,
+    "updated_at": "2025-02-16T06:45:10.332564+00:00",
+    "title": "Stratum Seamless Women's Long Sleeve",
+    "vendor": "Bandit Running",
+    "optimization_scores": {
+      "conversion_rate": 28.5,
+      "aov": 0.48499886234453055,
+      "sell_through": 0.3749024368248602,
+      "traffic": 0.5
+    }
+  },
+  "97": {
+    "score": 8.278899388684062,
+    "updated_at": "2025-02-16T06:45:10.334806+00:00",
+    "title": "The Bandit Run Belt",
+    "vendor": "Bandit Running",
+    "optimization_scores": {
+      "conversion_rate": 31.5,
+      "aov": 0.5521974758723088,
+      "sell_through": 0.563400078863935,
+      "traffic": 0.5
+    }
+  },
+  "27": {
+    "score": 7.199084652713348,
+    "updated_at": "2025-02-16T06:45:10.337017+00:00",
+    "title": "The Community Cotton Tee",
+    "vendor": "Bandit Running",
+    "optimization_scores": {
+      "conversion_rate": 27.3,
+      "aov": 0.5184107519031332,
+      "sell_through": 0.4779278589502609,
+      "traffic": 0.5
+    }
+  },
+  "68": {
+    "score": 7.431972339972015,
+    "updated_at": "2025-02-16T06:45:10.339231+00:00",
+    "title": "Topographic Evolve Long Sleeve Cotton Tee",
+    "vendor": "Bandit Running",
+    "optimization_scores": {
+      "conversion_rate": 28.799999999999997,
+      "aov": 0.28413356223948166,
+      "sell_through": 0.1437557976485816,
+      "traffic": 0.5
+    }
+  },
+  "34": {
+    "score": 7.548238581014732,
+    "updated_at": "2025-02-16T06:45:10.341648+00:00",
+    "title": "Vento Women's 3 Split Short",
+    "vendor": "Bandit Running",
+    "optimization_scores": {
+      "conversion_rate": 29.099999999999998,
+      "aov": 0.41813497728572013,
+      "sell_through": 0.17481934677320962,
+      "traffic": 0.5
+    }
+  },
+  "98": {
+    "score": 7.181661689268346,
+    "updated_at": "2025-02-16T06:45:10.344259+00:00",
+    "title": "Windproof AuraGrid Jacket",
+    "vendor": "Bandit Running",
+    "optimization_scores": {
+      "conversion_rate": 27.599999999999998,
+      "aov": 0.21710874766276106,
+      "sell_through": 0.40953800941062474,
+      "traffic": 0.5
+    }
+  }
+}

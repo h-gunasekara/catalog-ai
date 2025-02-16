@@ -1,602 +1,170 @@
 {
   "1": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.825293+00:00",
-    "title": "Olivia Skirt",
-    "vendor": "Chanel"
-  },
-  "2": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.828620+00:00",
-    "title": "Mia Shoes",
-    "vendor": "Burberry"
-  },
-  "3": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.831887+00:00",
-    "title": "Sophia Shoes",
-    "vendor": "Dior"
+    "score": 8.211813123488835,
+    "updated_at": "2025-02-16T06:46:35.797493+00:00",
+    "title": "Brushed Stamina Women's Cold Weather Quarter Zip",
+    "vendor": "Bandit Running",
+    "optimization_scores": {
+      "conversion_rate": 52.5,
+      "aov": 0.15,
+      "sell_through": 0.22,
+      "traffic": 0.5
+    }
   },
   "4": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.835145+00:00",
-    "title": "Mia Coat",
-    "vendor": "Dior"
-  },
-  "5": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.838391+00:00",
-    "title": "Olivia Scarf",
-    "vendor": "Burberry"
-  },
-  "6": {
-    "score": -2,
-    "updated_at": "2025-02-01T22:06:49.841713+00:00",
-    "title": "Scarlett Trousers",
-    "vendor": "Burberry"
-  },
-  "7": {
-    "score": -2,
-    "updated_at": "2025-02-01T22:06:49.845029+00:00",
-    "title": "Mia Handbag",
-    "vendor": "Balenciaga"
-  },
-  "8": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.848315+00:00",
-    "title": "Amelia Coat",
-    "vendor": "Prada"
-  },
-  "9": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.851601+00:00",
-    "title": "Ava Coat",
-    "vendor": "Givenchy"
-  },
-  "10": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.854886+00:00",
-    "title": "Mia Dress",
-    "vendor": "Dior"
-  },
-  "11": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.858435+00:00",
-    "title": "Charlotte Coat",
-    "vendor": "Prada"
-  },
-  "12": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.861907+00:00",
-    "title": "Amelia Shoes",
-    "vendor": "Prada"
-  },
-  "13": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.865231+00:00",
-    "title": "Charlotte Jumpsuit",
-    "vendor": "Louis Vuitton"
-  },
-  "14": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.871272+00:00",
-    "title": "Sophia Skirt",
-    "vendor": "Givenchy"
-  },
-  "15": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.877314+00:00",
-    "title": "Scarlett Trousers",
-    "vendor": "Prada"
-  },
-  "16": {
-    "score": 5,
-    "updated_at": "2025-02-01T22:06:49.880770+00:00",
-    "title": "Sophia Trousers",
-    "vendor": "Prada"
-  },
-  "17": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.884522+00:00",
-    "title": "Charlotte Dress",
-    "vendor": "Versace"
-  },
-  "18": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.888254+00:00",
-    "title": "Olivia Skirt",
-    "vendor": "Givenchy"
-  },
-  "19": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.891624+00:00",
-    "title": "Sophia Sunglasses",
-    "vendor": "Givenchy"
-  },
-  "20": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.894987+00:00",
-    "title": "Olivia Dress",
-    "vendor": "Chanel"
-  },
-  "21": {
-    "score": 13,
-    "updated_at": "2025-02-01T22:06:49.898340+00:00",
-    "title": "Ava Shoes",
-    "vendor": "Dior"
-  },
-  "22": {
-    "score": 5,
-    "updated_at": "2025-02-01T22:06:49.901742+00:00",
-    "title": "Olivia Dress",
-    "vendor": "Balenciaga"
-  },
-  "23": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.905064+00:00",
-    "title": "Mia Skirt",
-    "vendor": "Louis Vuitton"
-  },
-  "24": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.908415+00:00",
-    "title": "Olivia Coat",
-    "vendor": "Prada"
-  },
-  "25": {
-    "score": 5,
-    "updated_at": "2025-02-01T22:06:49.911716+00:00",
-    "title": "Luna Trousers",
-    "vendor": "Fendi"
-  },
-  "26": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.915499+00:00",
-    "title": "Ava Skirt",
-    "vendor": "Dior"
-  },
-  "27": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.919018+00:00",
-    "title": "Charlotte Shoes",
-    "vendor": "Balenciaga"
-  },
-  "28": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.922427+00:00",
-    "title": "Olivia Coat",
-    "vendor": "Louis Vuitton"
-  },
-  "29": {
-    "score": 5,
-    "updated_at": "2025-02-01T22:06:49.926363+00:00",
-    "title": "Sophia Trousers",
-    "vendor": "Louis Vuitton"
-  },
-  "30": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.929805+00:00",
-    "title": "Amelia Skirt",
-    "vendor": "Dior"
-  },
-  "31": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.933282+00:00",
-    "title": "Charlotte Dress",
-    "vendor": "Fendi"
-  },
-  "32": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.936817+00:00",
-    "title": "Mia Blouse",
-    "vendor": "Dior"
-  },
-  "33": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.940133+00:00",
-    "title": "Scarlett Coat",
-    "vendor": "Balenciaga"
-  },
-  "34": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.943480+00:00",
-    "title": "Isabella Sunglasses",
-    "vendor": "Burberry"
-  },
-  "35": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.946789+00:00",
-    "title": "Olivia Blouse",
-    "vendor": "Versace"
-  },
-  "36": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.950073+00:00",
-    "title": "Charlotte Skirt",
-    "vendor": "Prada"
-  },
-  "37": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.953436+00:00",
-    "title": "Luna Scarf",
-    "vendor": "Gucci"
-  },
-  "38": {
-    "score": 5,
-    "updated_at": "2025-02-01T22:06:49.956922+00:00",
-    "title": "Scarlett Trousers",
-    "vendor": "Louis Vuitton"
-  },
-  "39": {
-    "score": -2,
-    "updated_at": "2025-02-01T22:06:49.960483+00:00",
-    "title": "Sophia Trousers",
-    "vendor": "Dior"
-  },
-  "40": {
-    "score": 5,
-    "updated_at": "2025-02-01T22:06:49.963845+00:00",
-    "title": "Olivia Jumpsuit",
-    "vendor": "Versace"
-  },
-  "41": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.967141+00:00",
-    "title": "Mia Trousers",
-    "vendor": "Balenciaga"
-  },
-  "42": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.970468+00:00",
-    "title": "Luna Jumpsuit",
-    "vendor": "Givenchy"
-  },
-  "43": {
-    "score": -2,
-    "updated_at": "2025-02-01T22:06:49.973773+00:00",
-    "title": "Olivia Trousers",
-    "vendor": "Dior"
-  },
-  "44": {
-    "score": -2,
-    "updated_at": "2025-02-01T22:06:49.977076+00:00",
-    "title": "Scarlett Jumpsuit",
-    "vendor": "Fendi"
-  },
-  "45": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.980385+00:00",
-    "title": "Victoria Dress",
-    "vendor": "Burberry"
-  },
-  "46": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.983707+00:00",
-    "title": "Luna Jumpsuit",
-    "vendor": "Balenciaga"
-  },
-  "47": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.987016+00:00",
-    "title": "Mia Shoes",
-    "vendor": "Prada"
-  },
-  "48": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.990370+00:00",
-    "title": "Luna Handbag",
-    "vendor": "Balenciaga"
-  },
-  "49": {
-    "score": 13,
-    "updated_at": "2025-02-01T22:06:49.993693+00:00",
-    "title": "Charlotte Trousers",
-    "vendor": "Balenciaga"
-  },
-  "50": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:49.996965+00:00",
-    "title": "Charlotte Shoes",
-    "vendor": "Balenciaga"
-  },
-  "51": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.000258+00:00",
-    "title": "Luna Shoes",
-    "vendor": "Prada"
-  },
-  "52": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.003533+00:00",
-    "title": "Luna Trousers",
-    "vendor": "Prada"
-  },
-  "53": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.006853+00:00",
-    "title": "Ava Dress",
-    "vendor": "Dior"
-  },
-  "54": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.010314+00:00",
-    "title": "Isabella Trousers",
-    "vendor": "Chanel"
-  },
-  "55": {
-    "score": 5,
-    "updated_at": "2025-02-01T22:06:50.013692+00:00",
-    "title": "Charlotte Sunglasses",
-    "vendor": "Versace"
-  },
-  "56": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.016978+00:00",
-    "title": "Amelia Blouse",
-    "vendor": "Givenchy"
-  },
-  "57": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.020822+00:00",
-    "title": "Charlotte Skirt",
-    "vendor": "Givenchy"
-  },
-  "58": {
-    "score": 5,
-    "updated_at": "2025-02-01T22:06:50.024264+00:00",
-    "title": "Olivia Sunglasses",
-    "vendor": "Versace"
-  },
-  "59": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.027595+00:00",
-    "title": "Victoria Handbag",
-    "vendor": "Gucci"
-  },
-  "60": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.031421+00:00",
-    "title": "Amelia Skirt",
-    "vendor": "Versace"
-  },
-  "61": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.035067+00:00",
-    "title": "Amelia Jumpsuit",
-    "vendor": "Dior"
-  },
-  "62": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.038429+00:00",
-    "title": "Luna Trousers",
-    "vendor": "Gucci"
-  },
-  "63": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.042134+00:00",
-    "title": "Ava Handbag",
-    "vendor": "Balenciaga"
+    "score": 7.897083738361834,
+    "updated_at": "2025-02-16T06:46:35.799716+00:00",
+    "title": "Cadence 5 Women's Compression Shorts",
+    "vendor": "Bandit Running",
+    "optimization_scores": {
+      "conversion_rate": 18.5,
+      "aov": 0.98,
+      "sell_through": 0.25,
+      "traffic": 0.5
+    }
   },
   "64": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.045472+00:00",
-    "title": "Mia Jumpsuit",
-    "vendor": "Prada"
+    "score": 8.489392950473317,
+    "updated_at": "2025-02-16T06:46:35.801953+00:00",
+    "title": "CaldoGrid Men's Cold Weather Quarter Zip",
+    "vendor": "Bandit Running",
+    "optimization_scores": {
+      "conversion_rate": 22.4,
+      "aov": 0.28,
+      "sell_through": 0.95,
+      "traffic": 0.5
+    }
   },
-  "65": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.048771+00:00",
-    "title": "Scarlett Handbag",
-    "vendor": "Givenchy"
-  },
-  "66": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.052066+00:00",
-    "title": "Ava Dress",
-    "vendor": "Versace"
-  },
-  "67": {
-    "score": -2,
-    "updated_at": "2025-02-01T22:06:50.055336+00:00",
-    "title": "Charlotte Jumpsuit",
-    "vendor": "Louis Vuitton"
-  },
-  "68": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.058620+00:00",
-    "title": "Amelia Handbag",
-    "vendor": "Dior"
-  },
-  "69": {
-    "score": -2,
-    "updated_at": "2025-02-01T22:06:50.061972+00:00",
-    "title": "Olivia Coat",
-    "vendor": "Balenciaga"
-  },
-  "70": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.065230+00:00",
-    "title": "Charlotte Dress",
-    "vendor": "Louis Vuitton"
-  },
-  "71": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.068495+00:00",
-    "title": "Luna Trousers",
-    "vendor": "Givenchy"
-  },
-  "72": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.071776+00:00",
-    "title": "Olivia Dress",
-    "vendor": "Gucci"
-  },
-  "73": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.075032+00:00",
-    "title": "Luna Dress",
-    "vendor": "Dior"
-  },
-  "74": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.078290+00:00",
-    "title": "Scarlett Scarf",
-    "vendor": "Gucci"
-  },
-  "75": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.081569+00:00",
-    "title": "Amelia Blouse",
-    "vendor": "Gucci"
-  },
-  "76": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.084824+00:00",
-    "title": "Luna Handbag",
-    "vendor": "Chanel"
-  },
-  "77": {
-    "score": 5,
-    "updated_at": "2025-02-01T22:06:50.088085+00:00",
-    "title": "Amelia Sunglasses",
-    "vendor": "Burberry"
-  },
-  "78": {
-    "score": 5,
-    "updated_at": "2025-02-01T22:06:50.091353+00:00",
-    "title": "Isabella Shoes",
-    "vendor": "Prada"
-  },
-  "79": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.094597+00:00",
-    "title": "Scarlett Jumpsuit",
-    "vendor": "Burberry"
-  },
-  "80": {
-    "score": -2,
-    "updated_at": "2025-02-01T22:06:50.097839+00:00",
-    "title": "Mia Skirt",
-    "vendor": "Gucci"
-  },
-  "81": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.101088+00:00",
-    "title": "Charlotte Sunglasses",
-    "vendor": "Fendi"
-  },
-  "82": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.104335+00:00",
-    "title": "Charlotte Trousers",
-    "vendor": "Chanel"
-  },
-  "83": {
-    "score": 5,
-    "updated_at": "2025-02-01T22:06:50.107600+00:00",
-    "title": "Charlotte Skirt",
-    "vendor": "Fendi"
-  },
-  "84": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.110864+00:00",
-    "title": "Mia Sunglasses",
-    "vendor": "Chanel"
-  },
-  "85": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.114126+00:00",
-    "title": "Amelia Shoes",
-    "vendor": "Burberry"
-  },
-  "86": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.117437+00:00",
-    "title": "Olivia Blouse",
-    "vendor": "Gucci"
-  },
-  "87": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.120933+00:00",
-    "title": "Isabella Sunglasses",
-    "vendor": "Burberry"
-  },
-  "88": {
-    "score": -2,
-    "updated_at": "2025-02-01T22:06:50.124477+00:00",
-    "title": "Charlotte Handbag",
-    "vendor": "Gucci"
-  },
-  "89": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.128228+00:00",
-    "title": "Sophia Jumpsuit",
-    "vendor": "Balenciaga"
-  },
-  "90": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.132034+00:00",
-    "title": "Mia Jumpsuit",
-    "vendor": "Fendi"
-  },
-  "91": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.135464+00:00",
-    "title": "Amelia Dress",
-    "vendor": "Fendi"
-  },
-  "92": {
-    "score": 5,
-    "updated_at": "2025-02-01T22:06:50.138810+00:00",
-    "title": "Isabella Scarf",
-    "vendor": "Givenchy"
-  },
-  "93": {
-    "score": -2,
-    "updated_at": "2025-02-01T22:06:50.142122+00:00",
-    "title": "Isabella Dress",
-    "vendor": "Versace"
-  },
-  "94": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.145434+00:00",
-    "title": "Charlotte Dress",
-    "vendor": "Burberry"
-  },
-  "95": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.148748+00:00",
-    "title": "Isabella Coat",
-    "vendor": "Balenciaga"
-  },
-  "96": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.152073+00:00",
-    "title": "Isabella Jumpsuit",
-    "vendor": "Burberry"
-  },
-  "97": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.155433+00:00",
-    "title": "Victoria Trousers",
-    "vendor": "Gucci"
-  },
-  "98": {
-    "score": -10,
-    "updated_at": "2025-02-01T22:06:50.158740+00:00",
-    "title": "Scarlett Blouse",
-    "vendor": "Versace"
-  },
-  "99": {
-    "score": 13,
-    "updated_at": "2025-02-01T22:06:50.162220+00:00",
-    "title": "Charlotte Skirt",
-    "vendor": "Versace"
+  "24": {
+    "score": 7.608281390848537,
+    "updated_at": "2025-02-16T06:46:35.804235+00:00",
+    "title": "Cotton Fleece Evolve Running Crewneck",
+    "vendor": "Bandit Running",
+    "optimization_scores": {
+      "conversion_rate": 48.9,
+      "aov": 0.22,
+      "sell_through": 0.18,
+      "traffic": 0.5
+    }
   },
   "100": {
-    "score": -2,
-    "updated_at": "2025-02-01T22:06:50.165513+00:00",
-    "title": "Isabella Scarf",
-    "vendor": "Burberry"
+    "score": 7.768630599053559,
+    "updated_at": "2025-02-16T06:46:35.806359+00:00",
+    "title": "Cylinder Evolve Cotton Tee",
+    "vendor": "Bandit Running",
+    "optimization_scores": {
+      "conversion_rate": 21.5,
+      "aov": 0.92,
+      "sell_through": 0.32,
+      "traffic": 0.5
+    }
+  },
+  "63": {
+    "score": 6.272567640133315,
+    "updated_at": "2025-02-16T06:46:35.808445+00:00",
+    "title": "Iceland Fleece Jacket",
+    "vendor": "Bandit Running",
+    "optimization_scores": {
+      "conversion_rate": 46.8,
+      "aov": 0.18,
+      "sell_through": 0.28,
+      "traffic": 0.5
+    }
+  },
+  "2": {
+    "score": 7.791753376248353,
+    "updated_at": "2025-02-16T06:46:35.810549+00:00",
+    "title": "Micromesh Long Sleeve Tee",
+    "vendor": "Bandit Running",
+    "optimization_scores": {
+      "conversion_rate": 25.4,
+      "aov": 0.88,
+      "sell_through": 0.35,
+      "traffic": 0.5
+    }
+  },
+  "96": {
+    "score": 8.674499485465201,
+    "updated_at": "2025-02-16T06:46:35.812586+00:00",
+    "title": "Stamina Race Crop",
+    "vendor": "Bandit Running",
+    "optimization_scores": {
+      "conversion_rate": 24.8,
+      "aov": 0.32,
+      "sell_through": 0.92,
+      "traffic": 0.5
+    }
+  },
+  "11": {
+    "score": 7.464975324792348,
+    "updated_at": "2025-02-16T06:46:35.814644+00:00",
+    "title": "Stratum Seamless Women's Long Sleeve",
+    "vendor": "Bandit Running",
+    "optimization_scores": {
+      "conversion_rate": 45.6,
+      "aov": 0.25,
+      "sell_through": 0.42,
+      "traffic": 0.5
+    }
+  },
+  "97": {
+    "score": 8.278899388684062,
+    "updated_at": "2025-02-16T06:46:35.816653+00:00",
+    "title": "The Bandit Run Belt",
+    "vendor": "Bandit Running",
+    "optimization_scores": {
+      "conversion_rate": 23.2,
+      "aov": 0.95,
+      "sell_through": 0.38,
+      "traffic": 0.5
+    }
+  },
+  "27": {
+    "score": 7.199084652713348,
+    "updated_at": "2025-02-16T06:46:35.818664+00:00",
+    "title": "The Community Cotton Tee",
+    "vendor": "Bandit Running",
+    "optimization_scores": {
+      "conversion_rate": 28.5,
+      "aov": 0.35,
+      "sell_through": 0.88,
+      "traffic": 0.5
+    }
+  },
+  "68": {
+    "score": 7.431972339972015,
+    "updated_at": "2025-02-16T06:46:35.820672+00:00",
+    "title": "Topographic Evolve Long Sleeve Cotton Tee",
+    "vendor": "Bandit Running",
+    "optimization_scores": {
+      "conversion_rate": 49.2,
+      "aov": 0.42,
+      "sell_through": 0.15,
+      "traffic": 0.5
+    }
+  },
+  "34": {
+    "score": 7.548238581014732,
+    "updated_at": "2025-02-16T06:46:35.822655+00:00",
+    "title": "Vento Women's 3 Split Short",
+    "vendor": "Bandit Running",
+    "optimization_scores": {
+      "conversion_rate": 26.8,
+      "aov": 0.85,
+      "sell_through": 0.82,
+      "traffic": 0.5
+    }
+  },
+  "98": {
+    "score": 7.181661689268346,
+    "updated_at": "2025-02-16T06:46:35.825198+00:00",
+    "title": "Windproof AuraGrid Jacket",
+    "vendor": "Bandit Running",
+    "optimization_scores": {
+      "conversion_rate": 44.9,
+      "aov": 0.78,
+      "sell_through": 0.85,
+      "traffic": 0.5
+    }
   }
 }
