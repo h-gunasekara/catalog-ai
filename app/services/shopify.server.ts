@@ -227,7 +227,7 @@ export async function syncOrders(request: Request) {
             });
 
             if (product) {
-              await prisma.productPurchase.upsert({
+              await prisma.Order.upsert({
                 where: {
                   productId_purchaseDate: {
                     productId: productId,

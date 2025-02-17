@@ -42,13 +42,13 @@ CREATE TABLE "productVariant" (
 );
 
 -- CreateTable
-CREATE TABLE "productPurchase" (
+CREATE TABLE "Order" (
     "productId" TEXT NOT NULL,
     "purchaseDate" DATETIME NOT NULL,
     "quantity" INTEGER NOT NULL,
 
     PRIMARY KEY ("productId", "purchaseDate"),
-    CONSTRAINT "productPurchase_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "Order_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable

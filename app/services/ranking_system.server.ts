@@ -1,4 +1,4 @@
-import { PrismaClient, Product, type ProductRanking } from "@prisma/client";
+import { PrismaClient, Product, type ProductRanking, type Order } from "@prisma/client";
 import { addDays, subDays, differenceInDays } from "date-fns";
 
 export class ProductRankingSystem {
@@ -70,9 +70,9 @@ export class ProductRankingSystem {
     productId: string,
     allPurchases: { productId: string; quantity: number }[]
   ): Promise<number> {
-    const productPurchases = allPurchases.filter((p) => p.productId === productId);
-    if (productPurchases.length > 0) {
-      const totalSales = productPurchases.reduce(
+    const Orders = allPurchases.filter((p) => p.productId === productId);
+    if (Orders.length > 0) {
+      const totalSales = Orders.reduce(
         (sum, purchase) => sum + purchase.quantity,
         0
       );
@@ -204,10 +204,10 @@ export class ProductRankingSystem {
     const margin = 0.5;
 
     // Historical sales value
-    const productPurchases = allPurchases.filter(
+    const Orders = allPurchases.filter(
       (p) => p.productId === product.id
     );
-    const historicalSales = productPurchases.reduce(
+    const historicalSales = Orders.reduce(
       (sum, purchase) => sum + purchase.quantity * avgPrice,
       0
     );
@@ -356,7 +356,7 @@ export class ProductRankingSystem {
 
   public async updateAllRankings(): Promise<void> {
     const products = await this.prisma.product.findMany();
-    const allPurchases = await this.prisma.productPurchase.findMany({
+    const allPurchases = await this.prisma.order.findMany({
       select: {
         productId: true,
         purchaseDate: true,

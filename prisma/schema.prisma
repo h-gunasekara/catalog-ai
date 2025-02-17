@@ -44,7 +44,7 @@ model Product {
   updatedAt   DateTime
   imageUrl    String?
   syncedAt    DateTime @default(now())
-  purchases   productPurchase[]
+  orders      Order[]
   rankings    ProductRanking[]
   collections ProductCollection[]
 }
@@ -62,7 +62,7 @@ model productVariant {
   syncedAt   DateTime @default(now())
 }
 
-model productPurchase {
+model Order {
   productId     String
   purchaseDate  DateTime
   quantity      Int
