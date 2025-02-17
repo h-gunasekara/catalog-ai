@@ -25,14 +25,13 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { PinIcon, PinFilledIcon, DragHandleIcon, DeleteIcon } from "@shopify/polaris-icons";
 import { authenticate } from "../shopify.server";
-import detailedRankingsData from "../../dev/recommendation-engine/detailed_rankings.json";
+import { prisma } from "../db.server";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import type { 
   DropResult, 
   DroppableProvided, 
   DraggableProvided 
 } from "@hello-pangea/dnd";
-import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import fs from "fs/promises";
 
 type RankingComponent = {
   new_in: number;
@@ -42,7 +41,7 @@ type RankingComponent = {
   slow_mover: number;
 };
 
-type ProductRanking = {
+type ProductRankingDisplay = {
   product_id: number;
   title: string;
   total_score: number;
@@ -52,7 +51,7 @@ type ProductRanking = {
 };
 
 type Collections = {
-  [key: string]: ProductRanking[];
+  [key: string]: ProductRankingDisplay[];
 };
 
 type DetailedRankings = {
@@ -69,10 +68,8 @@ type SortRule = {
 
 type SortMode = "manual" | "automate" | "optimize";
 
-// Add new types at the top of the file
 type OptimizationMetric = 'Conversion' | 'AOV' | 'Sell Through' | 'Product Views';
 
-// Add new type for optimization weights
 type OptimizationWeights = {
   [key in OptimizationMetric]: {
     formula: string;
@@ -115,16 +112,11 @@ const OPTIMIZATION_WEIGHTS: OptimizationWeights = {
   }
 };
 
-// Use the imported data directly
-const detailedRankings = detailedRankingsData as DetailedRankings;
-
-// Add new types at the top of the file after other type definitions
 type SortingPanelProps = {
   selectedMetric: OptimizationMetric;
   setSelectedMetric: (metric: OptimizationMetric) => void;
 };
 
-// Add these animation constants at the top of the file after imports
 const springTransition = {
   type: "spring",
   stiffness: 250,
@@ -173,61 +165,91 @@ const cardVariants = {
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   await authenticate.admin(request);
   
-  // Read and parse products.csv to get image URLs
-  const productsData = await fs.readFile('dev/recommendation-engine/products.csv', 'utf-8');
-  const productRows = productsData.split('\n').slice(1); // Skip header row
-  const productImages = new Map();
-  
-  const parseCSVRow = (row: string) => {
-    const matches = row.match(/(?:^|,)("(?:[^"]*(?:""[^"]*)*)"|[^,]*)/g);
-    if (!matches) return [];
-    return matches.map(value => 
-      value.startsWith(',') ? value.slice(1) : value
-    ).map(value => 
-      value.startsWith('"') && value.endsWith('"') ? value.slice(1, -1).replace(/""/g, '"') : value
-    );
-  };
+  // Fetch collections with their products and rankings
+  const collections = await prisma.$queryRaw`
+    SELECT 
+      c.id as collection_id,
+      c.title as collection_title,
+      p.id as product_id,
+      p.title as product_title,
+      p.vendor,
+      p.imageUrl,
+      p.createdAt,
+      pr.score,
+      pr.conversionScore,
+      pr.aovScore,
+      pr.sellThroughScore,
+      pr.trafficScore
+    FROM Collection c
+    LEFT JOIN ProductCollection pc ON c.id = pc.collectionId
+    LEFT JOIN Product p ON pc.productId = p.id
+    LEFT JOIN ProductRanking pr ON p.id = pr.productId
+    WHERE pr.id IN (
+      SELECT id
+      FROM ProductRanking pr2
+      WHERE pr2.productId = p.id
+      ORDER BY pr2.updatedAt DESC
+      LIMIT 1
+    )
+  `;
 
-  productRows.forEach((row) => {
-    try {
-      if (!row.trim()) return; // Skip empty rows
+  // Transform the data into the format expected by the frontend
+  const collectionsData = (collections as any[]).reduce((acc: Collections, row) => {
+    if (!acc[row.collection_title]) {
+      acc[row.collection_title] = [];
+    }
+
+    if (row.product_id) {
+      const placeholderImage = 'https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-image_medium.png';
       
-      const columns = parseCSVRow(row);
-      if (columns.length >= 21) {
-        const productId = parseInt(columns[0]);
-        let imageUrl = columns[20]?.trim();
-        
-        // Remove any surrounding quotes
-        if (imageUrl?.startsWith('"') && imageUrl?.endsWith('"')) {
-          imageUrl = imageUrl.slice(1, -1);
+      acc[row.collection_title].push({
+        product_id: parseInt(row.product_id),
+        title: row.product_title,
+        total_score: row.score || 0,
+        vendor: row.vendor || '',
+        image_url: row.imageUrl || placeholderImage,
+        components: {
+          new_in: isNewProduct(row.createdAt) ? 5 : 0,
+          bestseller: row.conversionScore || 0,
+          stock_based: row.sellThroughScore || 0,
+          sale_item: row.aovScore < 0 ? Math.abs(row.aovScore) : 0,
+          slow_mover: row.sellThroughScore < 0 ? Math.abs(row.sellThroughScore) : 0,
         }
-        
-        if (productId && imageUrl && typeof imageUrl === 'string' && 
-            (imageUrl.startsWith('http://') || imageUrl.startsWith('https://'))) {
-          productImages.set(productId, imageUrl);
-        }
+      });
+    }
+    return acc;
+  }, {});
+
+  return json({ 
+    detailedRankings: {
+      collections: collectionsData,
+      ranking_weights: {
+        new_in: 5,
+        bestseller: 10,
+        slow_mover: 3,
+        low_stock: 8,
+        trending: 15,
+        out_of_stock: -50,
+        sale_item: -10,
+      },
+      configuration: {
+        new_product_days: 30,
+        bestseller_percentage: 10,
+        low_stock_threshold: 50,
+        trending_period_days: 7,
+        trending_threshold: 2.0,
+        sale_discount_threshold: 15,
       }
-    } catch (error) {
-      // Silently skip any rows that can't be processed
     }
   });
-
-  // Add image URLs to the rankings data
-  const rankingsWithImages = {
-    ...detailedRankings,
-    collections: Object.fromEntries(
-      Object.entries(detailedRankings.collections).map(([key, products]) => [
-        key,
-        products.map(product => ({
-          ...product,
-          image_url: productImages.get(product.product_id) || 'https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-image_medium.png'
-        }))
-      ])
-    )
-  };
-
-  return json({ detailedRankings: rankingsWithImages });
 };
+
+// Helper function to determine if a product is new
+function isNewProduct(createdAt: string | Date): boolean {
+  const thirtyDaysAgo = new Date();
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+  return new Date(createdAt) > thirtyDaysAgo;
+}
 
 export default function Rankings() {
   const { detailedRankings } = useLoaderData<typeof loader>();
@@ -235,7 +257,7 @@ export default function Rankings() {
   const [selectedCollection, setSelectedCollection] = useState(collections[0]);
   const [pinnedProducts, setPinnedProducts] = useState<number[]>([]);
   const [sortMode, setSortMode] = useState<SortMode>("manual");
-  const [optimizedProducts, setOptimizedProducts] = useState<ProductRanking[]>([]);
+  const [optimizedProducts, setOptimizedProducts] = useState<ProductRankingDisplay[]>([]);
   const [selectedMetric, setSelectedMetric] = useState<OptimizationMetric>('Conversion');
   const [sortRules, setSortRules] = useState<SortRule[]>([
     { id: "new-in", name: "NEW IN", section: "promote" },
@@ -290,72 +312,26 @@ export default function Rankings() {
   };
 
   // Function to calculate optimized rankings
-  const calculateOptimizedRankings = (metric: OptimizationMetric, products: ProductRanking[]) => {
+  const calculateOptimizedRankings = (metric: OptimizationMetric, products: ProductRankingDisplay[]) => {
     return [...products].sort((a, b) => {
-      const calculateScore = (product: ProductRanking): number => {
-        const { components, total_score } = product;
-        
+      const getScore = (product: ProductRankingDisplay): number => {
         switch (metric) {
-          case 'Conversion': {
-            const weights = OPTIMIZATION_WEIGHTS[metric].weights;
-            // Map components to our metrics:
-            // - bestseller component represents overall bestseller rank
-            // - new_in can be used as a proxy for trending
-            // - stock_based can indicate ATC rate (higher stock turnover = higher ATC)
-            const bestsellerScore = components.bestseller * weights.bestseller;
-            const trendingScore = components.new_in * weights.trending;
-            const atcScore = components.stock_based * weights.atcRate;
-            
-            return bestsellerScore + trendingScore + atcScore;
-          }
-          
-          case 'AOV': {
-            const weights = OPTIMIZATION_WEIGHTS[metric].weights;
-            // Map components to price-related metrics:
-            // - total_score can be used as price percentile
-            // - bestseller indicates historical sales
-            // - sale_item can be used as inverse margin indicator
-            const priceScore = (total_score || 0) * weights.pricePercentile;
-            const marginScore = (1 - Math.abs(components.sale_item)) * weights.margin;
-            const salesScore = components.bestseller * weights.historicalSales;
-            
-            return priceScore + marginScore + salesScore;
-          }
-          
-          case 'Sell Through': {
-            const weights = OPTIMIZATION_WEIGHTS[metric].weights;
-            // Map components to inventory metrics:
-            // - stock_based directly relates to current stock
-            // - slow_mover indicates days in stock
-            // - bestseller represents sales velocity
-            const stockScore = components.stock_based * weights.stockLevel;
-            const daysInStockScore = (1 - Math.abs(components.slow_mover)) * weights.daysInStock;
-            const velocityScore = components.bestseller * weights.salesVelocity;
-            
-            return stockScore + daysInStockScore + velocityScore;
-          }
-          
-          case 'Product Views': {
-            const weights = OPTIMIZATION_WEIGHTS[metric].weights;
-            // Map components to traffic metrics:
-            // - bestseller can indicate overall popularity/views
-            // - new_in affects CTR
-            // - total_score can represent engagement/time on page
-            const viewScore = components.bestseller * weights.viewCount;
-            const ctrScore = components.new_in * weights.clickThroughRate;
-            const engagementScore = (total_score || 0) * weights.timeOnPage;
-            
-            return viewScore + ctrScore + engagementScore;
-          }
-          
+          case 'Conversion':
+            return product.components.bestseller; // Using conversionScore
+          case 'AOV':
+            return product.components.sale_item; // Using aovScore
+          case 'Sell Through':
+            return product.components.stock_based; // Using sellThroughScore
+          case 'Product Views':
+            return product.total_score; // Using trafficScore
           default:
-            return total_score || 0;
+            return product.total_score;
         }
       };
 
-      const scoreA = calculateScore(a);
-      const scoreB = calculateScore(b);
-      return scoreB - scoreA;
+      const scoreA = getScore(a);
+      const scoreB = getScore(b);
+      return scoreB - scoreA; // Higher scores first
     });
   };
 
@@ -366,7 +342,7 @@ export default function Rankings() {
       const optimized = calculateOptimizedRankings(selectedMetric, products);
       setOptimizedProducts(optimized);
     }
-  }, [selectedCollection, selectedMetric, sortMode]);
+  }, [selectedCollection, selectedMetric, sortMode, detailedRankings]);
 
   // Get the products to display based on sort mode
   const getDisplayProducts = () => {
@@ -697,7 +673,7 @@ export default function Rankings() {
                   >
                     <AnimatePresence mode="popLayout">
                       <Grid>
-                        {displayProducts.map((item: ProductRanking) => {
+                        {displayProducts.map((item: ProductRankingDisplay) => {
                           const { status, label } = getBadgeStatus(item.total_score);
                           const componentLabels = getComponentLabels(item.components);
                           const isPinned = pinnedProducts.includes(item.product_id);
