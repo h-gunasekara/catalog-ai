@@ -3,6 +3,11 @@ import { prisma } from "../db.server";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { PrismaClient } from "@prisma/client";
 
+// Helper function to extract numeric ID from Shopify GID
+function extractNumericId(gid: string): string {
+  return gid.split('/').pop() || gid;
+}
+
 export async function syncProducts(request: Request) {
   const { admin } = await authenticate.admin(request);
   let hasNextPage = true;
@@ -27,6 +32,22 @@ export async function syncProducts(request: Request) {
               handle
               createdAt
               updatedAt
+              images(first: 1) {
+                edges {
+                  node {
+                    url
+                  }
+                }
+              }
+              collections(first: 250) {
+                edges {
+                  node {
+                    id
+                    title
+                    handle
+                  }
+                }
+              }
               variants(first: 250) {
                 edges {
                   node {
@@ -55,9 +76,9 @@ export async function syncProducts(request: Request) {
     
     for (const { node: product } of products) {
       await prisma.product.upsert({
-        where: { id: product.id },
+        where: { id: extractNumericId(product.id) },
         create: {
-          id: product.id,
+          id: extractNumericId(product.id),
           title: product.title,
           description: product.description,
           vendor: product.vendor,
@@ -66,6 +87,7 @@ export async function syncProducts(request: Request) {
           handle: product.handle,
           createdAt: new Date(product.createdAt),
           updatedAt: new Date(product.updatedAt),
+          imageUrl: product.images.edges[0]?.node.url || null,
         },
         update: {
           title: product.title,
@@ -75,16 +97,49 @@ export async function syncProducts(request: Request) {
           status: product.status,
           handle: product.handle,
           updatedAt: new Date(product.updatedAt),
+          imageUrl: product.images.edges[0]?.node.url || null,
         },
       });
+
+      // Sync collections
+      for (const { node: collection } of product.collections.edges) {
+        // Upsert collection
+        await prisma.collection.upsert({
+          where: { id: extractNumericId(collection.id) },
+          create: {
+            id: extractNumericId(collection.id),
+            title: collection.title,
+            handle: collection.handle,
+          },
+          update: {
+            title: collection.title,
+            handle: collection.handle,
+          },
+        });
+
+        // Create product-collection relationship
+        await prisma.productCollection.upsert({
+          where: {
+            productId_collectionId: {
+              productId: extractNumericId(product.id),
+              collectionId: extractNumericId(collection.id),
+            },
+          },
+          create: {
+            productId: extractNumericId(product.id),
+            collectionId: extractNumericId(collection.id),
+          },
+          update: {},
+        });
+      }
 
       // Sync variants
       for (const { node: variant } of product.variants.edges) {
         await prisma.productVariant.upsert({
-          where: { id: variant.id },
+          where: { id: extractNumericId(variant.id) },
           create: {
-            id: variant.id,
-            productId: product.id,
+            id: extractNumericId(variant.id),
+            productId: extractNumericId(product.id),
             sku: variant.sku,
             price: parseFloat(variant.price),
             title: variant.title,
@@ -163,24 +218,35 @@ export async function syncOrders(request: Request) {
       // Process each line item in the order
       for (const { node: item } of order.lineItems.edges) {
         if (item.variant?.product) {
-          await prisma.productPurchase.upsert({
-            where: {
-              productId_purchaseDate: {
-                productId: item.variant.product.id,
-                purchaseDate: orderDate
-              }
-            },
-            create: {
-              productId: item.variant.product.id,
-              purchaseDate: orderDate,
-              quantity: item.quantity
-            },
-            update: {
-              quantity: {
-                increment: item.quantity
-              }
+          const productId = extractNumericId(item.variant.product.id);
+          
+          try {
+            // First check if the product exists
+            const product = await prisma.product.findUnique({
+              where: { id: productId }
+            });
+
+            if (product) {
+              await prisma.productPurchase.upsert({
+                where: {
+                  productId_purchaseDate: {
+                    productId: productId,
+                    purchaseDate: orderDate
+                  }
+                },
+                create: {
+                  productId: productId,
+                  purchaseDate: orderDate,
+                  quantity: item.quantity
+                },
+                update: {}
+              });
+            } else {
+              console.log(`Skipping purchase record for product ${productId} - product not found in database`);
             }
-          });
+          } catch (error) {
+            console.error(`Error processing purchase for product ${productId}:`, error);
+          }
         }
       }
     }

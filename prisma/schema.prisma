@@ -42,9 +42,11 @@ model Product {
   variants    productVariant[]
   createdAt   DateTime
   updatedAt   DateTime
+  imageUrl    String?
   syncedAt    DateTime @default(now())
   purchases   productPurchase[]
   rankings    ProductRanking[]
+  collections ProductCollection[]
 }
 
 model productVariant {
@@ -82,4 +84,22 @@ model ProductRanking {
 
   @@unique([productId, updatedAt])
   @@index([score])
+}
+
+model Collection {
+  id        String   @id
+  title     String
+  handle    String
+  products  ProductCollection[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model ProductCollection {
+  productId    String
+  collectionId String
+  product      Product    @relation(fields: [productId], references: [id])
+  collection   Collection @relation(fields: [collectionId], references: [id])
+
+  @@id([productId, collectionId])
 }
