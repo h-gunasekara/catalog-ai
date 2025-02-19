@@ -1,6 +1,6 @@
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { useState, useEffect } from "react";
+import { json, ActionFunctionArgs } from "@remix-run/node";
+import { useLoaderData, useSubmit, useActionData } from "@remix-run/react";
+import { useState, useEffect, useCallback } from "react";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import {
   Page,
@@ -21,6 +21,8 @@ import {
   Popover,
   ActionList,
   Thumbnail,
+  Toast,
+  Frame,
 } from "@shopify/polaris";
 import { motion, AnimatePresence } from "framer-motion";
 import { PinIcon, PinFilledIcon, DragHandleIcon, DeleteIcon } from "@shopify/polaris-icons";
@@ -43,6 +45,7 @@ type RankingComponent = {
 
 type ProductRankingDisplay = {
   product_id: number;
+  collection_id: string;
   title: string;
   total_score: number;
   vendor: string;
@@ -162,6 +165,10 @@ const cardVariants = {
   }
 };
 
+type ActionData = 
+  | { error: string }
+  | { success: true; jobId: string };
+
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   await authenticate.admin(request);
   
@@ -204,6 +211,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       
       acc[row.collection_title].push({
         product_id: parseInt(row.product_id),
+        collection_id: row.collection_id.toString(),
         title: row.product_title,
         total_score: row.score || 0,
         vendor: row.vendor || '',
@@ -251,8 +259,85 @@ function isNewProduct(createdAt: string | Date): boolean {
   return new Date(createdAt) > thirtyDaysAgo;
 }
 
+export async function action({ request }: ActionFunctionArgs) {
+  const { admin } = await authenticate.admin(request);
+  const formData = await request.formData();
+  const collectionId = formData.get("collectionId") as string;
+  const products = JSON.parse(formData.get("products") as string);
+
+  // First, update the collection to use manual sorting
+  const updateSortOrderResponse = await admin.graphql(
+    `#graphql
+    mutation UpdateCollectionSortOrder($id: ID!, $sortOrder: CollectionSortOrder!) {
+      collectionUpdate(input: {id: $id, sortOrder: $sortOrder}) {
+        collection {
+          id
+          sortOrder
+        }
+        userErrors {
+          field
+          message
+        }
+      }
+    }`,
+    {
+      variables: {
+        id: collectionId,
+        sortOrder: "MANUAL",
+      },
+    }
+  );
+
+  const updateSortOrderData = await updateSortOrderResponse.json();
+  
+  if (updateSortOrderData.data?.collectionUpdate?.userErrors?.length > 0) {
+    return json({ 
+      error: updateSortOrderData.data.collectionUpdate.userErrors[0].message 
+    }, { status: 400 });
+  }
+
+  // Then, reorder the products
+  // Create moves array with the product GIDs and their new positions
+  const moves = products.map((product: ProductRankingDisplay & { product_id: string }, index: number) => ({
+    id: product.product_id, // product_id is already in GID format from handlePublish
+    newPosition: index.toString() // Convert index to string for Shopify API
+  }));
+
+  const reorderResponse = await admin.graphql(
+    `#graphql
+    mutation ReorderProductsInCollection($id: ID!, $moves: [MoveInput!]!) {
+      collectionReorderProducts(id: $id, moves: $moves) {
+        job {
+          id
+        }
+        userErrors {
+          field
+          message
+        }
+      }
+    }`,
+    {
+      variables: {
+        id: collectionId,
+        moves
+      },
+    }
+  );
+
+  const reorderData = await reorderResponse.json();
+
+  if (reorderData.data?.collectionReorderProducts?.userErrors?.length > 0) {
+    return json({ 
+      error: reorderData.data.collectionReorderProducts.userErrors[0].message 
+    }, { status: 400 });
+  }
+
+  return json({ success: true, jobId: reorderData.data?.collectionReorderProducts?.job?.id });
+}
+
 export default function Rankings() {
   const { detailedRankings } = useLoaderData<typeof loader>();
+  const actionData = useActionData<ActionData>();
   const collections = Object.keys(detailedRankings.collections);
   const [selectedCollection, setSelectedCollection] = useState(collections[0]);
   const [pinnedProducts, setPinnedProducts] = useState<number[]>([]);
@@ -268,6 +353,8 @@ export default function Rankings() {
     { id: "sale-item", name: "ON SALE", section: "ignore" },
     { id: "slow-mover", name: "SLOW MOVER", section: "ignore" },
   ]);
+  const submit = useSubmit();
+  const [toastProps, setToastProps] = useState<{ message: string; error?: boolean } | null>(null);
 
   const togglePin = (productId: number) => {
     setPinnedProducts(prev => 
@@ -344,6 +431,18 @@ export default function Rankings() {
     }
   }, [selectedCollection, selectedMetric, sortMode, detailedRankings]);
 
+  useEffect(() => {
+    if (actionData) {
+      if ('error' in actionData) {
+        setToastProps({ message: actionData.error, error: true });
+      } else if (actionData.success) {
+        setToastProps({ message: "Collection order updated successfully!" });
+      }
+    }
+  }, [actionData]);
+
+  const dismissToast = useCallback(() => setToastProps(null), []);
+
   // Get the products to display based on sort mode
   const getDisplayProducts = () => {
     const currentCollection = detailedRankings.collections[selectedCollection];
@@ -386,6 +485,28 @@ export default function Rankings() {
     
     // Combine all rules back together
     setSortRules([...destinationSectionRules, ...otherRules]);
+  };
+
+  const handlePublish = () => {
+    const products = getDisplayProducts();
+    if (!products.length) return;
+    
+    // Get the collection ID from the first product
+    const collectionId = `gid://shopify/Collection/${products[0].collection_id}`;
+    
+    // Format the product moves with proper GIDs
+    const formattedProducts = products.map(product => ({
+      ...product,
+      product_id: `gid://shopify/Product/${product.product_id}`
+    }));
+    
+    submit(
+      {
+        collectionId,
+        products: JSON.stringify(formattedProducts)
+      },
+      { method: "POST" }
+    );
   };
 
   const SortingPanel = ({ selectedMetric, setSelectedMetric }: SortingPanelProps) => {
@@ -652,190 +773,202 @@ export default function Rankings() {
   };
 
   return (
-    <Page
-      title="Product Rankings"
-      primaryAction={
-        <Button variant="primary">Publish</Button>
-      }
-    >
-      <Layout>
-        <Layout.Section>
-          <Card>
-            <div style={{ padding: "16px" }}>
-              <LegacyStack vertical>
-                <Select
-                  label="Collection"
-                  options={collections.map(c => ({ label: c, value: c }))}
-                  onChange={setSelectedCollection}
-                  value={selectedCollection}
-                />
-                <div style={{ marginTop: "16px" }}>
-                  <motion.div
-                    style={{ 
-                      position: 'relative',
-                      minHeight: displayProducts.length > 0 ? '400px' : '0'
-                    }}
-                  >
-                    <AnimatePresence mode="popLayout">
-                      <Grid>
-                        {displayProducts.map((item: ProductRankingDisplay) => {
-                          const { status, label } = getBadgeStatus(item.total_score);
-                          const componentLabels = getComponentLabels(item.components);
-                          const isPinned = pinnedProducts.includes(item.product_id);
-                  
-                          return (
-                            <Grid.Cell columnSpan={{ xs: 6, md: 4 }} key={item.product_id}>
-                              <motion.div
-                                layout
-                                layoutId={`card-${item.product_id}`}
-                                variants={cardVariants}
-                                initial="hidden"
-                                animate="visible"
-                                exit="exit"
-                                style={{ 
-                                  height: '100%',
-                                  position: 'relative',
-                                  transformOrigin: 'center center'
-                                }}
-                                transition={{
-                                  layout: { 
-                                    type: "spring",
-                                    stiffness: 200,
-                                    damping: 25
-                                  }
-                                }}
-                              >
-                                <Card padding="0">
-                                  <motion.div 
-                                    style={{ position: 'relative' }}
-                                    layoutId={`card-content-${item.product_id}`}
-                                  >
-                                    <div style={{ 
-                                      position: 'relative',
-                                      width: '100%',
-                                      paddingBottom: '170%',
-                                      overflow: 'hidden',
-                                      borderRadius: '8px 8px 0 0'
-                                    }}>
-                                      <motion.img 
-                                        layoutId={`image-${item.product_id}`}
-                                        src={item.image_url} 
-                                        alt={item.title}
-                                        style={{ 
-                                          position: 'absolute',
-                                          top: 0,
-                                          left: 0,
-                                          width: '100%',
-                                          height: '100%',
-                                          objectFit: 'cover'
-                                        }}
-                                        transition={springTransition}
-                                      />
-                                    </div>
+    <Frame>
+      <Page
+        title="Product Rankings"
+        primaryAction={
+          <Button variant="primary" onClick={handlePublish}>
+            Publish
+          </Button>
+        }
+      >
+        <Layout>
+          <Layout.Section>
+            <Card>
+              <div style={{ padding: "16px" }}>
+                <LegacyStack vertical>
+                  <Select
+                    label="Collection"
+                    options={collections.map(c => ({ label: c, value: c }))}
+                    onChange={setSelectedCollection}
+                    value={selectedCollection}
+                  />
+                  <div style={{ marginTop: "16px" }}>
+                    <motion.div
+                      style={{ 
+                        position: 'relative',
+                        minHeight: displayProducts.length > 0 ? '400px' : '0'
+                      }}
+                    >
+                      <AnimatePresence mode="popLayout">
+                        <Grid>
+                          {displayProducts.map((item: ProductRankingDisplay) => {
+                            const { status, label } = getBadgeStatus(item.total_score);
+                            const componentLabels = getComponentLabels(item.components);
+                            const isPinned = pinnedProducts.includes(item.product_id);
+                    
+                            return (
+                              <Grid.Cell columnSpan={{ xs: 6, md: 4 }} key={item.product_id}>
+                                <motion.div
+                                  layout
+                                  layoutId={`card-${item.product_id}`}
+                                  variants={cardVariants}
+                                  initial="hidden"
+                                  animate="visible"
+                                  exit="exit"
+                                  style={{ 
+                                    height: '100%',
+                                    position: 'relative',
+                                    transformOrigin: 'center center'
+                                  }}
+                                  transition={{
+                                    layout: { 
+                                      type: "spring",
+                                      stiffness: 200,
+                                      damping: 25
+                                    }
+                                  }}
+                                >
+                                  <Card padding="0">
                                     <motion.div 
-                                      style={{ 
-                                        position: 'absolute', 
-                                        top: '12px', 
-                                        right: '12px',
-                                        zIndex: 1 
-                                      }}
-                                      initial={{ scale: 0.8, opacity: 0 }}
-                                      animate={{ scale: 1, opacity: 1 }}
-                                      transition={{ delay: 0.2, ...springTransition }}
+                                      style={{ position: 'relative' }}
+                                      layoutId={`card-content-${item.product_id}`}
                                     >
-                                      <Button
-                                        icon={isPinned ? <Icon source={PinFilledIcon} /> : <Icon source={PinIcon} />}
-                                        onClick={() => togglePin(item.product_id)}
-                                        variant="plain"
-                                        tone={isPinned ? "success" : undefined}
-                                      />
+                                      <div style={{ 
+                                        position: 'relative',
+                                        width: '100%',
+                                        paddingBottom: '170%',
+                                        overflow: 'hidden',
+                                        borderRadius: '8px 8px 0 0'
+                                      }}>
+                                        <motion.img 
+                                          layoutId={`image-${item.product_id}`}
+                                          src={item.image_url} 
+                                          alt={item.title}
+                                          style={{ 
+                                            position: 'absolute',
+                                            top: 0,
+                                            left: 0,
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'cover'
+                                          }}
+                                          transition={springTransition}
+                                        />
+                                      </div>
+                                      <motion.div 
+                                        style={{ 
+                                          position: 'absolute', 
+                                          top: '12px', 
+                                          right: '12px',
+                                          zIndex: 1 
+                                        }}
+                                        initial={{ scale: 0.8, opacity: 0 }}
+                                        animate={{ scale: 1, opacity: 1 }}
+                                        transition={{ delay: 0.2, ...springTransition }}
+                                      >
+                                        <Button
+                                          icon={isPinned ? <Icon source={PinFilledIcon} /> : <Icon source={PinIcon} />}
+                                          onClick={() => togglePin(item.product_id)}
+                                          variant="plain"
+                                          tone={isPinned ? "success" : undefined}
+                                        />
+                                      </motion.div>
+                                      <motion.div 
+                                        layout
+                                        style={{
+                                          position: 'absolute',
+                                          bottom: 0,
+                                          left: 0,
+                                          right: 0,
+                                          zIndex: 1,
+                                          padding: '12px',
+                                          display: 'flex',
+                                          gap: '4px',
+                                          flexWrap: 'wrap',
+                                          alignItems: 'flex-end',
+                                          background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%)'
+                                        }}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.1, ...springTransition }}
+                                      >
+                                        {componentLabels.map((label, index) => (
+                                          <motion.div
+                                            key={`${item.product_id}-${label}`}
+                                            variants={fadeInVariants}
+                                            custom={index}
+                                            initial={{ opacity: 0, scale: 0.8, y: 10 }}
+                                            animate={{ 
+                                              opacity: 1, 
+                                              scale: 1, 
+                                              y: 0,
+                                              transition: {
+                                                delay: index * 0.05,
+                                                ...springTransition
+                                              }
+                                            }}
+                                          >
+                                            <Badge {...getComponentBadgeProps(label)}>
+                                              {label}
+                                            </Badge>
+                                          </motion.div>
+                                        ))}
+                                      </motion.div>
                                     </motion.div>
                                     <motion.div 
                                       layout
-                                      style={{
-                                        position: 'absolute',
-                                        bottom: 0,
-                                        left: 0,
-                                        right: 0,
-                                        zIndex: 1,
-                                        padding: '12px',
-                                        display: 'flex',
-                                        gap: '4px',
-                                        flexWrap: 'wrap',
-                                        alignItems: 'flex-end',
-                                        background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%)'
-                                      }}
-                                      initial={{ opacity: 0, y: 20 }}
+                                      style={{ padding: '12px' }}
+                                      initial={{ opacity: 0, y: 10 }}
                                       animate={{ opacity: 1, y: 0 }}
-                                      transition={{ delay: 0.1, ...springTransition }}
+                                      transition={{ delay: 0.2, ...springTransition }}
                                     >
-                                      {componentLabels.map((label, index) => (
+                                      <div style={{ 
+                                        display: 'flex', 
+                                        justifyContent: 'space-between', 
+                                        alignItems: 'center'
+                                      }}>
+                                        <Text variant="headingMd" as="h3">
+                                          {item.title}
+                                        </Text>
                                         <motion.div
-                                          key={`${item.product_id}-${label}`}
-                                          variants={fadeInVariants}
-                                          custom={index}
-                                          initial={{ opacity: 0, scale: 0.8, y: 10 }}
-                                          animate={{ 
-                                            opacity: 1, 
-                                            scale: 1, 
-                                            y: 0,
-                                            transition: {
-                                              delay: index * 0.05,
-                                              ...springTransition
-                                            }
-                                          }}
+                                          initial={{ scale: 0.8, opacity: 0 }}
+                                          animate={{ scale: 1, opacity: 1 }}
+                                          transition={{ delay: 0.3, ...springTransition }}
                                         >
-                                          <Badge {...getComponentBadgeProps(label)}>
-                                            {label}
-                                          </Badge>
+                                          <Badge tone={status as any}>{label}</Badge>
                                         </motion.div>
-                                      ))}
+                                      </div>
                                     </motion.div>
-                                  </motion.div>
-                                  <motion.div 
-                                    layout
-                                    style={{ padding: '12px' }}
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.2, ...springTransition }}
-                                  >
-                                    <div style={{ 
-                                      display: 'flex', 
-                                      justifyContent: 'space-between', 
-                                      alignItems: 'center'
-                                    }}>
-                                      <Text variant="headingMd" as="h3">
-                                        {item.title}
-                                      </Text>
-                                      <motion.div
-                                        initial={{ scale: 0.8, opacity: 0 }}
-                                        animate={{ scale: 1, opacity: 1 }}
-                                        transition={{ delay: 0.3, ...springTransition }}
-                                      >
-                                        <Badge tone={status as any}>{label}</Badge>
-                                      </motion.div>
-                                    </div>
-                                  </motion.div>
-                                </Card>
-                              </motion.div>
-                            </Grid.Cell>
-                          );
-                        })}
-                      </Grid>
-                    </AnimatePresence>
-                  </motion.div>
-                </div>
-              </LegacyStack>
-            </div>
-          </Card>
-        </Layout.Section>
-        <Layout.Section variant="oneThird">
-          <SortingPanel 
-            selectedMetric={selectedMetric}
-            setSelectedMetric={setSelectedMetric}
+                                  </Card>
+                                </motion.div>
+                              </Grid.Cell>
+                            );
+                          })}
+                        </Grid>
+                      </AnimatePresence>
+                    </motion.div>
+                  </div>
+                </LegacyStack>
+              </div>
+            </Card>
+          </Layout.Section>
+          <Layout.Section variant="oneThird">
+            <SortingPanel 
+              selectedMetric={selectedMetric}
+              setSelectedMetric={setSelectedMetric}
+            />
+          </Layout.Section>
+        </Layout>
+        {toastProps && (
+          <Toast
+            content={toastProps.message}
+            error={toastProps.error}
+            onDismiss={dismissToast}
+            duration={4500}
           />
-        </Layout.Section>
-      </Layout>
-    </Page>
+        )}
+      </Page>
+    </Frame>
   );
 } 
