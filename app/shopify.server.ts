@@ -18,6 +18,8 @@ const shopify = shopifyApp({
     "write_products",
     "read_orders",
     "write_orders",
+    "write_product_listings",
+    "read_product_listings"
   ],
   appUrl: process.env.SHOPIFY_APP_URL || "",
   authPathPrefix: "/auth",

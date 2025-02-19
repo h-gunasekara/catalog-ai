@@ -652,7 +652,12 @@ export default function Rankings() {
   };
 
   return (
-    <Page title="Product Rankings">
+    <Page
+      title="Product Rankings"
+      primaryAction={
+        <Button variant="primary">Publish</Button>
+      }
+    >
       <Layout>
         <Layout.Section>
           <Card>

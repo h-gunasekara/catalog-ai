@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "6f1788c979f4cde2a39a3275c026d838"
-application_url = "https://simultaneously-intl-appearance-pal.trycloudflare.com"
+application_url = "https://ind-receiving-roof-milwaukee.trycloudflare.com"
 embedded = true
 name = "catalog-ai"
 handle = "catalog-ai-1"
@@ -19,13 +19,13 @@ api_version = "2025-01"
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "write_products,read_orders,write_orders"
+scopes = "write_products,read_orders,write_orders,write_collections"
 
 [auth]
 redirect_urls = [
-  "https://simultaneously-intl-appearance-pal.trycloudflare.com/auth/callback",
-  "https://simultaneously-intl-appearance-pal.trycloudflare.com/auth/shopify/callback",
-  "https://simultaneously-intl-appearance-pal.trycloudflare.com/api/auth/callback"
+  "https://ind-receiving-roof-milwaukee.trycloudflare.com/auth/callback",
+  "https://ind-receiving-roof-milwaukee.trycloudflare.com/auth/shopify/callback",
+  "https://ind-receiving-roof-milwaukee.trycloudflare.com/api/auth/callback"
 ]
 
 [pos]
