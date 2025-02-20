@@ -775,6 +775,7 @@ export default function Rankings() {
   return (
     <Frame>
       <Page
+        fullWidth
         title="Product Rankings"
         primaryAction={
           <Button variant="primary" onClick={handlePublish}>
@@ -808,7 +809,7 @@ export default function Rankings() {
                             const isPinned = pinnedProducts.includes(item.product_id);
                     
                             return (
-                              <Grid.Cell columnSpan={{ xs: 6, md: 4 }} key={item.product_id}>
+                              <Grid.Cell columnSpan={{ xs: 6, md: 3 }} key={item.product_id}>
                                 <motion.div
                                   layout
                                   layoutId={`card-${item.product_id}`}
