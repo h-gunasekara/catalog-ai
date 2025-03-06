@@ -1,0 +1,83 @@
+---
+description: general
+globs: 
+---
+## Authentication (Shopify App Remix)
+
+- **Authentication Library**: Using `@shopify/shopify-app-remix` version `^3.4.0`.
+- The `shopifyApp` is configured in `app/shopify.server.ts` using `PrismaSessionStorage` from `@shopify/shopify-app-session-storage-prisma` version `^5.1.5`.
+- Session management is handled via Prisma with sessions stored in the database.
+- The `authenticate.admin` function is used in loaders and actions to ensure the user is authenticated with Shopify.
+
+## Database (Prisma)
+
+- **Prisma ORM**: Version `^5.11.0` is used for database operations.
+- The database schema is defined in `prisma/schema.prisma`.
+- **Default Database**: SQLite is used by default (`provider = "sqlite"` in `schema.prisma`).
+- Prisma client is initialized in `app/db.server.ts`.
+- Session data is stored using `PrismaSessionStorage`.
+
+## Frontend Components (Shopify Polaris)
+
+- **Polaris React**: Version `^13.9.1` is used for UI components.
+- Polaris components are imported from `@shopify/polaris`.
+- The application is wrapped with the `AppProvider` from `@shopify/shopify-app-remix/react` in `app/routes/app.tsx`.
+- Ensure that the Polaris version is compatible with React 18, as specified in the custom instructions.
+
+## Frameworks and Libraries
+
+- **Remix**: Version `^2.7.1` is used as the web framework, along with related packages.
+- **React**: Version `^18.2.0` is used for building user interfaces.
+- **TypeScript**: Version `^5.2.2` is used throughout the application for type safety.
+- **Vite**: Version `^5.4.11` is used for development and production builds.
+
+## OpenAI Integration
+
+- **OpenAI API**: The `openai` package version `^4.0.0` is used for AI functionalities.
+- Integration code is located in `app/routes/api.chat.tsx`, handling AI chat responses.
+- The OpenAI API is used to enhance the app with AI-powered features.
+
+## File Structure
+
+- **Remix Project Structure**: Routes are defined in the `app/routes` directory.
+- **Database Schema and Migrations**: Located in the `prisma` directory.
+- **Global Configuration and Types**: Found in the `app` directory.
+- **Configuration Files**: Such as `vite.config.ts`, `package.json`, and `tsconfig.json` are in the root directory.
+- **Public Assets**: Stored in the `public` directory.
+
+## Key Patterns
+
+1. **Remix Loaders and Actions**: Used for handling server-side logic and data fetching.
+2. **Shopify Authentication**: The `authenticate.admin` method ensures secure access to protected routes.
+3. **Prisma for Database Access**: Prisma client provides type-safe database interactions.
+4. **Polaris Components**: Used extensively for building consistent and accessible UI elements.
+5. **TypeScript Strict Mode**: The project is configured with strict TypeScript settings for type safety.
+
+## Important Files
+
+- `app/shopify.server.ts`: Configures the Shopify app, including authentication and session storage.
+- `prisma/schema.prisma`: Defines the database schema for Prisma.
+- `app/db.server.ts`: Initializes the Prisma client for database operations.
+- `vite.config.ts`: Contains Vite configuration for development and production.
+- `app/root.tsx`: Entry point of the Remix application, sets up global components.
+- `package.json`: Lists all dependencies, scripts, and Node.js version constraints.
+- `tsconfig.json`: Configures TypeScript compiler options.
+
+## Styling
+
+- **Shopify Polaris**: Provides the design system and component library used across the app.
+- Polaris styles are imported in components where needed.
+- Global styles are managed via Polaris and additional custom styles if necessary.
+
+## Deployment
+
+- **Node.js Versions**: Supports Node.js versions `^18.20`, `^20.10`, or `>=21.0.0` as specified in `package.json`.
+- **Hosting Platforms**: The app can be deployed on platforms like Heroku, Fly.io, or Vercel.
+- **Vercel Deployment**:
+  - Use the Vercel Preset in `vite.config.ts` for proper configuration.
+  - Ensure imports from `@remix-run/node` are replaced with `@vercel/remix` when deploying to Vercel.
+- **Environment Variables**:
+  - Set required environment variables for Shopify API keys, database URLs, OpenAI API key, etc.
+  - Sensitive information should be managed securely in the deployment environment.
+
+When working with this codebase, focus on these key areas and patterns to maintain consistency and leverage the existing infrastructure.

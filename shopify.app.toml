@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "6f1788c979f4cde2a39a3275c026d838"
-application_url = "https://worst-trackback-however-institutes.trycloudflare.com"
+application_url = "https://step-customs-commitments-dublin.trycloudflare.com"
 embedded = true
 name = "catalog-ai"
 handle = "catalog-ai-1"
@@ -23,9 +23,9 @@ scopes = "write_products,read_orders,write_orders"
 
 [auth]
 redirect_urls = [
-  "https://worst-trackback-however-institutes.trycloudflare.com/auth/callback",
-  "https://worst-trackback-however-institutes.trycloudflare.com/auth/shopify/callback",
-  "https://worst-trackback-however-institutes.trycloudflare.com/api/auth/callback"
+  "https://step-customs-commitments-dublin.trycloudflare.com/auth/callback",
+  "https://step-customs-commitments-dublin.trycloudflare.com/auth/shopify/callback",
+  "https://step-customs-commitments-dublin.trycloudflare.com/api/auth/callback"
 ]
 
 [pos]
