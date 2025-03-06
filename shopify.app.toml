@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "6f1788c979f4cde2a39a3275c026d838"
-application_url = "https://if-cohen-kills-drama.trycloudflare.com"
+application_url = "https://catalog-ai.fly.dev"
 embedded = true
 name = "catalog-ai"
 handle = "catalog-ai-1"
@@ -23,9 +23,9 @@ scopes = "write_products,read_orders,write_orders"
 
 [auth]
 redirect_urls = [
-  "https://if-cohen-kills-drama.trycloudflare.com/auth/callback",
-  "https://if-cohen-kills-drama.trycloudflare.com/auth/shopify/callback",
-  "https://if-cohen-kills-drama.trycloudflare.com/api/auth/callback"
+  "https://catalog-ai.fly.dev/auth/callback",
+  "https://catalog-ai.fly.dev/auth/shopify/callback",
+  "https://catalog-ai.fly.dev/api/auth/callback"
 ]
 
 [pos]
@@ -33,5 +33,5 @@ embedded = false
 
 [build]
 dev_store_url = "smart-lights-san-francisco.myshopify.com"
-automatically_update_urls_on_dev = true
+automatically_update_urls_on_dev = false
 include_config_on_deploy = true
