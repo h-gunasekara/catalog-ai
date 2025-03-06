@@ -1,13 +1,7 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
-// Note that some adapters may set a maximum length for the String type by default, please ensure your strings are long
-// enough when changing adapters.
-// See https://www.prisma.io/docs/orm/reference/prisma-schema-reference#string for more information
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -32,74 +26,74 @@ model Session {
 }
 
 model Product {
-  id          String   @id
+  id          String              @id
   title       String
   description String?
   vendor      String?
   productType String?
   status      String
   handle      String
-  variants    productVariant[]
   createdAt   DateTime
   updatedAt   DateTime
   imageUrl    String?
-  syncedAt    DateTime @default(now())
+  syncedAt    DateTime            @default(now())
   orders      Order[]
-  rankings    ProductRanking[]
   collections ProductCollection[]
+  rankings    ProductRanking[]
+  variants    ProductVariant[]
 }
 
-model productVariant {
-  id         String   @id
-  productId  String
-  product    Product  @relation(fields: [productId], references: [id])
-  sku        String?
-  price      Float
-  title      String
-  inventory  Int
-  createdAt  DateTime
-  updatedAt  DateTime
-  syncedAt   DateTime @default(now())
+model ProductVariant {
+  id        String   @id
+  productId String
+  sku       String?
+  price     Float
+  title     String
+  inventory Int
+  createdAt DateTime
+  updatedAt DateTime
+  syncedAt  DateTime @default(now())
+  product   Product  @relation(fields: [productId], references: [id])
 }
 
 model Order {
-  productId     String
-  purchaseDate  DateTime
-  quantity      Int
-  product       Product   @relation(fields: [productId], references: [id])
+  productId    String
+  purchaseDate DateTime
+  quantity     Int
+  product      Product  @relation(fields: [productId], references: [id])
 
   @@id([productId, purchaseDate])
 }
 
 model ProductRanking {
-  id                String   @id @default(cuid())
-  productId         String
-  product           Product  @relation(fields: [productId], references: [id])
-  score             Float
-  conversionScore   Float
+  id               String   @id @default(cuid())
+  productId        String
+  score            Float
+  conversionScore  Float
   aovScore         Float
   sellThroughScore Float
   trafficScore     Float
   updatedAt        DateTime @default(now())
+  product          Product  @relation(fields: [productId], references: [id])
 
   @@unique([productId, updatedAt])
   @@index([score])
 }
 
 model Collection {
-  id        String   @id
+  id        String              @id
   title     String
   handle    String
+  createdAt DateTime            @default(now())
+  updatedAt DateTime            @default(now())
   products  ProductCollection[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
 }
 
 model ProductCollection {
   productId    String
   collectionId String
-  product      Product    @relation(fields: [productId], references: [id])
   collection   Collection @relation(fields: [collectionId], references: [id])
+  product      Product    @relation(fields: [productId], references: [id])
 
   @@id([productId, collectionId])
 }

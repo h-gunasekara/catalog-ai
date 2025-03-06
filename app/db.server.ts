@@ -20,4 +20,9 @@ if (process.env.NODE_ENV === "production") {
   prisma = global.__db__;
 }
 
+// For named export
 export { prisma };
+
+// For default export - to support modules that import this as default
+const db = prisma;
+export default db;

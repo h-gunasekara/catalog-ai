@@ -44,10 +44,10 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       o.*,
       p.title as product_title,
       p.vendor as product_vendor,
-      p.productType as product_type
+      p."productType" as product_type
     FROM "Order" o
-    JOIN "Product" p ON o.productId = p.id
-    ORDER BY o.purchaseDate DESC
+    JOIN "Product" p ON o."productId" = p.id
+    ORDER BY o."purchaseDate" DESC
     LIMIT 10
   `;
 

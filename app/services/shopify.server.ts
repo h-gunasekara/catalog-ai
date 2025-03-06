@@ -67,99 +67,116 @@ export async function syncProducts(request: Request) {
       }
     `;
 
-    const response = await admin.graphql(query, {
-      variables: { cursor },
-    });
-    const json = await response.json();
-
-    const products = json.data.products.edges;
-    
-    for (const { node: product } of products) {
-      await prisma.product.upsert({
-        where: { id: extractNumericId(product.id) },
-        create: {
-          id: extractNumericId(product.id),
-          title: product.title,
-          description: product.description,
-          vendor: product.vendor,
-          productType: product.productType,
-          status: product.status,
-          handle: product.handle,
-          createdAt: new Date(product.createdAt),
-          updatedAt: new Date(product.updatedAt),
-          imageUrl: product.images.edges[0]?.node.url || null,
-        },
-        update: {
-          title: product.title,
-          description: product.description,
-          vendor: product.vendor,
-          productType: product.productType,
-          status: product.status,
-          handle: product.handle,
-          updatedAt: new Date(product.updatedAt),
-          imageUrl: product.images.edges[0]?.node.url || null,
-        },
+    try {
+      const response = await admin.graphql(query, {
+        variables: { cursor },
       });
-
-      // Sync collections
-      for (const { node: collection } of product.collections.edges) {
-        // Upsert collection
-        await prisma.collection.upsert({
-          where: { id: extractNumericId(collection.id) },
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`GraphQL request failed with status ${response.status}:`, errorText);
+        throw new Error(`GraphQL request failed: ${response.statusText}`);
+      }
+      
+      const json = await response.json();
+      
+      if (!json.data || !json.data.products) {
+        console.error("Unexpected GraphQL response format:", json);
+        throw new Error("Invalid GraphQL response format");
+      }
+      
+      const products = json.data.products.edges;
+      
+      for (const { node: product } of products) {
+        await prisma.product.upsert({
+          where: { id: extractNumericId(product.id) },
           create: {
-            id: extractNumericId(collection.id),
-            title: collection.title,
-            handle: collection.handle,
+            id: extractNumericId(product.id),
+            title: product.title,
+            description: product.description,
+            vendor: product.vendor,
+            productType: product.productType,
+            status: product.status,
+            handle: product.handle,
+            createdAt: new Date(product.createdAt),
+            updatedAt: new Date(product.updatedAt),
+            imageUrl: product.images.edges[0]?.node.url || null,
           },
           update: {
-            title: collection.title,
-            handle: collection.handle,
+            title: product.title,
+            description: product.description,
+            vendor: product.vendor,
+            productType: product.productType,
+            status: product.status,
+            handle: product.handle,
+            updatedAt: new Date(product.updatedAt),
+            imageUrl: product.images.edges[0]?.node.url || null,
           },
         });
 
-        // Create product-collection relationship
-        await prisma.productCollection.upsert({
-          where: {
-            productId_collectionId: {
+        // Sync collections
+        for (const { node: collection } of product.collections.edges) {
+          // Upsert collection
+          await prisma.collection.upsert({
+            where: { id: extractNumericId(collection.id) },
+            create: {
+              id: extractNumericId(collection.id),
+              title: collection.title,
+              handle: collection.handle,
+            },
+            update: {
+              title: collection.title,
+              handle: collection.handle,
+            },
+          });
+
+          // Create product-collection relationship
+          await prisma.productCollection.upsert({
+            where: {
+              productId_collectionId: {
+                productId: extractNumericId(product.id),
+                collectionId: extractNumericId(collection.id),
+              },
+            },
+            create: {
               productId: extractNumericId(product.id),
               collectionId: extractNumericId(collection.id),
             },
-          },
-          create: {
-            productId: extractNumericId(product.id),
-            collectionId: extractNumericId(collection.id),
-          },
-          update: {},
-        });
+            update: {},
+          });
+        }
+
+        // Sync variants
+        for (const { node: variant } of product.variants.edges) {
+          await prisma.ProductVariant.upsert({
+            where: { id: extractNumericId(variant.id) },
+            create: {
+              id: extractNumericId(variant.id),
+              productId: extractNumericId(product.id),
+              sku: variant.sku,
+              price: parseFloat(variant.price),
+              title: variant.title,
+              inventory: variant.inventoryQuantity || 0,
+              createdAt: new Date(variant.createdAt),
+              updatedAt: new Date(variant.updatedAt),
+            },
+            update: {
+              sku: variant.sku,
+              price: parseFloat(variant.price),
+              title: variant.title,
+              inventory: variant.inventoryQuantity || 0,
+              updatedAt: new Date(variant.updatedAt),
+            },
+          });
+        }
       }
 
-      // Sync variants
-      for (const { node: variant } of product.variants.edges) {
-        await prisma.productVariant.upsert({
-          where: { id: extractNumericId(variant.id) },
-          create: {
-            id: extractNumericId(variant.id),
-            productId: extractNumericId(product.id),
-            sku: variant.sku,
-            price: parseFloat(variant.price),
-            title: variant.title,
-            inventory: variant.inventoryQuantity || 0,
-            createdAt: new Date(variant.createdAt),
-            updatedAt: new Date(variant.updatedAt),
-          },
-          update: {
-            sku: variant.sku,
-            price: parseFloat(variant.price),
-            title: variant.title,
-            inventory: variant.inventoryQuantity || 0,
-            updatedAt: new Date(variant.updatedAt),
-          },
-        });
-      }
+      hasNextPage = json.data.products.pageInfo.hasNextPage;
+      cursor = json.data.products.pageInfo.endCursor;
+    } catch (error) {
+      console.error("Error syncing products:", error);
+      throw error;
     }
-
-    hasNextPage = json.data.products.pageInfo.hasNextPage;
-    cursor = json.data.products.pageInfo.endCursor;
   }
 }
 
@@ -177,8 +194,9 @@ export async function syncOrders(request: Request) {
     const query = `
       query ($cursor: String) {
         orders(
-          first: 250, 
+          first: 100, 
           after: $cursor,
+          query: "created_at:>=${formattedDate}"
         ) {
           pageInfo {
             hasNextPage
@@ -187,7 +205,7 @@ export async function syncOrders(request: Request) {
           edges {
             node {
               createdAt
-              lineItems(first: 250) {
+              lineItems(first: 100) {
                 edges {
                   node {
                     quantity
@@ -205,53 +223,70 @@ export async function syncOrders(request: Request) {
       }
     `;
 
-    const response = await admin.graphql(query, {
-      variables: { cursor },
-    });
-    const json = await response.json();
-
-    const orders = json.data.orders.edges;
-    
-    for (const { node: order } of orders) {
-      const orderDate = new Date(order.createdAt);
+    try {
+      const response = await admin.graphql(query, {
+        variables: { cursor },
+      });
       
-      // Process each line item in the order
-      for (const { node: item } of order.lineItems.edges) {
-        if (item.variant?.product) {
-          const productId = extractNumericId(item.variant.product.id);
-          
-          try {
-            // First check if the product exists
-            const product = await prisma.product.findUnique({
-              where: { id: productId }
-            });
-
-            if (product) {
-              await prisma.Order.upsert({
-                where: {
-                  productId_purchaseDate: {
-                    productId: productId,
-                    purchaseDate: orderDate
-                  }
-                },
-                create: {
-                  productId: productId,
-                  purchaseDate: orderDate,
-                  quantity: item.quantity
-                },
-                update: {}
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`GraphQL request failed with status ${response.status}:`, errorText);
+        throw new Error(`GraphQL request failed: ${response.statusText}`);
+      }
+      
+      const json = await response.json();
+      
+      if (!json.data || !json.data.orders) {
+        console.error("Unexpected GraphQL response format:", json);
+        throw new Error("Invalid GraphQL response format");
+      }
+      
+      const orders = json.data.orders.edges;
+      
+      for (const { node: order } of orders) {
+        const orderDate = new Date(order.createdAt);
+        
+        // Process each line item in the order
+        for (const { node: item } of order.lineItems.edges) {
+          if (item.variant?.product) {
+            const productId = extractNumericId(item.variant.product.id);
+            
+            try {
+              // First check if the product exists
+              const product = await prisma.product.findUnique({
+                where: { id: productId }
               });
-            } else {
-              console.log(`Skipping purchase record for product ${productId} - product not found in database`);
+
+              if (product) {
+                await prisma.Order.upsert({
+                  where: {
+                    productId_purchaseDate: {
+                      productId: productId,
+                      purchaseDate: orderDate
+                    }
+                  },
+                  create: {
+                    productId: productId,
+                    purchaseDate: orderDate,
+                    quantity: item.quantity
+                  },
+                  update: {}
+                });
+              } else {
+                console.log(`Skipping purchase record for product ${productId} - product not found in database`);
+              }
+            } catch (error) {
+              console.error(`Error processing purchase for product ${productId}:`, error);
             }
-          } catch (error) {
-            console.error(`Error processing purchase for product ${productId}:`, error);
           }
         }
       }
-    }
 
-    hasNextPage = json.data.orders.pageInfo.hasNextPage;
-    cursor = json.data.orders.pageInfo.endCursor;
+      hasNextPage = json.data.orders.pageInfo.hasNextPage;
+      cursor = json.data.orders.pageInfo.endCursor;
+    } catch (error) {
+      console.error("Error syncing orders:", error);
+      throw error;
+    }
   }
 }

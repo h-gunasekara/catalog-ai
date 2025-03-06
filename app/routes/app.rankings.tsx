@@ -180,22 +180,22 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       p.id as product_id,
       p.title as product_title,
       p.vendor,
-      p.imageUrl,
-      p.createdAt,
+      p."imageUrl",
+      p."createdAt",
       pr.score,
-      pr.conversionScore,
-      pr.aovScore,
-      pr.sellThroughScore,
-      pr.trafficScore
-    FROM Collection c
-    LEFT JOIN ProductCollection pc ON c.id = pc.collectionId
-    LEFT JOIN Product p ON pc.productId = p.id
-    LEFT JOIN ProductRanking pr ON p.id = pr.productId
+      pr."conversionScore",
+      pr."aovScore",
+      pr."sellThroughScore",
+      pr."trafficScore"
+    FROM "Collection" c
+    LEFT JOIN "ProductCollection" pc ON c.id = pc."collectionId"
+    LEFT JOIN "Product" p ON pc."productId" = p.id
+    LEFT JOIN "ProductRanking" pr ON p.id = pr."productId"
     WHERE pr.id IN (
       SELECT id
-      FROM ProductRanking pr2
-      WHERE pr2.productId = p.id
-      ORDER BY pr2.updatedAt DESC
+      FROM "ProductRanking" pr2
+      WHERE pr2."productId" = p.id
+      ORDER BY pr2."updatedAt" DESC
       LIMIT 1
     )
   `;

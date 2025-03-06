@@ -102,7 +102,7 @@ export class ProductRankingSystem {
 
   private async calculateStockBasedScore(product: Product): Promise<number> {
     // Get total inventory from variants
-    const variants = await this.prisma.productVariant.findMany({
+    const variants = await this.prisma.ProductVariant.findMany({
       where: { productId: product.id },
     });
     
@@ -187,7 +187,7 @@ export class ProductRankingSystem {
     allPurchases: { productId: string; purchaseDate: Date; quantity: number }[]
   ): Promise<number> {
     // Get product variants for price calculation
-    const variants = await this.prisma.productVariant.findMany({
+    const variants = await this.prisma.ProductVariant.findMany({
       where: { productId: product.id },
     });
 
@@ -195,7 +195,7 @@ export class ProductRankingSystem {
       variants.reduce((sum, variant) => sum + variant.price, 0) / variants.length;
 
     // Get all product prices for percentile calculation
-    const allVariants = await this.prisma.productVariant.findMany();
+    const allVariants = await this.prisma.ProductVariant.findMany();
     const allPrices = allVariants.map((v) => v.price).sort((a, b) => a - b);
     const pricePercentile =
       allPrices.filter((price) => price <= avgPrice).length / allPrices.length;
@@ -248,7 +248,7 @@ export class ProductRankingSystem {
     const daysNormalized = Math.min(daysInStock / 365, 1);
 
     // Get current stock level
-    const variants = await this.prisma.productVariant.findMany({
+    const variants = await this.prisma.ProductVariant.findMany({
       where: { productId: product.id },
     });
     const currentStock = variants.reduce(
@@ -256,7 +256,7 @@ export class ProductRankingSystem {
       0
     );
     const maxStock = (
-      await this.prisma.productVariant.aggregate({
+      await this.prisma.ProductVariant.aggregate({
         _sum: { inventory: true },
       })
     )._sum.inventory || 1;
